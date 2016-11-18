@@ -2,6 +2,14 @@
 /*
   $Id$
 
+  Modified for:
+  Purchase without Account for Bootstrap
+  Version 2.0 BS 
+  by @raiwa 
+  info@oscaddons.com
+  www.oscaddons.com
+  all credits to @deDocta
+
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
@@ -680,6 +688,8 @@ function check_form() {
               <tr class="dataTableHeadingRow">
                 <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_LASTNAME; ?></td>
                 <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_FIRSTNAME; ?></td>
+<!--PWA guest checkout-->
+                <td class="dataTableHeadingContent" align="right"><?php echo constant('MODULE_CONTENT_PWA_GUEST_' . strtoupper($language)); ?></td>
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACCOUNT_CREATED; ?></td>
                 <td class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
               </tr>
@@ -689,7 +699,8 @@ function check_form() {
       $keywords = tep_db_input(tep_db_prepare_input($HTTP_GET_VARS['search']));
       $search = "where c.customers_lastname like '%" . $keywords . "%' or c.customers_firstname like '%" . $keywords . "%' or c.customers_email_address like '%" . $keywords . "%'";
     }
-    $customers_query_raw = "select c.customers_id, c.customers_lastname, c.customers_firstname, c.customers_email_address, a.entry_country_id from " . TABLE_CUSTOMERS . " c left join " . TABLE_ADDRESS_BOOK . " a on c.customers_id = a.customers_id and c.customers_default_address_id = a.address_book_id " . $search . " order by c.customers_lastname, c.customers_firstname";
+// PWA guest checkout
+    $customers_query_raw = "select c.customers_id, c.customers_lastname, c.customers_firstname, c.customers_email_address, c.customers_guest, a.entry_country_id from customers c left join address_book a on c.customers_id = a.customers_id and c.customers_default_address_id = a.address_book_id " . $search . " order by c.customers_lastname, c.customers_firstname";
     $customers_split = new splitPageResults($HTTP_GET_VARS['page'], MAX_DISPLAY_SEARCH_RESULTS, $customers_query_raw, $customers_query_numrows);
     $customers_query = tep_db_query($customers_query_raw);
     while ($customers = tep_db_fetch_array($customers_query)) {
@@ -717,6 +728,8 @@ function check_form() {
 ?>
                 <td class="dataTableContent"><?php echo $customers['customers_lastname']; ?></td>
                 <td class="dataTableContent"><?php echo $customers['customers_firstname']; ?></td>
+<!--PWA guest checkout-->
+                <td class="dataTableContent" align="right"><?php echo $customers['customers_guest'] == '1' ? tep_image('images/icons/tick.gif') : ''; ?></td>
                 <td class="dataTableContent" align="right"><?php echo tep_date_short($info['date_account_created']); ?></td>
                 <td class="dataTableContent" align="right"><?php if (isset($cInfo) && is_object($cInfo) && ($customers['customers_id'] == $cInfo->customers_id)) { echo tep_image('images/icon_arrow_right.gif', ''); } else { echo '<a href="' . tep_href_link('customers.php', tep_get_all_get_params(array('cID')) . 'cID=' . $customers['customers_id']) . '">' . tep_image('images/icon_info.gif', IMAGE_ICON_INFO) . '</a>'; } ?>&nbsp;</td>
               </tr>

@@ -2,6 +2,13 @@
 /*
   $Id$
 
+  Modified for:
+  Purchase without Account for Bootstrap
+  Version 2.0 BS 
+  by @raiwa 
+  info@oscaddons.com
+  www.oscaddons.com
+
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
@@ -237,6 +244,10 @@
                                   'currency' => $order->info['currency'],
                                   'currency_value' => $order->info['currency_value']);
 
+          // PWA guest checkout BEGIN
+          if (tep_session_is_registered('customer_is_guest') )
+            $sql_data_array = array_merge(array('customers_guest' => 1), $sql_data_array);
+          // PWA guest checkout END
           tep_db_perform('orders', $sql_data_array);
 
           $insert_id = tep_db_insert_id();
@@ -755,9 +766,23 @@
 // lets start with the email confirmation
       $email_order = STORE_NAME . "\n" .
                      EMAIL_SEPARATOR . "\n" .
+// PWA guest checkout BEGIN
                      EMAIL_TEXT_ORDER_NUMBER . ' ' . $order_id . "\n" .
-                     EMAIL_TEXT_INVOICE_URL . ' ' . tep_href_link('account_history_info.php', 'order_id=' . $order_id, 'SSL', false) . "\n" .
-                     EMAIL_TEXT_DATE_ORDERED . ' ' . strftime(DATE_FORMAT_LONG) . "\n\n";
+      if(!tep_session_is_registered('customer_is_guest')) {         
+        $email_order .= EMAIL_TEXT_INVOICE_URL . ' ' . tep_href_link('account_history_info.php', 'order_id=' . $order_id, 'SSL', false) . "\n";
+      }
+  
+      if(tep_session_is_registered('customer_is_guest')) {         
+        $email_order .= constant('MODULE_CONTENT_PWA_EMAIL_WARNING_' . strtoupper($language)) . "\n\n" . 
+                        EMAIL_SEPARATOR . "\n"; 
+        if($order->content_type != 'physical') {         
+          $email_order .= constant('MODULE_CONTENT_PWA_DOWNLOAD_' . strtoupper($language)) . "\n" . 
+                          EMAIL_SEPARATOR . "\n";
+        }
+      }
+// PWA guest checkout END
+
+      $email_order .= EMAIL_TEXT_DATE_ORDERED . ' ' . strftime(DATE_FORMAT_LONG) . "\n\n";
       if ($order->info['comments']) {
         $email_order .= tep_db_output($order->info['comments']) . "\n\n";
       }

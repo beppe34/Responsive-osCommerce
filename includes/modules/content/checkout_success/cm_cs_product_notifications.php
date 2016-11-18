@@ -2,6 +2,13 @@
 /*
   $Id$
 
+  Modified for:
+  Purchase without Account for Bootstrap
+  Version 2.0 BS 
+  by @raiwa 
+  info@oscaddons.com
+  www.oscaddons.com
+
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
@@ -34,7 +41,7 @@
     function execute() {
       global $oscTemplate, $customer_id, $order_id;
 
-      if ( tep_session_is_registered('customer_id') ) {
+      if ( tep_session_is_registered('customer_id') && !tep_session_is_registered('customer_is_guest') ) { // PWA guest checkout
         $global_query = tep_db_query("select global_product_notifications from " . TABLE_CUSTOMERS_INFO . " where customers_info_id = '" . (int)$customer_id . "'");
         $global = tep_db_fetch_array($global_query);
 

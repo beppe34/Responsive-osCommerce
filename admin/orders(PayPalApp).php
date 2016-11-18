@@ -27,7 +27,7 @@
 
   $orders_statuses = array();
   $orders_status_array = array();
-  $orders_status_query = tep_db_query("select orders_status_id, orders_status_name from " . TABLE_ORDERS_STATUS . " where language_id = '" . (int)$languages_id . "'");
+  $orders_status_query = tep_db_query("select orders_status_id, orders_status_name from orders_status where language_id = '" . (int)$languages_id . "'");
   while ($orders_status = tep_db_fetch_array($orders_status_query)) {
     $orders_statuses[] = array('id' => $orders_status['orders_status_id'],
                                'text' => $orders_status['orders_status_name']);
@@ -45,11 +45,11 @@
 
         $order_updated = false;
 // PWA guest checkout
-        $check_status_query = tep_db_query("select customers_name, customers_guest, customers_email_address, orders_status, date_purchased from " . TABLE_ORDERS . " where orders_id = '" . (int)$oID . "'");
+        $check_status_query = tep_db_query("select customers_name, customers_guest, customers_email_address, orders_status, date_purchased from orders where orders_id = '" . (int)$oID . "'");
         $check_status = tep_db_fetch_array($check_status_query);
 
         if ( ($check_status['orders_status'] != $status) || tep_not_null($comments)) {
-          tep_db_query("update " . TABLE_ORDERS . " set orders_status = '" . tep_db_input($status) . "', last_modified = now() where orders_id = '" . (int)$oID . "'");
+          tep_db_query("update orders set orders_status = '" . tep_db_input($status) . "', last_modified = now() where orders_id = '" . (int)$oID . "'");
 
           $customer_notified = '0';
           if (isset($HTTP_POST_VARS['notify']) && ($HTTP_POST_VARS['notify'] == 'on')) {
@@ -60,7 +60,7 @@
 
 // PWA guest checkout BEGIN
             $link = $check_status['customers_guest'] != '1' ? EMAIL_TEXT_INVOICE_URL . ' ' . tep_catalog_href_link('account_history_info.php', 'order_id=' . $oID, 'SSL') . "\n" : '';
-            $email = STORE_NAME . "\n" . EMAIL_SEPARATOR . "\n" . EMAIL_TEXT_ORDER_NUMBER . ' ' . $oID . "\n" . EMAIL_TEXT_INVOICE_URL . ' ' . tep_catalog_href_link('account_history_info.php', 'order_id=' . $oID, 'SSL') . "\n" . $link . EMAIL_TEXT_DATE_ORDERED . ' ' . tep_date_long($check_status['date_purchased']) . "\n\n" . $notify_comments . sprintf(EMAIL_TEXT_STATUS_UPDATE, $orders_status_array[$status]);
+            $email = STORE_NAME . "\n" . EMAIL_SEPARATOR . "\n" . EMAIL_TEXT_ORDER_NUMBER . ' ' . $oID . "\n" . $link . EMAIL_TEXT_DATE_ORDERED . ' ' . tep_date_long($check_status['date_purchased']) . "\n\n" . $notify_comments . sprintf(EMAIL_TEXT_STATUS_UPDATE, $orders_status_array[$status]);
 // PWA guest checkout END
 
             tep_mail($check_status['customers_name'], $check_status['customers_email_address'], EMAIL_TEXT_SUBJECT, $email, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
@@ -68,7 +68,7 @@
             $customer_notified = '1';
           }
 
-          tep_db_query("insert into " . TABLE_ORDERS_STATUS_HISTORY . " (orders_id, orders_status_id, date_added, customer_notified, comments) values ('" . (int)$oID . "', '" . tep_db_input($status) . "', now(), '" . tep_db_input($customer_notified) . "', '" . tep_db_input($comments)  . "')");
+          tep_db_query("insert into orders_status_history (orders_id, orders_status_id, date_added, customer_notified, comments) values ('" . (int)$oID . "', '" . tep_db_input($status) . "', now(), '" . tep_db_input($customer_notified) . "', '" . tep_db_input($comments)  . "')");
 
           $order_updated = true;
         }
@@ -94,7 +94,7 @@
   if (($action == 'edit') && isset($HTTP_GET_VARS['oID'])) {
     $oID = tep_db_prepare_input($HTTP_GET_VARS['oID']);
 
-    $orders_query = tep_db_query("select orders_id from " . TABLE_ORDERS . " where orders_id = '" . (int)$oID . "'");
+    $orders_query = tep_db_query("select orders_id from orders where orders_id = '" . (int)$oID . "'");
     $order_exists = true;
     if (!tep_db_num_rows($orders_query)) {
       $order_exists = false;
@@ -217,9 +217,9 @@ if ( typeof jQuery.ui == 'undefined' ) {
 
 <div id="orderTabs" style="overflow: auto;">
   <ul>
-    <li><?php echo '<a href="' . substr(tep_href_link('orders.php', tep_get_all_get_params()), strlen($base_url)) . '#section_summary_content">' . TAB_TITLE_SUMMARY . '</a>'; ?></li>
-    <li><?php echo '<a href="' . substr(tep_href_link('orders.php', tep_get_all_get_params()), strlen($base_url)) . '#section_products_content">' . TAB_TITLE_PRODUCTS . '</a>'; ?></li>
-    <li><?php echo '<a href="' . substr(tep_href_link('orders.php', tep_get_all_get_params()), strlen($base_url)) . '#section_status_history_content">' . TAB_TITLE_STATUS_HISTORY . '</a>'; ?></li>
+    <li><?php echo '<a href="' . substr(tep_href_link('orders.php', tep_get_all_get_params()), strlen($base_url)) . '#section_summary_content">Summary</a>'; ?></li>
+    <li><?php echo '<a href="' . substr(tep_href_link('orders.php', tep_get_all_get_params()), strlen($base_url)) . '#section_products_content">Products</a>'; ?></li>
+    <li><?php echo '<a href="' . substr(tep_href_link('orders.php', tep_get_all_get_params()), strlen($base_url)) . '#section_status_history_content">Status History</a>'; ?></li>
   </ul>
 
   <div id="section_summary_content" style="padding: 10px;">
@@ -388,7 +388,7 @@ if ( typeof jQuery.ui == 'undefined' ) {
       </tr>
 
 <?php
-    $orders_history_query = tep_db_query("select orders_status_id, date_added, customer_notified, comments from " . TABLE_ORDERS_STATUS_HISTORY . " where orders_id = '" . tep_db_input($oID) . "' order by date_added desc");
+    $orders_history_query = tep_db_query("select orders_status_id, date_added, customer_notified, comments from orders_status_history where orders_id = '" . tep_db_input($oID) . "' order by date_added desc");
     if (tep_db_num_rows($orders_history_query)) {
       while ($orders_history = tep_db_fetch_array($orders_history_query)) {
         echo '      <tr class="dataTableRow">' . "\n" .
@@ -465,12 +465,12 @@ $(function() {
 // PWA guest checkout BEGIN
     if (isset($HTTP_GET_VARS['cID'])) {
       $cID = tep_db_prepare_input($HTTP_GET_VARS['cID']);
-      $orders_query_raw = "select o.orders_id, o.customers_name, o.customers_id, o.customers_guest, o.payment_method, o.date_purchased, o.last_modified, o.currency, o.currency_value, s.orders_status_name, ot.text as order_total from " . TABLE_ORDERS . " o left join " . TABLE_ORDERS_TOTAL . " ot on (o.orders_id = ot.orders_id), " . TABLE_ORDERS_STATUS . " s where o.customers_id = '" . (int)$cID . "' and o.orders_status = s.orders_status_id and s.language_id = '" . (int)$languages_id . "' and ot.class = 'ot_total' order by orders_id DESC";
+      $orders_query_raw = "select o.orders_id, o.customers_name, o.customers_id, o.customers_guest, o.payment_method, o.date_purchased, o.last_modified, o.currency, o.currency_value, s.orders_status_name, ot.text as order_total from orders o left join orders_total ot on (o.orders_id = ot.orders_id), orders_status s where o.customers_id = '" . (int)$cID . "' and o.orders_status = s.orders_status_id and s.language_id = '" . (int)$languages_id . "' and ot.class = 'ot_total' order by orders_id DESC";
     } elseif (isset($HTTP_GET_VARS['status']) && is_numeric($HTTP_GET_VARS['status']) && ($HTTP_GET_VARS['status'] > 0)) {
       $status = tep_db_prepare_input($HTTP_GET_VARS['status']);
-      $orders_query_raw = "select o.orders_id, o.customers_name, o.customers_guest, o.payment_method, o.date_purchased, o.last_modified, o.currency, o.currency_value, s.orders_status_name, ot.text as order_total from " . TABLE_ORDERS . " o left join " . TABLE_ORDERS_TOTAL . " ot on (o.orders_id = ot.orders_id), " . TABLE_ORDERS_STATUS . " s where o.orders_status = s.orders_status_id and s.language_id = '" . (int)$languages_id . "' and s.orders_status_id = '" . (int)$status . "' and ot.class = 'ot_total' order by o.orders_id DESC";
+      $orders_query_raw = "select o.orders_id, o.customers_name, o.customers_guest, o.payment_method, o.date_purchased, o.last_modified, o.currency, o.currency_value, s.orders_status_name, ot.text as order_total from orders o left join orders_total ot on (o.orders_id = ot.orders_id), orders_status s where o.orders_status = s.orders_status_id and s.language_id = '" . (int)$languages_id . "' and s.orders_status_id = '" . (int)$status . "' and ot.class = 'ot_total' order by o.orders_id DESC";
     } else {
-      $orders_query_raw = "select o.orders_id, o.customers_name, o.customers_guest, o.payment_method, o.date_purchased, o.last_modified, o.currency, o.currency_value, s.orders_status_name, ot.text as order_total from " . TABLE_ORDERS . " o left join " . TABLE_ORDERS_TOTAL . " ot on (o.orders_id = ot.orders_id), " . TABLE_ORDERS_STATUS . " s where o.orders_status = s.orders_status_id and s.language_id = '" . (int)$languages_id . "' and ot.class = 'ot_total' order by o.orders_id DESC";
+      $orders_query_raw = "select o.orders_id, o.customers_name, o.customers_guest, o.payment_method, o.date_purchased, o.last_modified, o.currency, o.currency_value, s.orders_status_name, ot.text as order_total from orders o left join orders_total ot on (o.orders_id = ot.orders_id), orders_status s where o.orders_status = s.orders_status_id and s.language_id = '" . (int)$languages_id . "' and ot.class = 'ot_total' order by o.orders_id DESC";
     }
 // PWA guest checkout END
     $orders_split = new splitPageResults($HTTP_GET_VARS['page'], MAX_DISPLAY_SEARCH_RESULTS, $orders_query_raw, $orders_query_numrows);

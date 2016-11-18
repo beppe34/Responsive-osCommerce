@@ -2,6 +2,13 @@
 /*
   $Id$
 
+  Modified for:
+  Purchase without Account for Bootstrap
+  Version 2.0 BS 
+  by @raiwa 
+  info@oscaddons.com
+  www.oscaddons.com
+
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
@@ -16,9 +23,31 @@
 // class constructor
     function payment($module = '') {
       global $payment, $language, $PHP_SELF;
-
+      global $order;
+      
       if (defined('MODULE_PAYMENT_INSTALLED') && tep_not_null(MODULE_PAYMENT_INSTALLED)) {
-        $this->modules = explode(';', MODULE_PAYMENT_INSTALLED);
+      	// PWA Guest Checkout BEGIN
+    		if ( defined('MODULE_CONTENT_PWA_LOGIN_STATUS') && MODULE_CONTENT_PWA_LOGIN_STATUS == 'True' ) {
+    			$temp_payment_array = null;
+    			if (tep_session_is_registered('customer_id') && tep_session_is_registered('customer_is_guest') && $order->content_type != 'physical' && tep_not_null(MODULE_CONTENT_PWA_LOGIN_PAYMENT_MODULES)) {
+    				$temp_payment_array = explode(';', MODULE_CONTENT_PWA_LOGIN_PAYMENT_MODULES); // guest and virtual products exclude array
+    			}
+    			if (tep_not_null($temp_payment_array)) { // remove excluded payment modules
+    				$installed_modules = explode(';', MODULE_PAYMENT_INSTALLED);
+    				for ($n = 0; $n < sizeof($installed_modules) ; $n++) {
+    					// check to see if a payment method is not de-installed
+    					if ( !in_array($installed_modules[$n], $temp_payment_array ) ) {
+    						$payment_array[] = $installed_modules[$n];
+    					}
+    				} // end for loop
+    				$this->modules = $payment_array;
+    			} else { // default
+    				$this->modules = explode(';', MODULE_PAYMENT_INSTALLED); // original code
+    			}
+    		} else { // st_wholesale not enabled/installed
+    			$this->modules = explode(';', MODULE_PAYMENT_INSTALLED); //original code
+    		} 
+      	// PWA Guest Checkout END
 
         $include_modules = array();
 

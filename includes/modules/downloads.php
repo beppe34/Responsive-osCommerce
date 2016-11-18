@@ -2,6 +2,13 @@
 /*
   $Id$
 
+  Modified for:
+  Purchase without Account for Bootstrap
+  Version 2.0 BS 
+  by @raiwa 
+  info@oscaddons.com
+  www.oscaddons.com
+
   osCommerce, Open Source E-Commerce Solutions
   http://www.oscommerce.com
 
@@ -58,12 +65,20 @@
     </table>
 
 <?php
-    if (!strstr($PHP_SELF, 'account_history_info.php')) {
+// PWA guest checkout BEGIN
+    if (!strstr($PHP_SELF, 'account_history_info.php') && !tep_session_is_registered('customer_is_guest')) {
 ?>
 
     <p><?php printf(FOOTER_DOWNLOAD, '<a href="' . tep_href_link('account.php', '', 'SSL') . '">' . HEADER_TITLE_MY_ACCOUNT . '</a>'); ?></p>
 
 <?php
+    } elseif (defined('MODULE_CONTENT_PWA_LOGIN_STATUS')&& MODULE_CONTENT_PWA_LOGIN_STATUS == 'True' && tep_session_is_registered('customer_is_guest') ) {
+?>
+
+    <p><?php echo '<br>' . constant('MODULE_CONTENT_PWA_DOWNLOAD_' . strtoupper($language)); ?></p>
+
+<?php
+// PWA guest checkout END
     }
 ?>
 
@@ -71,4 +86,5 @@
 
 <?php
   }
+
 ?>
