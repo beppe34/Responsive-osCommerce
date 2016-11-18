@@ -29,7 +29,11 @@
 <title><?php echo tep_output_string_protected($oscTemplate->getTitle()); ?></title>
 <base href="<?php echo (($request_type == 'SSL') ? HTTPS_SERVER : HTTP_SERVER) . DIR_WS_CATALOG; ?>">
 
-<link href="ext/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- link href="ext/bootstrap/css/bootstrap.min.css" rel="stylesheet" -->
+<?php if ( !defined ( MODULE_HEADER_TAGS_THEME_SWITCHER_STATUS ) || MODULE_HEADER_TAGS_THEME_SWITCHER_STATUS != 'True' ); { ?>
+  <link href="ext/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<?php } ?>
+
 <!-- font awesome -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
