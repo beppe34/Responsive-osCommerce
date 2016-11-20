@@ -72,8 +72,103 @@
   }
 
 ////
-// The HTML image wrapper function
+//KISS IMAGE THUMBNALER BEGIN
+// // New HTML image wrapper function modified for KISS Image Thumbnailer by FWR Media
   function tep_image($src, $alt = '', $width = '', $height = '', $parameters = '', $responsive = true, $bootstrap_css = '') {
+    // Include the Database installation file if executed for the first time.
+
+    if ( !defined('KISSIT_SHARPEN_THUMBNAIL') ) require_once 'includes/modules/kiss_image_thumbnailer/db_install.php';
+    // If width and height are not numeric then we can't do anything with it
+    // If original image width and height are less than KISSIT_MIN_IMAGE_SIZE, we do not need a thumb
+    if ( is_file($src ) ) {
+      $original_img_size = getimagesize($src);
+      if ( !is_numeric ( $width ) || !is_numeric ( $height ) || $original_img_size[0] < KISSIT_MIN_IMAGE_SIZE || $original_img_size[1] < KISSIT_MIN_IMAGE_SIZE ) return tep_image_legacy( $src, $alt, $width, $height, $parameters, $responsive, $bootstrap_css );
+    } else {
+      if ( !is_numeric ( $width ) || !is_numeric ( $height ) ) return tep_image_legacy( $src, $alt, $width, $height, $parameters, $responsive, $bootstrap_css );
+    }
+    // Create thumbs main dir and .htaccess.	
+		if(!is_dir('images/' . KISSIT_THUMBS_MAIN_DIR))mkdir('images/' . KISSIT_THUMBS_MAIN_DIR, 0777);
+	  if ( !is_file('images/' . KISSIT_THUMBS_MAIN_DIR . '.htaccess') ) {
+	    $hpname = 'images/' . KISSIT_THUMBS_MAIN_DIR . '.htaccess';
+			//define .htaccess content
+	     $htacces = '
+<FilesMatch "\.(php([0-9]|s)?|s?p?html|cgi|pl|exe)$">
+   Order Deny,Allow
+   Deny from all
+</FilesMatch>';
+
+	    if ($hp = fopen($hpname,'w')) {
+		  fwrite($hp,$htacces);
+		  fclose($hp);
+	    } 
+	  }
+    // Create thumbs sub dirs and .htaccess.	
+    $thumbs_dir_path = str_replace('images/', 'images/' . KISSIT_THUMBS_MAIN_DIR . $width .'_'.$height.'/', dirname($src) . '/');
+    $thumbs_dir = '';
+    $thumbs_dir_paths = explode("/",$thumbs_dir_path);
+    for ($i=0, $n=sizeof($thumbs_dir_paths); $i<$n; $i++) {
+    	$thumbs_dir .= $thumbs_dir_paths[$i] . '/';
+    	if(!is_dir($thumbs_dir))mkdir($thumbs_dir, 0777);
+    	// create .htacces protection like in main image dir
+    	if (($i==$n-1) && (!is_file($thumbs_dir . '.htaccess')) ) {
+    		$hpname = $thumbs_dir . '.htaccess';
+    		//define .htaccess content
+    		$htacces = '
+<FilesMatch "\.(php([0-9]|s)?|s?p?html|cgi|pl|exe)$">
+   Order Deny,Allow
+   Deny from all
+</FilesMatch>';
+	    	if ($hp = fopen($hpname,'w')) {
+	    		fwrite($hp,$htacces);
+	    		fclose($hp);
+	    	} 
+	    }
+	   } // end for
+	    // End create subdirectory and .htaccess.	
+  
+    require_once 'includes/modules/kiss_image_thumbnailer/classes/Image_Helper.php';
+    $attributes = array( 'alt' => $alt, 'width' => $width, 'height' => $height );
+    
+    $image = null;
+    if (tep_not_null($width) && tep_not_null($height)) {
+      $image .= ' width="' . tep_output_string($width) . '" height="' . tep_output_string($height) . '"';
+    }
+
+    $bs_parameters = ' class="';
+
+    if (tep_not_null($responsive) && ($responsive === true)) {
+      $bs_parameters .= 'img-responsive';
+    }
+
+    if (tep_not_null($bootstrap_css)) $bs_parameters .= ' ' . $bootstrap_css;
+
+    $bs_parameters .= '"';
+
+    if (tep_not_null($parameters)) $bs_parameters .= ' ' . $parameters;
+    
+    $image = new Image_Helper( array( 'src'                   => $src,
+                                      'attributes'            => $attributes,
+                                      'parameters'            => $bs_parameters,
+                                      'default_missing_image' => 'images/' . KISSIT_DEFAULT_MISSING_IMAGE,
+                                      'isXhtml'               => true,
+                                      'thumbs_dir_path'       => $thumbs_dir_path,
+                                      'thumb_quality'         => KISSIT_JPEG_QUALITY,
+                                      'thumb_background_rgb'  => array_combine(array('red', 'green', 'blue'), explode (',', defined('KISSIT_BACKGROUND_COLOR')? KISSIT_BACKGROUND_COLOR: ('255,255,255')))
+                                     )
+      												);
+    
+    if ( false === $image_assembled = $image->assemble() ) {
+      return tep_image_legacy( $src, $alt, $width, $height, $parameters, $responsive, $bootstrap_css );
+    }
+
+    
+    return $image_assembled;
+  } // end function
+
+////
+// The HTML image wrapper function
+  function tep_image_legacy($src, $alt = '', $width = '', $height = '', $parameters = '', $responsive = true, $bootstrap_css = '') {
+////KISS IMAGE THUMBNALER END
     if ( (empty($src) || ($src == 'images/')) && (IMAGE_REQUIRED == 'false') ) {
       return false;
     }

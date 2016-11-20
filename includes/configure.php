@@ -13,6 +13,8 @@
   define('DIR_FS_DOWNLOAD', DIR_FS_CATALOG . 'download/');
   define('DIR_FS_DOWNLOAD_PUBLIC', DIR_FS_CATALOG . 'pub/');
 
+  define('DIR_WS_IMAGES', DIR_WS_HTTP_CATALOG . 'images/');
+  
   define('DB_SERVER', '192.168.5.2');
   define('DB_SERVER_USERNAME', 'root');
   define('DB_SERVER_PASSWORD', 'faskdask');

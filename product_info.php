@@ -7,6 +7,8 @@
 
   Copyright (c) 2010 osCommerce
 
+  Modified for KISS Image Thumbnailer r19 August 2015 by @raiwa
+
   Released under the GNU General Public License
 */
 
@@ -89,8 +91,11 @@
 <?php
     if (tep_not_null($product_info['products_image'])) {
 
-      echo tep_image('images/' . $product_info['products_image'], NULL, NULL, NULL, 'itemprop="image" style="display:none;"');
-
+     //KIss IMAGE BEGIN    
+      //echo tep_image('images/' . $product_info['products_image'], NULL, NULL, NULL, 'itemprop="image" style="display:none;"');
+      echo tep_image('images/' . $product_info['products_image'], NULL, KISSIT_MAIN_PRODUCT_IMAGE_WIDTH, KISSIT_MAIN_PRODUCT_IMAGE_HEIGHT, 'itemprop="image" style="display:none;"');
+     //
+      
       $photoset_layout = (int)MODULE_HEADER_TAGS_PRODUCT_COLORBOX_LAYOUT;
 
       $pi_query = tep_db_query("select image, htmlcontent from " . TABLE_PRODUCTS_IMAGES . " where products_id = '" . (int)$product_info['products_id'] . "' order by sort_order");
@@ -112,7 +117,11 @@
             $pi_html[] = '<div id="piGalDiv_' . $pi_counter . '">' . $pi['htmlcontent'] . '</div>';
           }
 
-          echo tep_image('images/' . $pi['image'], '', '', '', 'id="piGalImg_' . $pi_counter . '"');
+// KISS Image BEGIN          
+//          echo tep_image('images/' . $pi['image'], '', '', '', 'id="piGalImg_' . $pi_counter . '"');
+            list($width, $height) = file_exists('images/' . $pi['image'])? getimagesize('images/' . $pi['image']) : array(150,150); 
+            echo tep_image('images/' . $pi['image'], addslashes($product_info['products_name']) . ' ' . $pi_counter, (($pi_counter > 1 )? round(KISSIT_MAIN_PRODUCT_IMAGE_WIDTH/(($pi_total <= 5)? $pi_total-1 : 5)) : KISSIT_MAIN_PRODUCT_IMAGE_WIDTH), (($pi_counter > 1 )? round(KISSIT_MAIN_PRODUCT_IMAGE_HEIGHT/(($pi_total <= 5)? $pi_total-1 : 5)) : KISSIT_MAIN_PRODUCT_IMAGE_HEIGHT), 'id="piGalImg_' . $pi_counter . '" '. ((KISSIT_MAIN_PRODUCT_WATERMARK_SIZE > 0)? preg_replace('%<img width="[0-9 ]+" height="[0-9 ]+" src="(.*)title=.+%', 'data-highres="$1', tep_image('images/' . $pi['image'], null, $width, $height)) : 'data-highres="'. 'images/' . $pi['image'] . '"'));
+//KISS Image END
         }
 ?>
 
@@ -122,13 +131,16 @@
         if ( !empty($pi_html) ) {
           echo '    <div style="display: none;">' . implode('', $pi_html) . '</div>';
         }
+// KISS Image begin        
       } else {
+      	list($width, $height) = file_exists(DIR_WS_IMAGES . $product_info['products_image'])? getimagesize(DIR_WS_IMAGES . $product_info['products_image']) : array(150,150); 
 ?>
 
     <div class="piGal pull-right">
-      <?php echo tep_image('images/' . $product_info['products_image'], addslashes($product_info['products_name'])); ?>
+      <?php echo tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name']), KISSIT_MAIN_PRODUCT_IMAGE_WIDTH, KISSIT_MAIN_PRODUCT_IMAGE_HEIGHT, ((KISSIT_MAIN_PRODUCT_WATERMARK_SIZE > 0)? preg_replace('%<img width="[0-9 ]+" height="[0-9 ]+" src="(.*)title=.+%', 'data-highres="$1', tep_image(DIR_WS_IMAGES . $product_info['products_image'], null, $width, $height)) : 'data-highres="'. DIR_WS_IMAGES . $product_info['products_image'] . '"')); ?>
     </div>
-
+      
+<!-- // KISS Image end -->
 <?php
       }
     }
