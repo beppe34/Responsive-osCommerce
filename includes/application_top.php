@@ -57,6 +57,9 @@
 // include the list of project database tables
   require('includes/database_tables.php');
 
+// include the list of project database tables
+  require('includes/filenames.php');
+  
 // include the database functions
   require('includes/functions/database.php');
 
@@ -347,9 +350,25 @@
                               tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
                               break;
       // customer adds a product from the products page
-      case 'add_product' :    if (isset($_POST['products_id']) && is_numeric($_POST['products_id'])) {
-                                $attributes = isset($_POST['id']) ? $_POST['id'] : '';
-                                $cart->add_cart($_POST['products_id'], $cart->get_quantity(tep_get_uprid($_POST['products_id'], $attributes))+1, $attributes);
+      case 'add_product' :    if (isset($HTTP_POST_VARS['products_id']) && is_numeric($HTTP_POST_VARS['products_id'])) {
+//++++ QT Pro: Begin Changed code
+                                $attributes=array();
+                                if (isset($HTTP_POST_VARS['attrcomb']) && (preg_match("/^\d{1,10}-\d{1,10}(,\d{1,10}-\d{1,10})*$/",$HTTP_POST_VARS['attrcomb']))) {
+                                  $attrlist=explode(',',$HTTP_POST_VARS['attrcomb']);
+                                  foreach ($attrlist as $attr) {
+                                    list($oid, $oval)=explode('-',$attr);
+                                    if (is_numeric($oid) && $oid==(int)$oid && is_numeric($oval) && $oval==(int)$oval)
+                                      $attributes[$oid]=$oval;
+                                  }
+                                }
+                                if (isset($HTTP_POST_VARS['id']) && is_array($HTTP_POST_VARS['id'])) {
+                                  foreach ($HTTP_POST_VARS['id'] as $key=>$val) {
+                                    if (is_numeric($key) && $key==(int)$key && is_numeric($val) && $val==(int)$val)
+                                      $attributes=$attributes + $HTTP_POST_VARS['id'];
+                                  }
+                                }
+                                $cart->add_cart($HTTP_POST_VARS['products_id'], $cart->get_quantity(tep_get_uprid($HTTP_POST_VARS['products_id'], $attributes))+1, $attributes);
+//++++ QT Pro: End Changed Code
                               }
                               $messageStack->add_session('product_action', sprintf(PRODUCT_ADDED, tep_get_products_name((int)$_POST['products_id'])), 'success');
                               tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));

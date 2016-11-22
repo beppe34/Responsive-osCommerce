@@ -30,7 +30,12 @@
         for ($i=0, $n=sizeof($languages); $i<$n; $i ++) {
           $option_name = tep_db_prepare_input($option_name_array[$languages[$i]['id']]);
 
-          tep_db_query("insert into " . TABLE_PRODUCTS_OPTIONS . " (products_options_id, products_options_name, language_id) values ('" . (int)$products_options_id . "', '" . tep_db_input($option_name) . "', '" . (int)$languages[$i]['id'] . "')");
+//          tep_db_query("insert into " . TABLE_PRODUCTS_OPTIONS . " (products_options_id, products_options_name, language_id) values ('" . (int)$products_options_id . "', '" . tep_db_input($option_name) . "', '" . (int)$languages[$i]['id'] . "')");
+//++++ QT Pro: Begin Changed code
+          $track_stock=isset($HTTP_POST_VARS['track_stock'])?1:0;
+          tep_db_query("insert into " . TABLE_PRODUCTS_OPTIONS . " (products_options_id, products_options_name, language_id,products_options_track_stock) values ('" . (int)$products_options_id . "', '" . tep_db_input($option_name) . "', '" . (int)$languages[$i]['id'] . "', '" . (int)$track_stock . "')");
+//++++ QT Pro: End Changed Code
+            
         }
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
         break;
@@ -79,7 +84,11 @@
         for ($i=0, $n=sizeof($languages); $i<$n; $i ++) {
           $option_name = tep_db_prepare_input($option_name_array[$languages[$i]['id']]);
 
-          tep_db_query("update " . TABLE_PRODUCTS_OPTIONS . " set products_options_name = '" . tep_db_input($option_name) . "' where products_options_id = '" . (int)$option_id . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
+//          tep_db_query("update " . TABLE_PRODUCTS_OPTIONS . " set products_options_name = '" . tep_db_input($option_name) . "' where products_options_id = '" . (int)$option_id . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
+//++++ QT Pro: Begin Changed code
+          $track_stock=isset($HTTP_POST_VARS['track_stock'])?1:0;
+          tep_db_query("update " . TABLE_PRODUCTS_OPTIONS . " set products_options_track_stock='" . (int)$track_stock . "',products_options_name = '" . tep_db_input($option_name) . "' where products_options_id = '" . (int)$option_id . "' and language_id = '" . (int)$languages[$i]['id'] . "'");
+//++++ QT Pro: End Changed Code          
         }
 
         tep_redirect(tep_href_link('products_attributes.php', $page_info));
@@ -165,7 +174,7 @@
     $options_values = tep_db_fetch_array($options);
 ?>
               <tr>
-                <td class="pageHeading">&nbsp;<?php echo $options_values['products_options_name']; ?>&nbsp;</td>
+                <td class="pageHeading"> <?php echo $options_values['products_options_name']; ?> </td>
               </tr>
               <tr>
                 <td><table border="0" width="100%" cellspacing="0" cellpadding="2">
@@ -177,9 +186,9 @@
     if (tep_db_num_rows($products)) {
 ?>
                   <tr class="dataTableHeadingRow">
-                    <td class="dataTableHeadingContent" align="center">&nbsp;<?php echo TABLE_HEADING_ID; ?>&nbsp;</td>
-                    <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_PRODUCT; ?>&nbsp;</td>
-                    <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_OPT_VALUE; ?>&nbsp;</td>
+                    <td class="dataTableHeadingContent" align="center"> <?php echo TABLE_HEADING_ID; ?> </td>
+                    <td class="dataTableHeadingContent"> <?php echo TABLE_HEADING_PRODUCT; ?> </td>
+                    <td class="dataTableHeadingContent"> <?php echo TABLE_HEADING_OPT_VALUE; ?> </td>
                   </tr>
                   <tr>
                     <td colspan="3"><?php echo tep_black_line(); ?></td>
@@ -190,9 +199,9 @@
         $rows++;
 ?>
                   <tr class="<?php echo (floor($rows/2) == ($rows/2) ? 'attributes-even' : 'attributes-odd'); ?>">
-                    <td align="center" class="smallText">&nbsp;<?php echo $products_values['products_id']; ?>&nbsp;</td>
-                    <td class="smallText">&nbsp;<?php echo $products_values['products_name']; ?>&nbsp;</td>
-                    <td class="smallText">&nbsp;<?php echo $products_values['products_options_values_name']; ?>&nbsp;</td>
+                    <td align="center" class="smallText"> <?php echo $products_values['products_id']; ?> </td>
+                    <td class="smallText"> <?php echo $products_values['products_name']; ?> </td>
+                    <td class="smallText"> <?php echo $products_values['products_options_values_name']; ?> </td>
                   </tr>
 <?php
       }
@@ -201,19 +210,19 @@
                     <td colspan="3"><?php echo tep_black_line(); ?></td>
                   </tr>
                   <tr>
-                    <td colspan="3" class="main"><br /><?php echo TEXT_WARNING_OF_DELETE; ?></td>
+                    <td colspan="3" class="main"><br><?php echo TEXT_WARNING_OF_DELETE; ?></td>
                   </tr>
                   <tr>
-                    <td align="right" colspan="3" class="smallText"><br /><?php echo tep_draw_button(IMAGE_BACK, 'triangle-1-w', tep_href_link('products_attributes.php', $page_info)); ?>&nbsp;</td>
+                    <td align="right" colspan="3" class="main"><br><?php echo '<a href="' . tep_href_link('products_attributes.php', $page_info, 'NONSSL') . '">'; ?><?php echo tep_image_button('button_cancel.gif', ' cancel '); ?></a> </td>
                   </tr>
 <?php
     } else {
 ?>
                   <tr>
-                    <td class="main" colspan="3"><br /><?php echo TEXT_OK_TO_DELETE; ?></td>
+                    <td class="main" colspan="3"><br><?php echo TEXT_OK_TO_DELETE; ?></td>
                   </tr>
                   <tr>
-                    <td class="smallText" align="right" colspan="3"><br /><?php echo tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('products_attributes.php', 'action=delete_option&option_id=' . $HTTP_GET_VARS['option_id'] . '&' . $page_info), 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('products_attributes.php', $page_info)); ?>&nbsp;</td>
+                    <td class="main" align="right" colspan="3"><br><?php echo '<a href="' . tep_href_link('products_attributes.php', 'action=delete_option&option_id=' . $HTTP_GET_VARS['option_id'] . '&' . $page_info, 'NONSSL') . '">'; ?><?php echo tep_image_button('button_delete.gif', ' delete '); ?></a>   <?php echo '<a href="' . tep_href_link('products_attributes.php', $page_info, 'NONSSL') . '">'; ?><?php echo tep_image_button('button_cancel.gif', ' cancel '); ?></a> </td>
                   </tr>
 <?php
     }
@@ -224,7 +233,7 @@
   } else {
 ?>
               <tr>
-                <td colspan="3" class="pageHeading">&nbsp;<?php echo HEADING_TITLE_OPT; ?>&nbsp;</td>
+                <td colspan="3" class="pageHeading"> <?php echo HEADING_TITLE_OPT; ?> </td>
               </tr>
               <tr>
                 <td colspan="3" class="smallText" align="right">
@@ -237,15 +246,34 @@
                 </td>
               </tr>
               <tr>
-                <td colspan="3"><?php echo tep_black_line(); ?></td>
+<?php
+//++++ QT Pro: Begin Changed code
+?>
+                <td colspan="4"><?php echo tep_black_line(); ?></td>
+<?php
+//++++ QT Pro: End Changed Code
+?>
               </tr>
               <tr class="dataTableHeadingRow">
-                <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_ID; ?>&nbsp;</td>
-                <td class="dataTableHeadingContent">&nbsp;<?php echo TABLE_HEADING_OPT_NAME; ?>&nbsp;</td>
-                <td class="dataTableHeadingContent" align="center">&nbsp;<?php echo TABLE_HEADING_ACTION; ?>&nbsp;</td>
+                <td class="dataTableHeadingContent"> <?php echo TABLE_HEADING_ID; ?> </td>
+                <td class="dataTableHeadingContent"> <?php echo TABLE_HEADING_OPT_NAME; ?> </td>
+<?php
+//++++ QT Pro: Begin Changed code
+?>
+                <td class="dataTableHeadingContent"> <?php echo TABLE_HEADING_TRACK_STOCK; ?> </td>
+<?php
+//++++ QT Pro: End Changed Code
+?>
+                <td class="dataTableHeadingContent" align="center"> <?php echo TABLE_HEADING_ACTION; ?> </td>
               </tr>
               <tr>
-                <td colspan="3"><?php echo tep_black_line(); ?></td>
+<?php
+//++++ QT Pro: Begin Changed code
+?>
+                <td colspan="4"><?php echo tep_black_line(); ?></td>
+<?php
+//++++ QT Pro: End Changed Code
+?>
               </tr>
 <?php
     $next_id = 1;
@@ -262,19 +290,33 @@
         for ($i = 0, $n = sizeof($languages); $i < $n; $i ++) {
           $option_name = tep_db_query("select products_options_name from " . TABLE_PRODUCTS_OPTIONS . " where products_options_id = '" . $options_values['products_options_id'] . "' and language_id = '" . $languages[$i]['id'] . "'");
           $option_name = tep_db_fetch_array($option_name);
-          $inputs .= $languages[$i]['code'] . ':&nbsp;<input type="text" name="option_name[' . $languages[$i]['id'] . ']" size="20" value="' . $option_name['products_options_name'] . '">&nbsp;<br />';
+          $inputs .= $languages[$i]['code'] . ': <input type="text" name="option_name[' . $languages[$i]['id'] . ']" size="20" value="' . $option_name['products_options_name'] . '"> <br>';
         }
 ?>
-                <td align="center" class="smallText">&nbsp;<?php echo $options_values['products_options_id']; ?><input type="hidden" name="option_id" value="<?php echo $options_values['products_options_id']; ?>">&nbsp;</td>
+                <td align="center" class="smallText"> <?php echo $options_values['products_options_id']; ?><input type="hidden" name="option_id" value="<?php echo $options_values['products_options_id']; ?>"> </td>
                 <td class="smallText"><?php echo $inputs; ?></td>
-                <td align="center" class="smallText">&nbsp;<?php echo tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('products_attributes.php', $page_info)); ?>&nbsp;</td>
+<?php
+//++++ QT Pro: Begin Changed code
+?>
+                <td align="center" class="smallText"><input type=checkbox name=track_stock <?php echo $options_values['products_options_track_stock']?"checked":""; ?>></td>
+<?php
+//++++ QT Pro: End Changed Code
+?>
+                <td align="center" class="smallText"> <?php echo tep_image_submit('button_update.gif', IMAGE_UPDATE); ?> <?php echo '<a href="' . tep_href_link('products_attributes.php', $page_info, 'NONSSL') . '">'; ?><?php echo tep_image_button('button_cancel.gif', IMAGE_CANCEL); ?></a> </td>
 <?php
         echo '</form>' . "\n";
       } else {
 ?>
-                <td align="center" class="smallText">&nbsp;<?php echo $options_values["products_options_id"]; ?>&nbsp;</td>
-                <td class="smallText">&nbsp;<?php echo $options_values["products_options_name"]; ?>&nbsp;</td>
-                <td align="center" class="smallText">&nbsp;<?php echo tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('products_attributes.php', 'action=update_option&option_id=' . $options_values['products_options_id'] . '&' . $page_info)) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('products_attributes.php', 'action=delete_product_option&option_id=' . $options_values['products_options_id'] . '&' . $page_info)); ?>&nbsp;</td>
+                <td align="center" class="smallText"> <?php echo $options_values["products_options_id"]; ?> </td>
+                <td class="smallText"> <?php echo $options_values["products_options_name"]; ?> </td>
+<?php
+//++++ QT Pro: Begin Changed code
+?>
+                <td align="center" class="smallText"> <?php echo $options_values['products_options_track_stock']?"Yes":"No"; ?></td>
+<?php
+//++++ QT Pro: End Changed Code
+?>
+                <td align="center" class="smallText"> <?php echo '<a href="' . tep_href_link('products_attributes.php', 'action=update_option&option_id=' . $options_values['products_options_id'] . '&' . $page_info, 'NONSSL') . '">'; ?><?php echo tep_image_button('button_edit.gif', IMAGE_UPDATE); ?></a>  <?php echo '<a href="' . tep_href_link('products_attributes.php', 'action=delete_product_option&option_id=' . $options_values['products_options_id'] . '&' . $page_info, 'NONSSL') , '">'; ?><?php echo tep_image_button('button_delete.gif', IMAGE_DELETE); ?></a> </td>
 <?php
       }
 ?>
@@ -286,7 +328,13 @@
     }
 ?>
               <tr>
-                <td colspan="3"><?php echo tep_black_line(); ?></td>
+<?php
+//++++ QT Pro: Begin Changed code
+?>
+                <td colspan="4"><?php echo tep_black_line(); ?></td>
+<?php
+//++++ QT Pro: End Changed Code
+?>
               </tr>
 <?php
     if ($action != 'update_option') {
@@ -296,18 +344,29 @@
       echo '<form name="options" action="' . tep_href_link('products_attributes.php', 'action=add_product_options&' . $page_info) . '" method="post"><input type="hidden" name="products_options_id" value="' . $next_id . '">';
       $inputs = '';
       for ($i = 0, $n = sizeof($languages); $i < $n; $i ++) {
-        $inputs .= $languages[$i]['code'] . ':&nbsp;<input type="text" name="option_name[' . $languages[$i]['id'] . ']" size="20">&nbsp;<br />';
+        $inputs .= $languages[$i]['code'] . ': <input type="text" name="option_name[' . $languages[$i]['id'] . ']" size="20"> <br>';
       }
 ?>
-                <td align="center" class="smallText">&nbsp;<?php echo $next_id; ?>&nbsp;</td>
+                <td align="center" class="smallText"> <?php echo $next_id; ?> </td>
                 <td class="smallText"><?php echo $inputs; ?></td>
-                <td align="center" class="smallText">&nbsp;<?php echo tep_draw_button(IMAGE_INSERT, 'plus'); ?>&nbsp;</td>
 <?php
+//++++ QT Pro: Begin Changed code
+?>
+                <td align="center" ><input type=checkbox name=track_stock></td>
+                <td align="left" class="smallText"> <?php echo tep_image_submit('button_insert.gif', IMAGE_INSERT); ?> </td>
+<?php
+//++++ QT Pro: End Changed Code
       echo '</form>';
 ?>
               </tr>
               <tr>
-                <td colspan="3"><?php echo tep_black_line(); ?></td>
+<?php
+//++++ QT Pro: Begin Changed code
+?>
+                <td colspan="4"><?php echo tep_black_line(); ?></td>
+<?php
+//++++ QT Pro: End Changed Code
+?>
               </tr>
 <?php
     }

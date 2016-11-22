@@ -277,7 +277,7 @@
 	// Check whether includes/template_top.php has been modified/replaced
 	if( !function_exists( 'tep_template_top_check' ) ) {
 		function tep_template_top_check() {
-			$filename = DIR_FS_CATALOG . DIR_WS_INCLUDES . 'template_top.php';
+			$filename = DIR_FS_CATALOG . 'includes/template_top.php';
 			if( file_exists( $filename ) ) {
 				// Read the file into an array, one line per element
 				$file_array = file( $filename );

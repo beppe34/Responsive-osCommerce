@@ -50,6 +50,9 @@
 // include the list of project database tables
   require('includes/database_tables.php');
 
+// include the list of project files
+//  require('http://localhost:8000/catalog/includes/filenames.php');
+  
 // Define how do we update currency exchange rates
 // Possible values are 'oanda' 'xe' or ''
   define('CURRENCY_SERVER_PRIMARY', 'oanda');

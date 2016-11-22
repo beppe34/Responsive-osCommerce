@@ -67,7 +67,12 @@
         'code' => 'whos_online.php',
         'title' => BOX_TOOLS_WHOS_ONLINE,
         'link' => tep_href_link('whos_online.php')
-      )
+      ),
+      array(
+        'code' => 'qtprodoctor.php',
+        'title' => BOX_TOOLS_QTPRODOCTOR,
+        'link' => tep_href_link('qtprodoctor.php')
+      )          
     )
   );
 ?>

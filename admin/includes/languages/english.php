@@ -101,6 +101,10 @@ define('BOX_REPORTS_PRODUCTS_VIEWED', 'Products Viewed');
 define('BOX_REPORTS_PRODUCTS_PURCHASED', 'Products Purchased');
 define('BOX_REPORTS_ORDERS_TOTAL', 'Customer Orders-Total');
 
+//++++ QT Pro: Begin Changed code
+define('BOX_REPORTS_STATS_LOW_STOCK_ATTRIB', 'Stock Report');
+//++++ QT Pro: End Changed Code
+
 // tools text in includes/boxes/tools.php
 define('BOX_HEADING_TOOLS', 'Tools');
 define('BOX_TOOLS_ACTION_RECORDER', 'Action Recorder');
@@ -114,7 +118,10 @@ define('BOX_TOOLS_SEC_DIR_PERMISSIONS', 'Security Directory Permissions');
 define('BOX_TOOLS_SERVER_INFO', 'Server Info');
 define('BOX_TOOLS_VERSION_CHECK', 'Version Checker');
 define('BOX_TOOLS_WHOS_ONLINE', 'Who\'s Online');
-
+//++++ QT Pro: Begin Changed code
+define('BOX_TOOLS_QTPRODOCTOR', 'QTPro Doctor');
+//++++ QT Pro: End Changed Code
+//
 // localizaion box text in includes/boxes/localization.php
 define('BOX_HEADING_LOCALIZATION', 'Localization');
 define('BOX_LOCALIZATION_CURRENCIES', 'Currencies');
@@ -242,6 +249,9 @@ define('IMAGE_UNLOCK', 'Unlock');
 define('IMAGE_UPDATE', 'Update');
 define('IMAGE_UPDATE_CURRENCIES', 'Update Exchange Rate');
 define('IMAGE_UPLOAD', 'Upload');
+//++++ QT Pro: Begin Changed code
+define('IMAGE_QTSTOCK', 'Stock');
+//++++ QT Pro: End Changed Code
 
 define('ICON_CROSS', 'False');
 define('ICON_CURRENT_FOLDER', 'Current Folder');

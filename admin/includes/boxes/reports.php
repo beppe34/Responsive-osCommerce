@@ -27,7 +27,12 @@
         'code' => 'stats_customers.php',
         'title' => BOX_REPORTS_ORDERS_TOTAL,
         'link' => tep_href_link('stats_customers.php')
-      )
+      ),
+      array(
+        'code' => 'stats_low_stock_attrib.php',
+        'title' => BOX_REPORTS_STATS_LOW_STOCK_ATTRIB,
+        'link' => tep_href_link('stats_low_stock_attrib.php')
+      )        
     )
   );
 ?>

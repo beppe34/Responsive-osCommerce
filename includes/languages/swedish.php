@@ -339,7 +339,7 @@ define('TEXT_CCVAL_ERROR_INVALID_DATE', 'Utgångsdatumet på ditt kreditkort har
 define('TEXT_CCVAL_ERROR_INVALID_NUMBER', 'Kreditkortsnummret du skrev in är ogiltigt.<br>Kontrollera nummret och försök igen.');
 define('TEXT_CCVAL_ERROR_UNKNOWN_CARD', 'Dom 4 första siffrorna i nummret är: %s<br>Om det nummret är korrekt så accepterar vi inte den typen av kreditkort.<br>Om det är fel så försök igen.');
 
-define('FOOTER_TEXT_BODY', 'Copyright &copy; ' . date('Y') . ' <a href="' . tep_href_link(FILENAME_DEFAULT) . '">' . STORE_NAME . '</a><br>Powered by <a href="http://www.oscommerce.com" target="_blank">osCommerce</a>');
+define('FOOTER_TEXT_BODY', 'Copyright &copy; ' . date('Y') . ' <a href="' . tep_href_link('index.php') . '">' . STORE_NAME . '</a><br>Powered by <a href="http://www.oscommerce.com" target="_blank">osCommerce</a>');
 
 //BEGIN : IOSC Switch view labels
 define('TEXT_SHOW_VIEW_1', '');

@@ -12,6 +12,11 @@
 
   require('includes/application_top.php');
 
+  //++++ QT Pro: Begin Added code
+    //Create the product investigation for this product that are used in this page.
+    $product_investigation = qtpro_doctor_investigate_product($HTTP_GET_VARS['pID']);
+//++++ QT Pro: End Added code
+  
   require('includes/classes/currencies.php');
   $currencies = new currencies();
 
@@ -228,6 +233,12 @@
                                 'products_status' => tep_db_prepare_input($HTTP_POST_VARS['products_status']),
                                 'products_tax_class_id' => tep_db_prepare_input($HTTP_POST_VARS['products_tax_class_id']),
                                 'manufacturers_id' => (int)tep_db_prepare_input($HTTP_POST_VARS['manufacturers_id']));
+//++++ QT Pro: Begin Added code
+        if($product_investigation['has_tracked_options'] or $product_investigation['stock_entries_count'] > 0){
+                //Do not modify the stock from this page if the product has database entries or has tracked options
+                unset($sql_data_array['products_quantity']);
+        }
+//++++ QT Pro: End Added code        
         $sql_data_array['products_gtin'] = (tep_not_null($HTTP_POST_VARS['products_gtin'])) ? str_pad(tep_db_prepare_input($HTTP_POST_VARS['products_gtin']), 14, '0', STR_PAD_LEFT) : 'null';
         
         $products_image = new upload('products_image');
@@ -392,7 +403,12 @@
   } else {
     $messageStack->add(ERROR_CATALOG_IMAGE_DIRECTORY_DOES_NOT_EXIST, 'error');
   }
-
+  //++++ QT Pro: Begin Changed code
+  if($product_investigation['any_problems']){
+  	$messageStack->add('<strong>Warning: </strong>'. qtpro_doctor_formulate_product_investigation($product_investigation, 'short_suggestion') ,'warning');
+  }
+  //++++ QT Pro: End Changed code
+  
   require('includes/template_top.php');
 
   if ($action == 'new_product') {
@@ -606,9 +622,22 @@ updateGross();
           </tr>
           <tr>
             <td class="main"><?php echo TEXT_PRODUCTS_QUANTITY; ?></td>
-            <td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_input_field('products_quantity', $pInfo->products_quantity); ?></td>
+             <?php //++++ QT Pro: Begin Changed code
+			if($product_investigation['has_tracked_options'] or $product_investigation['stock_entries_count'] > 0)
+			{
+		  	?>
+			<td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . ' <a href="' . tep_href_link("stock.php", 'product_id=' . $pInfo->products_id) . ' " target="_blank">' . tep_image_button('button_stock.gif', "Stock") . '</a>'?></td>
+			<?php 
+			
+			}else{
+			?>
+			<td class="main"><?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . ' ' . tep_draw_input_field('products_quantity', $pInfo->products_quantity); ?></td>
+			<?php 
+			}
+			//++++ QT Pro: End Changed code
+		  	?>
           </tr>
-          <tr>
+            <tr>
             <td colspan="2"><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
           </tr>
           <tr>
@@ -1128,7 +1157,8 @@ $('#products_date_available').datepicker({
           } elseif (isset($pInfo) && is_object($pInfo)) { // product info box contents
             $heading[] = array('text' => '<strong>' . tep_get_products_name($pInfo->products_id, $languages_id) . '</strong>');
 
-            $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $pInfo->products_id . '&action=new_product')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $pInfo->products_id . '&action=delete_product')) . tep_draw_button(IMAGE_MOVE, 'arrow-4', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $pInfo->products_id . '&action=move_product')) . tep_draw_button(IMAGE_COPY_TO, 'copy', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $pInfo->products_id . '&action=copy_to')));
+//            $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $pInfo->products_id . '&action=new_product')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $pInfo->products_id . '&action=delete_product')) . tep_draw_button(IMAGE_MOVE, 'arrow-4', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $pInfo->products_id . '&action=move_product')) . tep_draw_button(IMAGE_COPY_TO, 'copy', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $pInfo->products_id . '&action=copy_to')));
+            $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $pInfo->products_id . '&action=new_product')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $pInfo->products_id . '&action=delete_product')) . tep_draw_button(IMAGE_MOVE, 'arrow-4', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $pInfo->products_id . '&action=move_product')) . tep_draw_button(IMAGE_COPY_TO, 'copy', tep_href_link('categories.php', 'cPath=' . $cPath . '&pID=' . $pInfo->products_id . '&action=copy_to')) . tep_draw_button(IMAGE_QTSTOCK, 'copy', tep_href_link("stock.php", 'product_id=' . $pInfo->products_id)));            
             $contents[] = array('text' => '<br />' . TEXT_DATE_ADDED . ' ' . tep_date_short($pInfo->products_date_added));
             if (tep_not_null($pInfo->products_last_modified)) $contents[] = array('text' => TEXT_LAST_MODIFIED . ' ' . tep_date_short($pInfo->products_last_modified));
             if (date('Y-m-d') < $pInfo->products_date_available) $contents[] = array('text' => TEXT_DATE_AVAILABLE . ' ' . tep_date_short($pInfo->products_date_available));
