@@ -376,8 +376,8 @@ define('SN_EMAIL_NOTIFICATIONS', 'Visa / Radera mina varulager notifieringar.');
 define('SN_LOGIN_HEAD', 'Kund?');
 define('SN_LOGIN', 'Genom att logga in så kan du hantera dina notifieringar och använda andra funktioner, eller så kan du skapa ett konto.');
 define('SN_GUEST_NAME', 'Gäst');
-define('SN_THANK_YOU', 'Tack, när "');
-define('SN_BACK_IN_STOCK', '" åter finns i lager så meddelar vi dig med ett mejl.')
+define('SN_THANK_YOU', 'Tack, när ');
+define('SN_BACK_IN_STOCK', ' åter finns i lager så meddelar vi dig med ett mejl.');
 // http://www.linuxuk.co.uk - Notify when back in stock. End
 // category views
 define('TEXT_VIEW', 'View: ');
