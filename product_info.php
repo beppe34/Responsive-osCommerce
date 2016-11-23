@@ -165,7 +165,7 @@
     }
 
 //Display a table with which attributecombinations is on stock to the customer?
-if(PRODINFO_ATTRIBUTE_DISPLAY_STOCK_LIST == 'True'): require(DIR_WS_MODULES . "qtpro_stock_table.php"); endif;
+if(PRODINFO_ATTRIBUTE_DISPLAY_STOCK_LIST == 'True'): require("includes/modules/qtpro_stock_table.php"); endif;
 
 //++++ QT Pro: End Changed Code
 ?>
@@ -226,7 +226,7 @@ if(PRODINFO_ATTRIBUTE_DISPLAY_STOCK_LIST == 'True'): require(DIR_WS_MODULES . "q
 </form>
 
 <?php
-  }
+  
   require('includes/template_bottom.php');
   require('includes/application_bottom.php');
 ?>
