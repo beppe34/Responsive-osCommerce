@@ -812,7 +812,7 @@ $actual_stock_bought = $order->products[$i]['qty'];
       $email_order = STORE_NAME . "\n" .
                      EMAIL_SEPARATOR . "\n" .
 // PWA guest checkout BEGIN
-                     EMAIL_TEXT_ORDER_NUMBER . ' ' . $order_id . "\n" .
+                     EMAIL_TEXT_ORDER_NUMBER . ' ' . $order_id . "\n";
       if(!tep_session_is_registered('customer_is_guest')) {         
         $email_order .= EMAIL_TEXT_INVOICE_URL . ' ' . tep_href_link('account_history_info.php', 'order_id=' . $order_id, 'SSL', false) . "\n";
       }
