@@ -17,23 +17,27 @@
     var $description;
     var $sort_order;
     var $enabled = false;
-
+    var $hidenegativesortorder = false;
+    
     function bm_categories() {
       $this->title = MODULE_BOXES_CATEGORIES_TITLE;
       $this->description = MODULE_BOXES_CATEGORIES_DESCRIPTION;
-
+      
       if ( defined('MODULE_BOXES_CATEGORIES_STATUS') ) {
         $this->sort_order = MODULE_BOXES_CATEGORIES_SORT_ORDER;
         $this->enabled = (MODULE_BOXES_CATEGORIES_STATUS == 'True');
 
         $this->group = ((MODULE_BOXES_CATEGORIES_CONTENT_PLACEMENT == 'Left Column') ? 'boxes_column_left' : 'boxes_column_right');
       }
+      if(defined('MODULE_BOXES_CATEGORIES_HIDENEGATIVESORTORDER')){
+          $this->hidenegativesortorder = MODULE_BOXES_CATEGORIES_HIDENEGATIVESORTORDER=='True'?true:false;
+      }
     }
 
     function execute() {
       global $oscTemplate, $cPath;
 
-      $OSCOM_CategoryTree = new category_tree();
+      $OSCOM_CategoryTree = new category_tree($this->hidenegativesortorder);
       $OSCOM_CategoryTree->setCategoryPath($cPath, '<strong>', '</strong>');
       $OSCOM_CategoryTree->setSpacerString('&nbsp;&nbsp;', 1);
 
@@ -67,7 +71,7 @@
     }
 
     function keys() {
-      return array('MODULE_BOXES_CATEGORIES_STATUS', 'MODULE_BOXES_CATEGORIES_CONTENT_PLACEMENT', 'MODULE_BOXES_CATEGORIES_SORT_ORDER');
+      return array('MODULE_BOXES_CATEGORIES_STATUS', 'MODULE_BOXES_CATEGORIES_HIDENEGATIVESORTORDER', 'MODULE_BOXES_CATEGORIES_CONTENT_PLACEMENT', 'MODULE_BOXES_CATEGORIES_SORT_ORDER');
     }
   }
 
