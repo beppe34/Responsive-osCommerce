@@ -15,4 +15,5 @@ define('MODULE_ADMIN_DASHBOARD_LATEST_ADDONS_DESCRIPTION', 'Visa dem senaste osC
 define('MODULE_ADMIN_DASHBOARD_LATEST_ADDONS_DATE', 'Datum');
 define('MODULE_ADMIN_DASHBOARD_LATEST_ADDONS_FEED_ERROR', 'Kunde inte ansluta till osCommerce Tillägg feed. Nästa försök kommer att utföras inom 24 timmar.');
 define('MODULE_ADMIN_DASHBOARD_LATEST_ADDONS_ICON_RSS', 'Prenumerera på osCommerce Tillägg RSS-flöde');
+define('MODULE_ADMIN_DASHBOARD_LATEST_ADDONS_ICON_RSS', 'Subscribe to the osCommerce Add-Ons RSS Feed');
 ?>

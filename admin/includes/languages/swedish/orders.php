@@ -14,6 +14,10 @@ define('HEADING_TITLE', 'Order');
 define('HEADING_TITLE_SEARCH', 'Order ID:');
 define('HEADING_TITLE_STATUS', 'Status:');
 
+define('TAB_TITLE_SUMMARY','Summary');
+define('TAB_TITLE_PRODUCTS','Products');
+define('TAB_TITLE_STATUS_HISTORY','Status History');
+
 define('TABLE_HEADING_COMMENTS', 'Kommentarer');
 define('TABLE_HEADING_CUSTOMERS', 'Kunder');
 define('TABLE_HEADING_ORDER_TOTAL', 'Ordertotal');
@@ -82,4 +86,4 @@ define('TEXT_IMAGE_CREATE','Create Order');
 define('TEXT_INFO_CUSTOMER_SERVICE_ID','Entered by:');
 // ### END ORDER MAKER ###
 
-?>
+define('ENTRY_ADD_COMMENT', 'Add Comment:');

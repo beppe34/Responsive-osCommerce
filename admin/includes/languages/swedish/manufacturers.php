@@ -40,4 +40,13 @@ define('TEXT_DELETE_WARNING_PRODUCTS', '<b>VARNING:</b> Det finns fortfarande pr
 define('ERROR_DIRECTORY_NOT_WRITEABLE',  'Fel: Kan inte skriva till denna katalog. Vänligen sätt rätt användarrättigheter till: %s');
 define('ERROR_DIRECTORY_DOES_NOT_EXIST', 'Fel: Katalogen finns inte: %s');
 
-?>
+define('TEXT_MANUFACTURERS_DESCRIPTION', 'Manufacturer Description:<br><small>shows in manufacturer page</small>');
+define('TEXT_EDIT_MANUFACTURERS_DESCRIPTION', 'Edit the Manufacturer Description:');
+
+define('TEXT_MANUFACTURERS_SEO_DESCRIPTION', 'Manufacturer Meta Description for SEO:<br><small>Add a &lt;description&gt; Meta Element.</small>');
+define('TEXT_EDIT_MANUFACTURERS_SEO_DESCRIPTION', 'Manufacturer Meta Description for SEO:<br><small>Edit the &lt;description&gt; Meta Element.</small>');
+define('TEXT_MANUFACTURERS_SEO_KEYWORDS', 'Manufacturer Meta Keywords for SEO:<br><small>Add a &lt;keyword&gt; Meta Element.<br>Must be comma separated.</small>');
+define('TEXT_EDIT_MANUFACTURERS_SEO_KEYWORDS', 'Manufacturer Meta Keywords for SEO:<br><small>Edit the &lt;keyword&gt; Meta Element.<br>Must be comma separated.</small>');
+
+const TEXT_MANUFACTURERS_SEO_TITLE = 'Manufacturer Title for SEO:<br><small>Optionally replaces the manufacturer name in the &lt;title&gt; Meta Element and Breadcrumb.<br>Leave blank to default to manufacturer name.</small>';
+const TEXT_EDIT_MANUFACTURERS_SEO_TITLE = 'Edit the Manufacturer Title for SEO:<br><small>Optionally replaces the manufacturer name in the &lt;title&gt; Meta Element and Breadcrumb.<br>Leave blank to default to manufacturer name.</small>';

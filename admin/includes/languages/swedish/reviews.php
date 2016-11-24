@@ -44,4 +44,5 @@ define('TEXT_OF_5_STARS', '%s av 5 stjärnor!');
 define('TEXT_GOOD', '<small><font color="#ff0000"><strong>BRA</strong></font></small>');
 define('TEXT_BAD', '<small><font color="#ff0000"><strong>DÅLIG</strong></font></small>');
 define('TEXT_INFO_HEADING_DELETE_REVIEW', 'Radera recension');
-?>
+
+const IMAGE_BUTTON_ADD_REVIEW = 'Add A Review';

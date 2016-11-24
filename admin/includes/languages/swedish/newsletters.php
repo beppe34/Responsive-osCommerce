@@ -36,4 +36,5 @@ define('ERROR_NEWSLETTER_MODULE',          'Fel: Nyhetsbrevsmodul krävs');
 define('ERROR_REMOVE_UNLOCKED_NEWSLETTER', 'Fel: Vänligen lås nyhetsbrevet innan du raderar det.');
 define('ERROR_EDIT_UNLOCKED_NEWSLETTER',   'Fel: Vänligen lås nyhetsbrevet innan du redigerar det.');
 define('ERROR_SEND_UNLOCKED_NEWSLETTER',   'Fel: Vänligen lås nyhetsbrevet innan du sänder det.');
-?>
+
+define('ERROR_NEWSLETTER_MODULE_NOT_EXISTS', 'Error: Module does not exist');
