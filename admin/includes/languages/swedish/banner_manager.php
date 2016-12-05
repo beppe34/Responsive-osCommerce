@@ -65,5 +65,5 @@ define('ERROR_UNKNOWN_STATUS_FLAG',    'Fel: Okänd statusflagga.');
 define('ERROR_GRAPHS_DIRECTORY_DOES_NOT_EXIST', 'Fel: Graf-katalogen finns inte. Skapa en \'graphs\' katalog under \'images\'.');
 define('ERROR_GRAPHS_DIRECTORY_NOT_WRITEABLE',  'Fel: Graf-katalogen är skrivskyddad.');
 
-?>
+
 
