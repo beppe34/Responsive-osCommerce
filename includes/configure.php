@@ -9,7 +9,8 @@
   define('DIR_WS_HTTP_CATALOG', '/catalog/');
   define('DIR_WS_HTTPS_CATALOG', '/catalog/');
 
-  define('DIR_FS_CATALOG', 'D:/Projekt/oscr/catalog/');
+  define('DIR_FS_CATALOG', 'D:/projects/oscr/catalog/');  
+//  define('DIR_FS_CATALOG', 'D:/Projekt/oscr/catalog/');
   define('DIR_FS_DOWNLOAD', DIR_FS_CATALOG . 'download/');
   define('DIR_FS_DOWNLOAD_PUBLIC', DIR_FS_CATALOG . 'pub/');
 
@@ -17,11 +18,11 @@
   define('DIR_WS_MODULES', DIR_WS_HTTP_CATALOG . 'includes/modules/');
   
   
-//  define('DB_SERVER', '192.168.5.2');
-  define('DB_SERVER', 'localhost');  
+  define('DB_SERVER', '192.168.5.2');
+//  define('DB_SERVER', 'localhost');  
   define('DB_SERVER_USERNAME', 'root');
-//  define('DB_SERVER_PASSWORD', 'faskdask');
-  define('DB_SERVER_PASSWORD', 'bullerbo');
+  define('DB_SERVER_PASSWORD', 'faskdask');
+//  define('DB_SERVER_PASSWORD', 'bullerbo');
   define('DB_DATABASE', 'oscr');
   define('USE_PCONNECT', 'false');
   define('STORE_SESSIONS', 'mysql');

@@ -64,6 +64,7 @@ class cm_carousel {
                   limit
                     " . MODULE_FRONT_PAGE_BANNER_ROTATOR_MAX_DISPLAY;
 
+// \log::w("bannersql " . $banner_query_raw);
 
         $banner_query = tep_db_query($banner_query_raw);
         
@@ -200,14 +201,6 @@ class cm_carousel {
       $src = 'data: image/png;base64,'.$imgData;
       return $src;
     }
-
-
-
-
-
-
-
-  
   
   } 
   

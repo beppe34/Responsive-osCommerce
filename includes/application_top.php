@@ -38,6 +38,9 @@
 // define the project version --- obsolete, now retrieved with tep_get_version()
   define('PROJECT_VERSION', 'osCommerce Online Merchant v2.3');
 
+// Log klassen
+  require('includes/classes/log.php');
+  
 // some code to solve compatibility issues
   require('includes/functions/compatibility.php');
 

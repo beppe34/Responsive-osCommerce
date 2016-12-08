@@ -155,7 +155,7 @@
     echo "</tr>";
     //$q=tep_db_query("select * from " . TABLE_PRODUCTS_STOCK . " where products_id=" . $VARS['product_id'] . " order by products_stock_attributes");
 	//sorting below goes by name rather than products_stock_attributes. Much easier to have it all sorted alphabetically
-	    $q=tep_db_query("select ps. products_stock_id, ps.products_id, ps.products_stock_attributes, ps.products_stock_quantity, pov.products_options_values_id, pov.language_id, pov.products_options_values_name from " . TABLE_PRODUCTS_STOCK . " ps, products_options_values pov where ps.products_id=" . $VARS['product_id'] . " and pov.products_options_values_id = substring_index(ps.products_stock_attributes, '-', -1) order by pov.products_options_values_name asc");
+	    $q=tep_db_query("select ps. products_stock_id, ps.products_id, ps.products_stock_attributes, ps.products_stock_quantity, pov.products_options_values_id, pov.language_id, pov.products_options_values_name from " . TABLE_PRODUCTS_STOCK . " ps, products_options_values pov where ps.products_id=" . $VARS['product_id'] . " and pov.products_options_values_id = substring_index(ps.products_stock_attributes, '-', -1) and pov.language_id = " . (int)$languages_id . " order by pov.products_options_values_name asc");
     while($rec=tep_db_fetch_array($q)) {
       $val_array=explode(",",$rec[products_stock_attributes]);
       echo "<tr>";
