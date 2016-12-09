@@ -54,6 +54,7 @@
       break;
     }
    }
+  }
 //++++ QT Pro: End Changed Code
 
 
