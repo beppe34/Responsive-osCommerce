@@ -1120,7 +1120,7 @@ img {
 .thumbnail a > img,
 .carousel-inner > .item > img,
 .carousel-inner > .item > a > img {
-  display: block;
+/*  display: block; */
   max-width: 100%;
   height: auto;
 }
@@ -6241,6 +6241,7 @@ button.close {
   position: relative;
   width: 100%;
   overflow: hidden;
+  text-align: center;
 }
 .carousel-inner > .item {
   position: relative;
