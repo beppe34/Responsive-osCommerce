@@ -216,9 +216,9 @@ if (tep_not_null($image['catdesc'])) {
   } else { // default page
 ?>
 
-<div class="page-header">
-  <h1><?php echo HEADING_TITLE; ?></h1>
-</div>
+<!-- div class="page-header">
+  <h1><?php // echo HEADING_TITLE; ?></h1>
+</div -->
 
 <?php
   if ($messageStack->size('product_action') > 0) {
@@ -231,6 +231,7 @@ if (tep_not_null($image['catdesc'])) {
 </div>
 
 <?php
+    include('includes/modules/new_products.php');
   }
 
   require('includes/template_bottom.php');

@@ -14,9 +14,9 @@ define('NAVBAR_TITLE_1', 'Avancerad sökning');
 define('NAVBAR_TITLE_2', 'Sökresultat');
 
 define('HEADING_TITLE_1', 'Avancerad sökning');
-define('HEADING_TITLE_2', 'Produkter som stämmer överens med sökkriterium');
+define('HEADING_TITLE_2', 'Sökresultat');
 
-define('HEADING_SEARCH_CRITERIA', 'Sökkriterium');
+define('HEADING_SEARCH_CRITERIA', 'Sökfilter');
 
 define('TEXT_SEARCH_IN_DESCRIPTION', 'Sök också i beskrivningen');
 define('ENTRY_CATEGORIES', 'Kategorier:');

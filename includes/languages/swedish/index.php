@@ -11,7 +11,7 @@
 */
 
 define('TEXT_MAIN', '');
-define('TABLE_HEADING_NEW_PRODUCTS', 'Nya produkter för %s');
+define('TABLE_HEADING_NEW_PRODUCTS', 'Nyheter');
 define('TABLE_HEADING_UPCOMING_PRODUCTS', 'Kommande produkter');
 define('TABLE_HEADING_DATE_EXPECTED', 'Förväntad leveransdatum');
 define('HEADING_TITLE', 'Välkommen till ' . STORE_NAME);
