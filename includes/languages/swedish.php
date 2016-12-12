@@ -380,40 +380,40 @@ define('SN_THANK_YOU', 'Tack, när ');
 define('SN_BACK_IN_STOCK', ' åter finns i lager så meddelar vi dig med ett mejl.');
 // http://www.linuxuk.co.uk - Notify when back in stock. End
 // category views
-define('TEXT_VIEW', 'View: ');
-define('TEXT_VIEW_LIST', ' List');
-define('TEXT_VIEW_GRID', ' Grid');
+define('TEXT_VIEW', 'Visa: ');
+define('TEXT_VIEW_LIST', ' Lista');
+define('TEXT_VIEW_GRID', ' Tabell');
 
 // search placeholder
-define('TEXT_SEARCH_PLACEHOLDER','Search');
+define('TEXT_SEARCH_PLACEHOLDER','Sök');
 
 // message for required inputs
-define('FORM_REQUIRED_INFORMATION', '<span class="fa fa-asterisk text-danger"></span> Required information');
+define('FORM_REQUIRED_INFORMATION', '<span class="fa fa-asterisk text-danger"></span> Obligatorisk information');
 define('FORM_REQUIRED_INPUT', '<span><span class="fa fa-asterisk form-control-feedback text-danger"></span></span>');
 
 // reviews
 define('REVIEWS_TEXT_RATED', 'Rated %s by <cite title="%s" itemprop="author">%s</cite>');
 define('REVIEWS_TEXT_AVERAGE', 'Average rating based on <span itemprop="ratingCount">%s</span> review(s) %s');
-define('REVIEWS_TEXT_TITLE', 'What our customers say...');
+define('REVIEWS_TEXT_TITLE', 'Vad våra kunder säger...');
 
 // grid/list
-define('TEXT_SORT_BY', 'Sort By ');
+define('TEXT_SORT_BY', 'Sortera ');
 // moved from index
 define('TABLE_HEADING_IMAGE', '');
 define('TABLE_HEADING_MODEL', 'Model');
-define('TABLE_HEADING_PRODUCTS', 'Product Name');
-define('TABLE_HEADING_MANUFACTURER', 'Manufacturer');
-define('TABLE_HEADING_QUANTITY', 'Quantity');
-define('TABLE_HEADING_PRICE', 'Price');
-define('TABLE_HEADING_WEIGHT', 'Weight');
-define('TABLE_HEADING_BUY_NOW', 'Buy Now');
-define('TABLE_HEADING_LATEST_ADDED', 'Latest Products');
+define('TABLE_HEADING_PRODUCTS', 'Produkt');
+define('TABLE_HEADING_MANUFACTURER', 'Tillverkare');
+define('TABLE_HEADING_QUANTITY', 'Antal');
+define('TABLE_HEADING_PRICE', 'Pris');
+define('TABLE_HEADING_WEIGHT', 'Vikt');
+define('TABLE_HEADING_BUY_NOW', 'Köp nu');
+define('TABLE_HEADING_LATEST_ADDED', 'Senaste produkt');
 
 // product notifications
 define('PRODUCT_SUBSCRIBED', '%s has been added to your Notification List');
 define('PRODUCT_UNSUBSCRIBED', '%s has been removed from your Notification List');
-define('PRODUCT_ADDED', '%s has been added to your Cart');
-define('PRODUCT_REMOVED', '%s has been removed from your Cart');
+define('PRODUCT_ADDED', '%s har lagts i din varukorg');
+define('PRODUCT_REMOVED', '%s har tagits bort från din varukorg');
 
 // bootstrap helper
 define('MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION', '');
