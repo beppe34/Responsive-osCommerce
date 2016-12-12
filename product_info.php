@@ -158,7 +158,7 @@
     if ($products_attributes['total'] > 0) {
 //++++ QT Pro: Begin Changed code
       $products_id=(preg_match("/^\d{1,10}(\{\d{1,10}\}\d{1,10})*$/",$HTTP_GET_VARS['products_id']) ? $HTTP_GET_VARS['products_id'] : (int)$HTTP_GET_VARS['products_id']); 
-      require(DIR_WS_CLASSES . 'pad_' . PRODINFO_ATTRIBUTE_PLUGIN . '.php');
+      require(DIR_FS_CATALOG .  'includes/classes/pad_' . PRODINFO_ATTRIBUTE_PLUGIN . '.php');
       $class = 'pad_' . PRODINFO_ATTRIBUTE_PLUGIN;
       $pad = new $class($products_id);
       echo $pad->draw();

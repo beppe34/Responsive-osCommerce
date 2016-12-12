@@ -1,5 +1,6 @@
 <li class="dropdown"> 
-  <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo (tep_session_is_registered('customer_id')) ? sprintf(MODULE_NAVBAR_ACCOUNT_LOGGED_IN, $customer_first_name) : MODULE_NAVBAR_ACCOUNT_LOGGED_OUT; ?></a>
+  <!-- a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php // echo (tep_session_is_registered('customer_id')) ? sprintf(MODULE_NAVBAR_ACCOUNT_LOGGED_IN, $customer_first_name) : MODULE_NAVBAR_ACCOUNT_LOGGED_OUT; ?></a -->
+  <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo '<i class="fa fa-user"></i><span class="caret"></span>'; ?></a>
   <ul class="dropdown-menu">
     <?php
     if (tep_session_is_registered('customer_id')) {

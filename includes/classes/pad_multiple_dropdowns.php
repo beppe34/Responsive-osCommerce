@@ -45,7 +45,7 @@
         _draw_out_of_stock_message_js       draw Javascript to display out of stock message for out of
                                             stock attribute combinations
 */
-  require_once(DIR_WS_CLASSES . 'pad_base.php');
+  require_once( DIR_FS_CATALOG . 'includes/classes/pad_base.php');
 
   class pad_multiple_dropdowns extends pad_base {
 
