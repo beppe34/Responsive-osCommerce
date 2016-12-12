@@ -16,14 +16,14 @@
   Released under the GNU General Public License
 */
 
-define('NAVBAR_TITLE_1', 'Checkout');
+define('NAVBAR_TITLE_1', 'Kassan');
 define('NAVBAR_TITLE_2', 'Success');
-define('NAVBAR_TITLE_3', 'Personal Details');
-define('HEADING_TITLE', 'Your Personal Details');
-define('HEADING_TITLE_SUCCESS', 'Your Order Has Been Processed!');
-define('TITLE_PLEASE_SELECT', 'Please select: ');
-define('TEXT_ORIGIN_LOGIN', 'Note: If you already have an account with us, please login at the <a href="%s"><u>login page</u></a>.');
-define('TEXT_SUCCESS', 'Your order has been successfully processed! Your products will arrive at their destination within 2-5 working days.');
-define('ITEMS', '<strong>Items purchased</strong>');
-define('TEXT_THANKS_FOR_SHOPPING', '<strong>Thanks for shopping with us</strong>');
-define('TEXT_CONTACT_STORE_OWNER', 'Please forward any questions you may have to us on our <a class="btn btn-info" role="button" href="%s">Contact Us</a> page.');
+define('NAVBAR_TITLE_3', 'Kund information');
+define('HEADING_TITLE', 'Kund information');
+define('HEADING_TITLE_SUCCESS', 'Din order behandlas!');
+define('TITLE_PLEASE_SELECT', 'Välj: ');
+define('TEXT_ORIGIN_LOGIN', 'OBS: Har du ett konto hos oss kan du logga in här <a href="%s"><u>login page</u></a>.');
+define('TEXT_SUCCESS', 'Din order har skapats! Dina varor kommer att skickas enligt det leveransval du gjort.');
+define('ITEMS', '<strong>Varor</strong>');
+define('TEXT_THANKS_FOR_SHOPPING', '<strong>Tack för att du besöker oss</strong>');
+define('TEXT_CONTACT_STORE_OWNER', 'Har du frågor gällande denna order , använd detta formulär <a class="btn btn-info" role="button" href="%s">Kontakta oss</a> page.');

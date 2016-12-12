@@ -320,7 +320,7 @@
   }
 ?>
     <div class="form-group has-feedback">
-      <label for="inputEmail" class="control-label col-sm-3"><?php echo ENTRY_EMAIL_ADDRESS; ?></label>
+        <label for="inputEmail" class="control-label col-sm-3"><?php echo ENTRY_EMAIL_ADDRESS; ?><br><small>!kontrollera så denna blir korrekt!</small></label>
       <div class="col-sm-9">
         <?php
         echo tep_draw_input_field('email_address', NULL, 'required aria-required="true" id="inputEmail" placeholder="' . ENTRY_EMAIL_ADDRESS_TEXT . '"', 'email');
@@ -369,15 +369,6 @@
   }
 ?>
     <div class="form-group has-feedback">
-      <label for="inputCity" class="control-label col-sm-3"><?php echo ENTRY_CITY; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_draw_input_field('city', NULL, 'required aria-required="true" id="inputCity" placeholder="' . ENTRY_CITY_TEXT. '"');
-        echo FORM_REQUIRED_INPUT;
-        ?>
-      </div>
-    </div>
-    <div class="form-group has-feedback">
       <label for="inputZip" class="control-label col-sm-3"><?php echo ENTRY_POST_CODE; ?></label>
       <div class="col-sm-9">
         <?php
@@ -386,6 +377,16 @@
         ?>
      </div>
     </div>
+    <div class="form-group has-feedback">
+      <label for="inputCity" class="control-label col-sm-3"><?php echo ENTRY_CITY; ?></label>
+      <div class="col-sm-9">
+        <?php
+        echo tep_draw_input_field('city', NULL, 'required aria-required="true" id="inputCity" placeholder="' . ENTRY_CITY_TEXT. '"');
+        echo FORM_REQUIRED_INPUT;
+        ?>
+      </div>
+    </div>
+      
 <?php
   if (ACCOUNT_STATE == 'true') {
 ?>
@@ -421,9 +422,9 @@
       <label for="inputCountry" class="control-label col-sm-3"><?php echo ENTRY_COUNTRY; ?></label>
       <div class="col-sm-9">
         <?php
-        echo tep_get_country_list('country', NULL, 'required aria-required="true" aria-describedby="atCountry" id="inputCountry"');
+        echo tep_get_country_list('country', '203', 'required aria-required="true" aria-describedby="atCountry" id="inputCountry"');
         echo FORM_REQUIRED_INPUT;
-        if (tep_not_null(ENTRY_COUNTRY_TEXT)) echo '<span id="atCountry" class="help-block">' . ENTRY_COUNTRY_TEXT . '</span>';
+//        if (tep_not_null(ENTRY_COUNTRY_TEXT)) echo '<span id="atCountry" class="help-block">' . ENTRY_COUNTRY_TEXT . '</span>';
         ?>
       </div>
     </div>
