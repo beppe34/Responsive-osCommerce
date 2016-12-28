@@ -1680,6 +1680,52 @@
   	}
   }
 
+// BOF DEFAULT_SHIPPING_METHOD	
+	function tep_get_available_shipping_method () {
+	global $PHP_SELF, $language;
+    $module_type = 'shipping';
+    $module_directory = DIR_FS_CATALOG_MODULES . 'shipping/';
+    $module_key = 'MODULE_SHIPPING_INSTALLED';
+		$file_extension = substr($PHP_SELF, strrpos($PHP_SELF, '.'));
+  	$directory_array = array();
+  	if ($dir = @dir($module_directory)) {
+    	while ($file = $dir->read()) {
+      	if (!is_dir($module_directory . $file)) {
+       		if (substr($file, strrpos($file, '.')) == $file_extension) {
+          	$directory_array[] = $file;
+        	}
+      	}
+    	}
+    	sort($directory_array);
+    	$dir->close();
+  	}
+		
+		$installed_modules = array(array('id' => 'false', 'text' => 'false')); 
+		for ($i=0, $n=sizeof($directory_array); $i<$n; $i++) {
+			$file = $directory_array[$i];
+	
+			include(DIR_FS_CATALOG_LANGUAGES . $language . '/modules/' . $module_type . '/' . $file);
+			include($module_directory . $file);
+			
+			$class = substr($file, 0, strrpos($file, '.'));
+			if (tep_class_exists($class)) {
+      	$module = new $class;
+      	if ($module->check() > 0) {
+          $installed_modules[] = array('id' => $module->code,
+                                				'text' => $module->title);        	
+      	}
+			}
+		
+		}
+	return $installed_modules;
+	}
+																
+  function tep_cfg_pull_down_available_shipping_method() {
+	  
+    return tep_draw_pull_down_menu('configuration_value', tep_get_available_shipping_method (), DEFAULT_SHIPPING_METHOD);
+  }
+// EOF DEFAULT_SHIPPING_METHOD
+  
 //++++ QT Pro: Begin Changed code
 require('includes/functions/qtpro_functions.php');
 //++++ QT Pro: End Changed code

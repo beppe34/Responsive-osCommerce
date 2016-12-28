@@ -108,16 +108,48 @@
         $cheapest = false;
         for ($i=0, $n=sizeof($rates); $i<$n; $i++) {
           if (is_array($cheapest)) {
-            if ($rates[$i]['cost'] < $cheapest['cost']) {
+//	      if ($rates[$i]['cost'] < $cheapest['cost']) 
+            // sätter default shipping method till den billigaste som inte är 0
+//             \log::w(print_r($rates[$i],true));
+            if ($rates[$i]['cost'] < $cheapest['cost'] && $rates[$i]['cost'] > 0)
+            {
               $cheapest = $rates[$i];
             }
           } else {
             $cheapest = $rates[$i];
           }
         }
-
         return $cheapest;
       }
     }
+// BOF DEFAULT_SHIPPING_METHOD
+  function shipping_default($title) {
+   if (is_array($this->modules)) {
+    $monModule = array();
+    reset($this->modules);
+    while (list(, $value) = each($this->modules)) {
+     $class = substr($value, 0, strrpos($value, '.'));
+     if ($class == $title) {
+      if ($GLOBALS[$class]->enabled) {
+       $quotes = $GLOBALS[$class]->quotes;
+       $monModule_cost = "";
+        
+       for ($i=0, $n=sizeof($quotes['methods']); $i<$n; $i++) {
+        $monModule[] = array('id' => $quotes['id'] . '_' . $quotes['methods'][$i]['id'],
+        'title' => $quotes['module'] . ' (' . $quotes['methods'][$i]['title'] . ')',
+        'cost' => $quotes['methods'][$i]['cost']);
+        if (($monModule[$i]['cost'] < $monModule_cost ) || ($monModule_cost == '')) {
+         $monModule_cost = $monModule[$i]['cost'];
+         $shipping_default = $monModule[$i];
+        }
+       }
+      }
+     }
+    }
+   return $shipping_default;
+   }
+  }
+// EOF DEFAULT_SHIPPING_METHOD
+    
   }
 ?>

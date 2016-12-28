@@ -153,7 +153,17 @@
 // if the modules status was changed when none were available, to save on implementing
 // a javascript force-selection method, also automatically select the cheapest shipping
 // method if more than one module is now enabled
-  if ( !tep_session_is_registered('shipping') || ( tep_session_is_registered('shipping') && ($shipping == false) && (tep_count_shipping_modules() > 1) ) ) $shipping = $shipping_modules->cheapest();
+//  if ( !tep_session_is_registered('shipping') || ( tep_session_is_registered('shipping') && ($shipping == false) && (tep_count_shipping_modules() > 1) ) )   $shipping = $shipping_modules->cheapest();  
+// BOF DEFAULT_SHIPPING_METHOD
+  if (DEFAULT_SHIPPING_METHOD != 'false'){
+    if ( !tep_session_is_registered('shipping') || ( tep_session_is_registered('shipping') && ($shipping == false) && (tep_count_shipping_modules() > 1) ) ) $shipping = $shipping_modules->shipping_default(DEFAULT_SHIPPING_METHOD);
+  } else{
+// EOF DEFAULT_SHIPPING_METHOD
+    if ( !tep_session_is_registered('shipping') || ( tep_session_is_registered('shipping') && ($shipping == false) && (tep_count_shipping_modules() > 1) ) ) $shipping = $shipping_modules->cheapest();
+// BOF DEFAULT_SHIPPING_METHOD 
+  }
+// EOF DEFAULT_SHIPPING_METHOD
+
 
   require('includes/languages/' . $language . '/checkout_shipping.php');
 
@@ -236,7 +246,8 @@
 ?>
 
   <div class="contentText">
-    <table class="table table-striped table-condensed table-hover">
+    <!-- table id="shipmenttable" class="table table-striped table-condensed table-hover" -->
+    <table id="shipmenttable" name="shipmenttable" class="table table-condensed table-hover">
       <tbody>
 
 <?php
@@ -254,15 +265,29 @@
 
 <?php
     } else {
+      $radio_buttons = 0;
+      $row_selected_class = "danger";
+      
       for ($i=0, $n=sizeof($quotes); $i<$n; $i++) {
         for ($j=0, $n2=sizeof($quotes[$i]['methods']); $j<$n2; $j++) {
 // set the radio button to be checked if it is the method chosen
           $checked = (($quotes[$i]['id'] . '_' . $quotes[$i]['methods'][$j]['id'] == $shipping['id']) ? true : false);         
 
+//        if ( ($checked == true) || ($n == 1 && $n2 == 1) ) {
+//          echo '      <tr id="defaultSelected" class="moduleRowSelected" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="selectRowEffect(this, ' . $radio_buttons . ')">' . "\n";
+//        } else {
+//          echo '      <tr class="moduleRow" onmouseover="rowOverEffect(this)" onmouseout="rowOutEffect(this)" onclick="selectRowEffect(this, ' . $radio_buttons . ')">' . "\n";
+//        }
+        if ( ($checked == true) || ($n == 1 && $n2 == 1) ) {
+          echo '      <tr id="' . $radio_buttons . '_shippmentrow" class="clickable-row ' . $row_selected_class . '">' . "\n";
+        } else {
+          echo '      <tr id="' . $radio_buttons . '_shippmentrow" class="clickable-row">' . "\n";
+        }
+          
 ?>
-      <tr class="table-selection">
+      <!-- tr class="table-selection" -->
         <td>
-          <strong><?php echo $quotes[$i]['module']; ?></strong>
+          <strong><?php echo tep_draw_radio_field('shipping', $quotes[$i]['id'] . '_' . $quotes[$i]['methods'][$j]['id'], $checked, 'required aria-required="true"') . '&nbsp;&nbsp;' . $quotes[$i]['module']; ?></strong>
           <?php
           if (isset($quotes[$i]['icon']) && tep_not_null($quotes[$i]['icon'])) echo '&nbsp;' . $quotes[$i]['icon'];
           ?>
@@ -274,7 +299,7 @@
           ?>
 
           <?php
-          if (tep_not_null($quotes[$i]['methods'][$j]['title'])) echo '<div class="help-block">' . $quotes[$i]['methods'][$j]['title'] . '</div>';
+          if (tep_not_null($quotes[$i]['methods'][$j]['title'])) echo '<div class="help-block">' . '&nbsp;&nbsp;&nbsp;&nbsp;' . $quotes[$i]['methods'][$j]['title'] . '</div>';
           ?>
           </td>
 
@@ -289,7 +314,7 @@
             echo '&nbsp;';
           }
           else {
-            echo $currencies->format(tep_add_tax($quotes[$i]['methods'][$j]['cost'], (isset($quotes[$i]['tax']) ? $quotes[$i]['tax'] : 0))); ?>&nbsp;&nbsp;<?php echo tep_draw_radio_field('shipping', $quotes[$i]['id'] . '_' . $quotes[$i]['methods'][$j]['id'], $checked, 'required aria-required="true"');
+            echo $currencies->format(tep_add_tax($quotes[$i]['methods'][$j]['cost'], (isset($quotes[$i]['tax']) ? $quotes[$i]['tax'] : 0))); ?>&nbsp;&nbsp;<?php             
           }
           ?>
         </td>
@@ -307,6 +332,7 @@
       </tr>
 
 <?php
+        $radio_buttons++;
         }
       }
     }
@@ -362,6 +388,23 @@
 
 </form>
 
+<script type="text/javascript" ><!--
+<?php echo "var row_selected_class='" . $row_selected_class . "';"; ?>
+    $('#shipmenttable').on('click', '.clickable-row', function(event) {
+        
+        $(this).addClass(row_selected_class).siblings().removeClass(row_selected_class);
+        var radioindex = 0;
+        radioindex = this['id'][0];
+
+        if (document.checkout_address.shipping[0]) {
+            document.checkout_address.shipping[radioindex].checked=true;
+        } else {
+            document.checkout_address.shipping.checked=true;
+        }
+  
+    });
+    -->
+</script>
 <?php
   require('includes/template_bottom.php');
   require('includes/application_bottom.php');
