@@ -183,19 +183,21 @@
 
   <div class="contentText">
 
-    <table class="table table-striped table-condensed table-hover">
+    <!-- table class="table table-striped table-condensed table-hover" -->
+    <table id="payselecttable" name="payselecttable" class="table table-condensed table-hover">        
       <tbody>
 <?php
+  $row_selected_class = "danger";
   $radio_buttons = 0;
   for ($i=0, $n=sizeof($selection); $i<$n; $i++) {
 ?>
-      <tr class="table-selection">
-        <td><strong><?php echo $selection[$i]['module']; ?></strong></td>
+      <tr id="<?php echo $radio_buttons ?>_tr" class="clickable-row">
+        <td><strong><?php echo '<label style="float:left;">' . tep_draw_radio_field('payment', $selection[$i]['id'], ($selection[$i]['id'] == $payment), ' required aria-required="true"') . '&nbsp;&nbsp;</label>' . $selection[$i]['module']; ?></strong></td>
         <td align="right">
 
 <?php
     if (sizeof($selection) > 1) {
-      echo tep_draw_radio_field('payment', $selection[$i]['id'], ($selection[$i]['id'] == $payment), 'required aria-required="true"');
+//      echo  $selection[$i]['id'] ; //tep_draw_radio_field('payment', $selection[$i]['id'], ($selection[$i]['id'] == $payment), 'required aria-required="true"');
     } else {
       echo tep_draw_hidden_field('payment', $selection[$i]['id']);
     }
@@ -291,6 +293,28 @@
 </div>
 
 </form>
+<script type="text/javascript" src="includes/general.js"></script>
+<script type="text/javascript" ><!--
+<?php echo "var row_selected_class='" . $row_selected_class . "';"; ?>
+    $('#payselecttable').on('click', '.clickable-row', function(event) {
+        show_props(event);
+        $(this).addClass(row_selected_class).siblings().removeClass(row_selected_class);
+        var radioindex = 0;
+        radioindex = this['id'][0];
+
+        if (document.checkout_payment.payment[0]) {
+            document.checkout_payment.payment[radioindex].checked=true;
+//            $('input[name="payment"]:radio:first').prop('checked', true).trigger('click');
+//            $( 'input[name="payment"]:radio:first' ).click();
+            
+        } else {
+            document.checkout_payment.payment.checked=true;
+        }
+        
+  
+    });
+    -->
+</script>
 
 <?php
   require('includes/template_bottom.php');
