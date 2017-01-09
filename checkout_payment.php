@@ -191,7 +191,8 @@
   $radio_buttons = 0;
   for ($i=0, $n=sizeof($selection); $i<$n; $i++) {
 ?>
-      <tr id="<?php echo $radio_buttons ?>_tr" class="clickable-row">
+      <!-- tr id="<?php echo $radio_buttons ?>_tr" class="clickable-row" onclick="selectRowEffect(this,  $radio_buttons  )" -->
+    <?php echo '<tr id="' .  $radio_buttons  . '_tr" class="clickable-row" >'; ?>
         <td><strong><?php echo '<label style="float:left;">' . tep_draw_radio_field('payment', $selection[$i]['id'], ($selection[$i]['id'] == $payment), ' required aria-required="true"') . '&nbsp;&nbsp;</label>' . $selection[$i]['module']; ?></strong></td>
         <td align="right">
 
@@ -297,8 +298,8 @@
 <script type="text/javascript" ><!--
 <?php echo "var row_selected_class='" . $row_selected_class . "';"; ?>
     $('#payselecttable').on('click', '.clickable-row', function(event) {
-        show_props(event);
-        $(this).addClass(row_selected_class).siblings().removeClass(row_selected_class);
+        //klassen moduleRowSelected krävs för att Klarna skall Aktiveras.
+        $(this).addClass(row_selected_class + " moduleRowSelected").siblings().removeClass(row_selected_class + " moduleRowSelected");
         var radioindex = 0;
         radioindex = this['id'][0];
 
