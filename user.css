@@ -2,4 +2,11 @@
 /*QTpro*/
 .OutofStock { background-color: #FFCACB; }
 .OutofStockAttrib { font-family: Verdana, Arial, sans-serif; font-size: 10px;  background-color: #FFCACB; color: #000000; }
+.productSpecialPrice{
+
+  font-weight: bold;
+  color: #D8000C;
+  /* #ff0000; */
+}
+
 

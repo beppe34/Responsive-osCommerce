@@ -188,3 +188,9 @@ function IsLeapYear(intYear) {
 
   return false;
 }
+    function show_props(o){
+        var key;
+        for (key in o){
+            console.log("o["+ key +"]="+ o[key]);
+        }
+    }
