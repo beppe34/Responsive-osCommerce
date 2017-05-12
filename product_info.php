@@ -153,11 +153,11 @@
               <?php
 }
 //++++ QT Pro: End Changed Code
-    $products_attributes_query = tep_db_query("select count(*) as total from " . TABLE_PRODUCTS_OPTIONS . " popt, " . TABLE_PRODUCTS_ATTRIBUTES . " patrib where patrib.products_id='" . (int)$HTTP_GET_VARS['products_id'] . "' and patrib.options_id = popt.products_options_id and popt.language_id = '" . (int)$languages_id . "'");
+    $products_attributes_query = tep_db_query("select count(*) as total from " . TABLE_PRODUCTS_OPTIONS . " popt, " . TABLE_PRODUCTS_ATTRIBUTES . " patrib where patrib.products_id='" . (int)$_GET['products_id'] . "' and patrib.options_id = popt.products_options_id and popt.language_id = '" . (int)$languages_id . "'");
     $products_attributes = tep_db_fetch_array($products_attributes_query);
     if ($products_attributes['total'] > 0) {
 //++++ QT Pro: Begin Changed code
-      $products_id=(preg_match("/^\d{1,10}(\{\d{1,10}\}\d{1,10})*$/",$HTTP_GET_VARS['products_id']) ? $HTTP_GET_VARS['products_id'] : (int)$HTTP_GET_VARS['products_id']); 
+      $products_id=(preg_match("/^\d{1,10}(\{\d{1,10}\}\d{1,10})*$/",$_GET['products_id']) ? $_GET['products_id'] : (int)$_GET['products_id']); 
       require(DIR_FS_CATALOG .  'includes/classes/pad_' . PRODINFO_ATTRIBUTE_PLUGIN . '.php');
       $class = 'pad_' . PRODINFO_ATTRIBUTE_PLUGIN;
       $pad = new $class($products_id);

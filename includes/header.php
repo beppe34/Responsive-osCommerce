@@ -40,7 +40,6 @@
     <?php echo htmlspecialchars(stripslashes(urldecode($_GET['info_message']))); ?>
   </div>
 </div>
-
 <?php
   }
 ?>
