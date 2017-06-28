@@ -20,7 +20,7 @@
     $name = tep_db_prepare_input($_POST['name']);
     $email_address = tep_db_prepare_input($_POST['email']);
     $enquiry = tep_db_prepare_input($_POST['enquiry']);
-
+\log::w("contact_us: " . $email_address . " msg: " . $enquiry);
     if (!tep_validate_email($email_address)) {
       $error = true;
 

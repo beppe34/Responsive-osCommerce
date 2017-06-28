@@ -46,7 +46,9 @@
 
         $messageStack->add('password_forgotten', sprintf(ERROR_ACTION_RECORDER, (defined('MODULE_ACTION_RECORDER_RESET_PASSWORD_MINUTES') ? (int)MODULE_ACTION_RECORDER_RESET_PASSWORD_MINUTES : 5)));
       }
+\log::w("password_forgotten: " . $email_address . " pwdresetinitiated: " . $password_reset_initiated);      
     } else {
+\log::w("password_forgotten: " . $email_address . " Not found");
       $messageStack->add('password_forgotten', TEXT_NO_EMAIL_ADDRESS_FOUND);
     }
   }

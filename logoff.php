@@ -15,7 +15,7 @@
   require('includes/languages/' . $language . '/logoff.php');
 
   $breadcrumb->add(NAVBAR_TITLE);
-
+\log::w("customer_logoff: ");
   tep_session_unregister('customer_id');
   tep_session_unregister('customer_default_address_id');
   tep_session_unregister('customer_first_name');

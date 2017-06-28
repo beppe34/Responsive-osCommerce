@@ -58,7 +58,7 @@
 
 // restore cart contents
     $cart->restore_contents();
-
+\log::w("customer_login: id: " . $customer_id . " first_name: " . $customer_first_name); 
     if (sizeof($navigation->snapshot) > 0) {
       $origin_href = tep_href_link($navigation->snapshot['page'], tep_array_to_string($navigation->snapshot['get'], array(tep_session_name())), $navigation->snapshot['mode']);
       $navigation->clear_snapshot();

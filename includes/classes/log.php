@@ -6,22 +6,22 @@
  */
 class log {
     //put your code here
-      protected $defaultfilename = "debug.log";
-      protected $file = "debug.log";
+      protected $defaultfilename = "catalog.log";
+      protected $file = "catalog.log";
       protected $path = "";
       
       function __construct($f) {
 //echo $_SERVER['DOCUMENT_ROOT'];
           if($f=='') 
-            $this->file = $_SERVER['DOCUMENT_ROOT'] . '/catalog/pub/log/' . $this->defaultfilename;
+            $this->file = $_SERVER['DOCUMENT_ROOT'] . '/../log/' . $this->defaultfilename;
           else
-            $this->file = $_SERVER['DOCUMENT_ROOT'] . '/catalog/pub/log/' . $f;
+            $this->file = $_SERVER['DOCUMENT_ROOT'] . '/../log/' . $f;
 
       }
 
       public function write($text)
       {
-          return file_put_contents($this->file,$text . "\n\r" ,LOCK_EX|FILE_APPEND);
+          return file_put_contents($this->file,date("y-m-d H:i:s") . "|" . $_SERVER['REMOTE_ADDR'] . "| " . $text . "\n\r" ,LOCK_EX|FILE_APPEND);
       }
 
       public function writeexeption($exeption){

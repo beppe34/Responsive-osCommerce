@@ -12,7 +12,7 @@
 
   define('MODULE_PAYMENT_PAYSON_TEXT_TITLE', 'Betala med Payson');
   define('MODULE_PAYMENT_PAYSON_TEXT_DESCRIPTION', 'Betala med Payson');
-  define('PAYSON_ORDER_FROM', 'Best&auml;lling fr�n');
+  define('PAYSON_ORDER_FROM', 'Beställning från');
 
   // Admin page
-  define('PAYSON_PAYMENT_PAYSON_STATUS_ORDER_CREATED_SHORT',"Best&auml;llning har accepterats av Payson");
+  define('PAYSON_PAYMENT_PAYSON_STATUS_ORDER_CREATED_SHORT',"Beställning har accepterats av Payson");

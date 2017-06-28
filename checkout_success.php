@@ -40,6 +40,7 @@
   $breadcrumb->add(NAVBAR_TITLE_2);
 
   require('includes/template_top.php');
+  \log::w("checkout_success.");
 ?>
 
 <div class="page-header">

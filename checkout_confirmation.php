@@ -93,7 +93,7 @@
       tep_redirect(tep_href_link('shopping_cart.php'));
     }
   }
-
+\log::w("checkout_confirmation");
   require('includes/languages/' . $language . '/checkout_confirmation.php');
 
   $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link('checkout_shipping.php', '', 'SSL'));

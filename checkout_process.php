@@ -365,7 +365,7 @@
     }
   }
   tep_mail($order->customer['firstname'] . ' ' . $order->customer['lastname'], $order->customer['email_address'], EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
-
+\log::w("checkout_process: skapat order: " . $insert_id . "\n    payment: " . $order->info['payment_method'] . "\n    shipment: " . $order->info['shipment_method']);
 // send emails to other people
   if (SEND_EXTRA_ORDER_EMAILS_TO != '') {
     tep_mail('', SEND_EXTRA_ORDER_EMAILS_TO, EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);

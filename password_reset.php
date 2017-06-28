@@ -75,6 +75,7 @@
 
       tep_db_query("update " . TABLE_CUSTOMERS_INFO . " set customers_info_date_account_last_modified = now(), password_reset_key = null, password_reset_date = null where customers_info_id = '" . (int)$check_customer['customers_id'] . "'");
 
+\log::w("password_reset: password is success.");
       $messageStack->add_session('login', SUCCESS_PASSWORD_RESET, 'success');
 
       tep_redirect(tep_href_link('login.php', '', 'SSL'));

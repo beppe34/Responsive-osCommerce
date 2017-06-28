@@ -128,7 +128,7 @@
               $shipping = array('id' => $shipping,
                                 'title' => (($free_shipping == true) ?  $quote[0]['methods'][0]['title'] : $quote[0]['module'] . ' (' . $quote[0]['methods'][0]['title'] . ')'),
                                 'cost' => $quote[0]['methods'][0]['cost']);
-
+              
               tep_redirect(tep_href_link('checkout_payment.php', '', 'SSL'));
             }
           }
@@ -164,7 +164,8 @@
   }
 // EOF DEFAULT_SHIPPING_METHOD
 
-
+  \log::w("checkout_shipping: ");
+  
   require('includes/languages/' . $language . '/checkout_shipping.php');
 
   if ( defined('SHIPPING_ALLOW_UNDEFINED_ZONES') && (SHIPPING_ALLOW_UNDEFINED_ZONES == 'False') && !    tep_session_is_registered('shipping') && ($shipping == false) ) {

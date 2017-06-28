@@ -74,7 +74,7 @@
       }
     }
   }
-
+\log::w("checkout_payment: ");
   require('includes/classes/order.php');
   $order = new order;
 

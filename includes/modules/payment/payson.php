@@ -105,14 +105,14 @@ class payson{
      
 	function update_status(){
 		global $order;
-		
+\log::w("payson.php: update_status: ");		
 		// Checking payment zone and setting enabled / unabled
 		if ($this->enabled == true && (int)MODULE_PAYMENT_PAYSON_ZONE > 0){
         	$check_flag = false;
         	$check_query = tep_db_query("SELECT 
         									zone_id 
         								 FROM 
-        								 	" . TABLE_ZONES_TO_GEO_ZONES . " 
+        								 	zones_to_geo_zones 
         								 WHERE 
         								 	geo_zone_id     = '" . MODULE_PAYMENT_PAYSON_ZONE . "' AND 
         								 	zone_country_id = '" . $order->billing['country']['id'] . "' 
@@ -153,7 +153,7 @@ class payson{
     }
 
     function selection(){ 
-            return array('id' => $this->code, 'module' => $this->title . '<br/>' . tep_image(DIR_WS_IMAGES . "payson.png"));
+            return array('id' => $this->code, 'module' => $this->title . '<br/>' . tep_image(DIR_WS_CATALOG . "images/payson.png"));
     }
     
 	// Checking before processing order
@@ -177,9 +177,10 @@ class payson{
     {
     	global $order, $order_total_modules,$currencies;
     	
+\log::w("payson.php: before_process: ");
 		// Are we called from checkout_process? Update shipping address in that case
     	if(!empty($_GET['token']))
-		{		
+		{
 		/*	// Update shipping address before the order is persisted to DB
 			$token = $_GET['token'];
 			//$shippingAddress = $this->getShippingAddress($token);
@@ -221,7 +222,7 @@ class payson{
     	// Setting general data for Payson
     	$payson_data = array(
     						"returnUrl"                                   => tep_href_link("ext/modules/payment/payson/payson_payments_return.php"), //tep_href_link(FILENAME_CHECKOUT_SUCCESS),
-    						"cancelUrl"                                   => tep_href_link(FILENAME_CHECKOUT_PAYMENT),
+    						"cancelUrl"                                   => tep_href_link("checkout_payment.php"),
     						"ipnNotificationUrl"                          => tep_href_link("ext/modules/payment/payson/payson_payment_ipn_p.php"),
     						"currencyCode"                                => $currencies_code,
     						"memo"                                        => mb_convert_encoding(PAYSON_ORDER_FROM . " " . STORE_NAME, "ISO-8859-1", "UTF-8"),
@@ -252,7 +253,7 @@ class payson{
 	    for ($i = 0 ; $i < sizeof($order->products); $i++) 
 	    {
       		// Fetching products for order
-      		$payson_data['orderItemList.orderItem(' . $i . ').description']   = mb_convert_encoding($order->products[$i]['name'], "ISO-8859-1", "UTF-8");
+      		$payson_data['orderItemList.orderItem(' . $i . ').description']   = mb_convert_encoding(str_replace("\""," ", $order->products[$i]['name']), "ISO-8859-1", "UTF-8");
       		$payson_data['orderItemList.orderItem(' . $i . ').quantity']      = $order->products[$i]['qty'];
       		$payson_data['orderItemList.orderItem(' . $i . ').unitPrice']     = round($order->products[$i]['final_price'] * $currency_value, 4);
       		$payson_data['orderItemList.orderItem(' . $i . ').taxPercentage'] = $order->products[$i]['tax']/100;
@@ -275,7 +276,7 @@ class payson{
     	// Creating order totals modules for older versions of oscommerce
     	if(!is_object($order_total_modules))
     	{
-			require_once(DIR_WS_CLASSES . 'order_total.php');
+			require_once(DIR_FS_CATALOG . 'includes/classes/order_total.php');
 			$order_total_modules = new order_total;
 			$order_total_modules->process();
     	}
@@ -331,7 +332,7 @@ class payson{
 							}
 
 							// Fetching to order item list
-							$payson_data['orderItemList.orderItem(' . (sizeof($order->products) + $ot_i) . ').description']   = rtrim($GLOBALS[$class]->output[$i]['title'], ':');
+							$payson_data['orderItemList.orderItem(' . (sizeof($order->products) + $ot_i) . ').description']   = str_replace("\"","", rtrim($GLOBALS[$class]->output[$i]['title'], ':'));
 							$payson_data['orderItemList.orderItem(' . (sizeof($order->products) + $ot_i) . ').quantity']      = 1;
 							$payson_data['orderItemList.orderItem(' . (sizeof($order->products) + $ot_i) . ').unitPrice'] = $price;
 							$payson_data['orderItemList.orderItem(' . (sizeof($order->products) + $ot_i) . ').taxPercentage'] = $tax;
@@ -348,13 +349,16 @@ class payson{
 		
 		// Setting total amount
     	$payson_data['receiverList.receiver(0).amount'] = tep_round($total_amount, 2);
-    	
+
+\log::w("payson.php: Initialize_PAY with payson_data:\n" . print_r($payson_data,true));
     	// Send data to Payson and request a TOKEN for this payment
     	$token = $this->initialize_PAY($payson_data);
 
     	// if token exists
     	if(strlen($token) > 0)
     	{
+\log::w("payson.php: token: " . $token);
+            
     		// Inserting into Payson payments table
     		tep_db_perform(
 	    				"payson_payments",
@@ -365,7 +369,7 @@ class payson{
 		    					"payson_payments_status"      => '0',
 								"payson_payments_response"	  => NULL
 		    				)
-	    				);	
+	    				);
 
                 $redirect_url = MODULE_PAYMENT_PAYSON_MODE == 'SANDBOX' ? $this->test_redirect_url : $this->redirect_url;
     		// Redirecting user to Payson:  https://www.payson.se/paySecure/
@@ -378,9 +382,9 @@ class payson{
 	    	// $error_message = $matches[1];	    	
 			
 			$error_message = 'Failed to get TOKEN from Payson';
-	    	
+\log::w("payson.php: ERROR " . $error_message);
     		// Redirecting with error message
-    		tep_redirect(tep_href_link(FILENAME_CHECKOUT_PAYMENT, 'payment_error=payson_payments&error=' . urlencode($error_message), 'SSL', true, false));
+    		tep_redirect(tep_href_link("checkout_payment.php", 'payment_error=payson_payments&error=' . urlencode($error_message), 'SSL', true, false));
     	}
     	
 		return false;
@@ -398,7 +402,7 @@ class payson{
 									SELECT 
 										configuration_value 
 									FROM 
-										" . TABLE_CONFIGURATION . " 
+										configuration 
 									WHERE 
 										configuration_key = 'MODULE_PAYMENT_PAYSON_STATUS'
 									");
@@ -449,7 +453,9 @@ class payson{
 		} elseif (function_exists('curl_exec')) {
 			$curl = true;
 		}
-	
+                
+\log::w("payson.php: fsocket: " . $fsocket . " curl: " . $curl . " api_endpoint: " . $api_endpoint . " api_function: " . $api_function);
+
 		if ($fsocket == true) {
 			$header = 'POST /' . $api_function . '/' . "\r\n" .
             'Host: ' . $server . "\r\n" .
@@ -489,29 +495,32 @@ class payson{
 			$res = curl_exec($ch);
 			curl_close($ch);
 		}
-		
+\log::w("payson.php: header:\n" . print_r( $header,true));
+\log::w("payson.php: result from payson:\n" . print_r($res,true));
 		tep_mail($this->email_logg, $this->email_logg, "Log from Payson Card/Bank Module::API CALL(" . $api_function . ")", "Data: \r\n" . str_replace("&", "\r\n", $post_data) . "\r\n\r\n\r\n Response: \r\n" . str_replace("&", "\r\n", $res), "", "");			
 		
 		if($res === false)
-		{				
+		{
 			// Redirecting with error message
 			tep_redirect(tep_href_link(FILENAME_CHECKOUT_PAYMENT,
 									'payment_error=payson_payments&error='.
 									urlencode("Connection error!"),
 									'SSL', true, false));
-		}		
+		}
 		return 	$res;
 	}
 	
 	function validate_IPN($data)
 	{
+\log::w("payson.php: validate_IPN: data:\n" . print_r($data,true));
+
 		$result = $this->call_payson_api("validate", $data);
 		if(preg_match("/VERIFIED/i", $result))
 			return true;
 			
 		return false;
 	}
-	        function parseQuery($query) {
+        function parseQuery($query) {
             $ar = array();
             $a = explode('&', $query);
             foreach ($a as $k) {
@@ -576,7 +585,8 @@ class payson{
 	
 	function getShopLanguage(){
 		// Getting language data
-        $_lq = tep_db_query("SELECT * FROM " . TABLE_LANGUAGES . " l WHERE languages_id = '" . (int)$GLOBALS['languages_id'] .  "' LIMIT 1");
+            
+        $_lq = tep_db_query("SELECT * FROM languages l WHERE languages_id = '" . (int)$GLOBALS['languages_id'] .  "' LIMIT 1");
         while($_l = tep_db_fetch_array($_lq))
         {
         	$language_code = $_l['code'];	
@@ -585,6 +595,7 @@ class payson{
 		switch ( strtoupper($language_code) )
 		{ 
 			case 'SV':
+			case 'SW':
 			case 'SE':
 			case 'SVENSKA':
 			case 'SWEDISH':
@@ -617,7 +628,7 @@ class payson{
     function install(){
     	// Entry for Active / Inactive status check
 	    tep_db_perform(
-	    				TABLE_CONFIGURATION,
+	    				"configuration",
 		    				array(
 		    					"configuration_title"       => "Enable Payson Payments Module",
 		    					"configuration_key"         => "MODULE_PAYMENT_PAYSON_STATUS",
@@ -631,7 +642,7 @@ class payson{
 	    				);
             
             tep_db_perform(
-	    				TABLE_CONFIGURATION,
+	    				"configuration",
 		    				array(
 		    					"configuration_title"       => "Payment Sandbox/Live",
 		    					"configuration_key"         => "MODULE_PAYMENT_PAYSON_MODE",
@@ -646,7 +657,7 @@ class payson{
 	    
 	    // Entry for zone checking
 	    tep_db_perform(
-	    				TABLE_CONFIGURATION,
+	    				"configuration",
 		    				array(
 		    					"configuration_title"       => "Payment Zone",
 		    					"configuration_key"         => "MODULE_PAYMENT_PAYSON_ZONE",
@@ -662,7 +673,7 @@ class payson{
 	    				
 	    // Entry for standard orders status
 	    tep_db_perform(
-	    				TABLE_CONFIGURATION,
+	    				"configuration",
 		    				array(
 		    					"configuration_title"       => "Set Order Status",
 		    					"configuration_key"         => "MODULE_PAYMENT_PAYSON_ORDER_STATUS_ID",
@@ -678,7 +689,7 @@ class payson{
 	    				
 	    // Entry for payment method sort order
 	    tep_db_perform(
-	    				TABLE_CONFIGURATION,
+	    				"configuration",
 		    				array(
 		    					"configuration_title"       => "Sort order of display.",
 		    					"configuration_key"         => "MODULE_PAYMENT_PAYSON_SORT_ORDER",
@@ -692,7 +703,7 @@ class payson{
 	    					   
 	   	// Entry for Agent ID
 	    tep_db_perform(
-	    				TABLE_CONFIGURATION,
+	    				"configuration",
 		    				array(
 		    					"configuration_title"       => "API UserID (Agent ID)",
 		    					"configuration_key"         => "MODULE_PAYMENT_PAYSON_AGENT_ID",
@@ -706,7 +717,7 @@ class payson{
 	    				
 	    // Entry for Payson Password
 	    tep_db_perform(
-	    				TABLE_CONFIGURATION,
+	    				"configuration",
 		    				array(
 		    					"configuration_title"       => "API Password (API-Key)",
 		    					"configuration_key"         => "MODULE_PAYMENT_PAYSON_MD5KEY",
@@ -720,7 +731,7 @@ class payson{
 	    				
 	    // Entry for Payson email
 	    tep_db_perform(
-	    				TABLE_CONFIGURATION,
+	    				"configuration",
 		    				array(
 		    					"configuration_title"       => "Payson Email Address",
 		    					"configuration_key"         => "MODULE_PAYMENT_PAYSON_EMAIL_ADDRESS",
@@ -737,7 +748,7 @@ class payson{
 		// Entry for Payson payment method
 		
 	    tep_db_perform(
-	    				TABLE_CONFIGURATION,
+	    				"configuration",
 		    				array(
 		    					"configuration_title"       => "Payment method",
 		    					"configuration_key"         => "MODULE_PAYMENT_PAYSON_PAYMETHOD",
@@ -752,7 +763,7 @@ class payson{
 	    				    				
 		// Entry for Payson max order value
 	    tep_db_perform(
-	    				TABLE_CONFIGURATION,
+	    				"configuration",
 		    				array(
 		    					"configuration_title"       => "Credit limit",
 		    					"configuration_key"         => "MODULE_PAYMENT_PAYSON_ORDER_LIMIT",
@@ -766,7 +777,7 @@ class payson{
 
 	    // Entry for vat setting
 	    tep_db_perform(
-	    				TABLE_CONFIGURATION,
+	    				"configuration",
 		    				array(
 		    					"configuration_title"       => "Tax Class",
 		    					"configuration_key"         => "MODULE_PAYMENT_PAYSON_TAX_CLASS",
@@ -782,7 +793,7 @@ class payson{
 	    				
 	     // Ignore this tables
 	    tep_db_perform(
-	    				TABLE_CONFIGURATION,
+	    				"configuration",
 		    				array(
 		    					"configuration_title"       => "Ignore table",
 		    					"configuration_key"         => "MODULE_PAYMENT_PAYSON_ORDERS_TOTAL_IGNORE",
@@ -796,7 +807,7 @@ class payson{
 	    					    				
 	    // Payson Accepting Currencies
 	    tep_db_perform(
-	    				TABLE_CONFIGURATION,
+	    				"configuration",
 		    				array(
 		    					"configuration_title"       => "Accepted Currencies",
 		    					"configuration_key"         => "MODULE_PAYMENT_PAYSON_ACCEPTED_CURRENCIES",
@@ -810,7 +821,7 @@ class payson{
 	    				
 	    // Payson Exchange Currencies
 	    tep_db_perform(
-	    				TABLE_CONFIGURATION,
+	    				"configuration",
 		    				array(
 		    					"configuration_title"       => "Exchange Currencies To",
 		    					"configuration_key"         => "MODULE_PAYMENT_PAYSON_EXCHANGE_CURRENCIES",
@@ -824,7 +835,7 @@ class payson{
 	    				
 	    // Inserting email logg variable
 	     tep_db_perform(
-	    				TABLE_CONFIGURATION,
+	    				"configuration",
 		    				array(
 		    					"configuration_title"       => "Email logg address",
 		    					"configuration_key"         => "MODULE_PAYMENT_PAYSON_EMAIL_LOGG",
@@ -856,7 +867,7 @@ class payson{
     
 	// Uninstall function
 	function remove(){
-      tep_db_query("delete from " . TABLE_CONFIGURATION . " where configuration_key in ('" . implode("', '", $this->keys()) . "')");																			
+      tep_db_query("delete from configuration where configuration_key in ('" . implode("', '", $this->keys()) . "')");																			
 	}
 	
     function keys(){
@@ -889,7 +900,9 @@ class payson{
 		//----------------------------------------------------------------
 		$data  = array(	"token"    => urlencode($token),
 						"action"   => $update_cmd);
-		
+
+\log::w("payson.php: paysonPaymentUpdate: data:\n" . print_r($data,true));
+
 		$result = $this->call_payson_api('PAYMENTUPDATE', $data);
 		
 		return $this->paysonTokenResponseValidate($result);
@@ -912,7 +925,9 @@ class payson{
     function after_process() 
     {
     	global $insert_id, $order;
-     
+
+\log::w("payson.php: after_process: insert_id: " . $insert_id);
+
     	$sql_data_array = array('orders_id'         => $insert_id, 
 							    'orders_status_id'  => ($order->info['order_status']), 
 							    'date_added'        => 'now()', 
