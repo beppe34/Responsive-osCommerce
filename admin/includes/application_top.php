@@ -50,6 +50,9 @@
 // include the list of project database tables
   require('includes/database_tables.php');
 
+// Log klassen
+  require('includes/classes/logg.php');
+  
 // include the list of project files
 //  require('http://localhost:8000/catalog/includes/filenames.php');
   
