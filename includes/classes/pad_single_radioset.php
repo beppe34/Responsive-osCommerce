@@ -45,7 +45,7 @@
         _draw_stocked_attributes             draw attributes that stock is tracked for
   
 */
-  require_once(DIR_WS_CLASSES . 'pad_single_dropdown.php');
+  require_once(DIR_FS_CATALOG . 'includes/classes/' . 'pad_single_dropdown.php');
 
   class pad_single_radioset extends pad_single_dropdown {
 

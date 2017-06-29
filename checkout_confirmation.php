@@ -94,11 +94,11 @@
     }
   }
 \log::w("checkout_confirmation");
-  require('includes/languages/' . $language . '/checkout_confirmation.php');
-
+  require(DIR_FS_CATALOG . 'includes/languages/' . $language . '/checkout_confirmation.php');
+  
   $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link('checkout_shipping.php', '', 'SSL'));
   $breadcrumb->add(NAVBAR_TITLE_2);
-
+  
   require('includes/template_top.php');
 ?>
 

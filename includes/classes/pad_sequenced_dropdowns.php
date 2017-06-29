@@ -51,7 +51,7 @@
         _SetConfigurationProperties         set local properties
                                             
 */
-  require_once(DIR_WS_CLASSES . 'pad_multiple_dropdowns.php');
+  require_once(DIR_FS_CATALOG . 'includes/classes/' . 'pad_multiple_dropdowns.php');
 
   class pad_sequenced_dropdowns extends pad_multiple_dropdowns {
 

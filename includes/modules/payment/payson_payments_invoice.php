@@ -244,7 +244,7 @@ class payson_payments_invoice
     	// Setting general data for Payson
     	$payson_data = array(
     						"returnUrl"                                   => tep_href_link("ext/modules/payment/payson/payson_payments_return.php"),
-    						"cancelUrl"                                   => tep_href_link(FILENAME_CHECKOUT_PAYMENT),
+    						"cancelUrl"                                   => tep_href_link('checkout_payment.php'),
     						"ipnNotificationUrl"                          => tep_href_link("ext/modules/payment/payson/payson_payments_ipn.php"),
     						"currencyCode"                                => $currencies_code,
     						"memo"                                        => mb_convert_encoding(PAYSON_ORDER_FROM . " " . STORE_NAME, "ISO-8859-1", "UTF-8"),
@@ -290,7 +290,7 @@ class payson_payments_invoice
     	// Creating order totals modules for older versions of oscommerce
     	if(!is_object($order_total_modules))
     	{
-			require_once(DIR_WS_CLASSES . 'order_total.php');
+			require_once(DIR_FS_CATALOG . 'includes/classes/' . 'order_total.php');
 			$order_total_modules = new order_total;
 			$order_total_modules->process();
     	}
@@ -398,7 +398,7 @@ class payson_payments_invoice
 			$error_message = 'Failed to get TOKEN from Payson';
 	    	
     		// Redirecting with error message
-    		tep_redirect(tep_href_link(FILENAME_CHECKOUT_PAYMENT, 'payment_error=payson_payments&error=' . urlencode($error_message), 'SSL', true, false));
+    		tep_redirect(tep_href_link('checkout_payment.php', 'payment_error=payson_payments&error=' . urlencode($error_message), 'SSL', true, false));
     	}
     	
 		return false;
@@ -551,7 +551,7 @@ class payson_payments_invoice
 		if($res === false)
 		{				
 			// Redirecting with error message
-			tep_redirect(tep_href_link(FILENAME_CHECKOUT_PAYMENT,
+			tep_redirect(tep_href_link('checkout_payment.php',
 									'payment_error=payson_payments&error='.
 									urlencode("Connection error!"),
 									'SSL', true, false));
@@ -700,7 +700,7 @@ class payson_payments_invoice
 			switch ($newstatus){     
 			 case MODULE_PAYMENT_PAYSON_INV_DELIVERED_STATUS_ID:
 			   $new_invoice_status = "SHIPPED";
-			   //skriv not till events om begäran, oavsett
+			   //skriv not till events om begï¿½ran, oavsett
 			  $message = "FROM:".$res->fields['invoice_status'].":TO:".$new_invoice_status;
 			  $db->Execute(" INSERT INTO ".$paysonEvents." SET 
 								 event_tag      = 'SHOPORG_INV_STATUS_CHANGE_REQ',
@@ -714,7 +714,7 @@ class payson_payments_invoice
 
 			 case MODULE_PAYMENT_PAYSON_INV_CANCELED_STATUS_ID:
 			   $new_invoice_status = "ORDERCANCELED";
-				//skriv not till events om begäran, oavsett
+				//skriv not till events om begï¿½ran, oavsett
 			   $message = "FROM:".$res->fields['invoice_status'].":TO:".$new_invoice_status;
 			   $db->Execute(" INSERT INTO ".$paysonEvents." SET 
 								 event_tag      = 'SHOPORG_INV_STATUS_CHANGE_REQ',
@@ -738,7 +738,7 @@ class payson_payments_invoice
 			{
 				case MODULE_PAYMENT_PAYSON_INV_CREDIT_STATUS_ID:
 					$new_invoice_status = "CREDITED";
-					//skriv not till events om begäran, oavsett
+					//skriv not till events om begï¿½ran, oavsett
 					$message = "FROM:".$res->fields['invoice_status'].":TO:".$new_invoice_status;
 					$db->Execute(" INSERT INTO ".$paysonEvents." SET 
 									 event_tag      = 'SHOPORG_INV_STATUS_CHANGE_REQ',

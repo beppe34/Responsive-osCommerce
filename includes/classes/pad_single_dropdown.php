@@ -48,7 +48,7 @@
                                             stock attribute combinations
   
 */
-  require_once(DIR_WS_CLASSES . 'pad_base.php');
+  require_once(DIR_FS_CATALOG . 'includes/classes/' . 'pad_base.php');
 
   class pad_single_dropdown extends pad_base {
 

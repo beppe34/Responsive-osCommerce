@@ -716,7 +716,7 @@
 // Function to build menu of available class files given a file prefix
 // Used for configuring plug-ins for product information attributes
   function tep_cfg_pull_down_class_files($prefix, $current_file) {
-    $d=DIR_FS_CATALOG . DIR_WS_CLASSES;
+    $d=DIR_FS_CATALOG . 'includes/classes/';
     $function_directory = dir ($d);
 
     while (false !== ($function = $function_directory->read())) {

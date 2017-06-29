@@ -71,8 +71,8 @@ if (strlen($_GET["token"]) > 0) {
 
             // Hack for buysafe module problems
             if (!isset($buysafe_module)) {
-                if (file_exists(DIR_WS_CLASSES . "buysafe.php")) {
-                    include_once(DIR_WS_CLASSES . "buysafe.php");
+                if (file_exists(DIR_FS_CATALOG . 'includes/classes/' . "buysafe.php")) {
+                    include_once(DIR_FS_CATALOG . 'includes/classes/' . "buysafe.php");
                     $buysafe_module = new buysafe_class();
                 }
             }
