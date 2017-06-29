@@ -172,7 +172,7 @@ class KlarnaBase
         }
 
         $this->form_action_url = tep_href_link(
-            FILENAME_CHECKOUT_PROCESS, '', 'SSL', false
+            'checkout_process.php', '', 'SSL', false
         );
 
         $this->enabled = $this->_isEnabled();
@@ -550,20 +550,23 @@ LOGO;
         $moduleName = '';
         if ($this->_isInvoice()) {
             $moduleName = 'Invoice';
+            $newId = 16;
         } else if ($this->_isPart()) {
             $moduleName = 'Part Payment';
+            $newId = 18;
         } else if ($this->_isSpec()) {
             $moduleName = 'Campaign';
         }
 
-        tep_db_query(
-            "INSERT INTO " . TABLE_ORDERS_STATUS .
-            " (orders_status_id, orders_status_name, public_flag) ".
-            "VALUES ('$newId', 'Klarna Pending [{$moduleName}]', 0)"
-        );
+//        tep_db_query(
+//            "INSERT INTO " . TABLE_ORDERS_STATUS .
+//            " (orders_status_id, orders_status_name, public_flag) ".
+//            "VALUES ('$newId', 'Klarna Pending [{$moduleName}]', 0)"
+//        );
 
         $configuration = $this->_utils->getConfigArray($this->_option, $newId);
-
+require_once(DIR_FS_CATALOG. 'includes/classes/log.php');        
+\log::w("Klarna base configuration:\n" . print_r($configuration,true));
         $this->_utils->installModule($configuration);
     }
 

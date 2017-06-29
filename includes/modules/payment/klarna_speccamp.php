@@ -10,7 +10,7 @@
  * @license  http://opensource.org/licenses/BSD-2-Clause BSD2
  * @link     http://integration.klarna.com
  */
-require_once DIR_FS_CATALOG . 'includes/classes/klarna/class.KlarnaCore.php';
+require_once DIR_FS_CATALOG .'includes/classes/klarna/class.KlarnaCore.php';
 require_once DIR_KLARNA . 'class.KlarnaBase.php';
 
 /**

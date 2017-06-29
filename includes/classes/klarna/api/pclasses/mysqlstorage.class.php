@@ -109,15 +109,6 @@ class MySQLStorage extends PCStorage
     }
 
     /**
-     * convert from mysql_ to mysqli_ by Pierre
-     */
-    protected function mysql_p_query($sqlstring, $dbdummylink=null){
-        return mysqli_query($this->link,$sqlstring);
-    }
-    protected function mysql_p_error(){
-        return mysqli_error($this->link);
-    }
-    /**
      * Connects to the DB and checks if DB and table exists.
      *
      * @throws KlarnaException
@@ -125,24 +116,24 @@ class MySQLStorage extends PCStorage
      */
     protected function connect()
     {
-        $this->link = mysqli_connect($this->addr, $this->user, $this->passwd);
+        $this->link = mysql_connect($this->addr, $this->user, $this->passwd);
         if ($this->link === false) {
             throw new Klarna_DatabaseException(
-                'Failed to connect to database! ('. $this->mysql_p_error().')'
+                'Failed to connect to database! ('.mysql_error().')'
             );
         }
 
-        if (!$this->mysql_p_query(
+        if (!mysql_query(
             "CREATE DATABASE IF NOT EXISTS `{$this->dbName}`",
             $this->link
         )
         ) {
             throw new Klarna_DatabaseException(
-                'Failed to create! ('. $this->mysql_p_error().')'
+                'Failed to create! ('.mysql_error().')'
             );
         }
 
-        $create = $this->mysql_p_query(
+        $create = mysql_query(
             "CREATE TABLE IF NOT EXISTS `{$this->dbName}`.`{$this->dbTable}` (
                 `eid` int(10) unsigned NOT NULL,
                 `id` int(10) unsigned NOT NULL,
@@ -161,7 +152,7 @@ class MySQLStorage extends PCStorage
 
         if (!$create) {
             throw new Klarna_DatabaseException(
-                'Table not existing, failed to create! ('. $this->mysql_p_error().')'
+                'Table not existing, failed to create! ('.mysql_error().')'
             );
         }
     }
@@ -239,16 +230,16 @@ class MySQLStorage extends PCStorage
     {
         $this->splitURI($uri);
         $this->connect();
-        $result = $this->mysql_p_query(
+        $result = mysql_query(
             "SELECT * FROM `{$this->dbName}`.`{$this->dbTable}`",
             $this->link
         );
         if ($result === false) {
             throw new Klarna_DatabaseException(
-                'SELECT query failed! ('. $this->mysql_p_error().')'
+                'SELECT query failed! ('.mysql_error().')'
             );
         }
-        while ($row = mysqli_fetch_assoc($result)) {
+        while ($row = mysql_fetch_assoc($result)) {
             $this->addPClass(new KlarnaPClass($row));
         }
     }
@@ -273,14 +264,14 @@ class MySQLStorage extends PCStorage
         foreach ($this->pclasses as $pclasses) {
             foreach ($pclasses as $pclass) {
                 //Remove the pclass if it exists.
-                $this->mysql_p_query(
+                mysql_query(
                     "DELETE FROM `{$this->dbName}`.`{$this->dbTable}`
                      WHERE `id` = '{$pclass->getId()}'
                      AND `eid` = '{$pclass->getEid()}'"
                 );
 
                 //Insert it again.
-                $result = $this->mysql_p_query(
+                $result = mysql_query(
                     "INSERT INTO `{$this->dbName}`.`{$this->dbTable}`
                        (`eid`,
                         `id`,
@@ -309,7 +300,7 @@ class MySQLStorage extends PCStorage
                 );
                 if ($result === false) {
                     throw new Klarna_DatabaseException(
-                        'INSERT INTO query failed! ('. $this->mysql_p_error().')'
+                        'INSERT INTO query failed! ('.mysql_error().')'
                     );
                 }
             }
@@ -331,7 +322,7 @@ class MySQLStorage extends PCStorage
             unset($this->pclasses);
             $this->connect();
 
-            $this->mysql_p_query(
+            mysql_query(
                 "DELETE FROM `{$this->dbName}`.`{$this->dbTable}`",
                 $this->link
             );

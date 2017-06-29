@@ -493,7 +493,7 @@ class KlarnaUtils
     */
     public function addTransaction($paymentPlan, $addrs, $option)
     {
-        global $order, $currencies, $currency, $$link;
+        global $order, $currencies, $currency;
 
         $addrHandler = new KlarnaAddressOsc;
         // Fixes potential security problem.
@@ -604,17 +604,17 @@ class KlarnaUtils
             $q = "SELECT address_book_id FROM " . TABLE_ADDRESS_BOOK .
                 " WHERE customers_id = '" . (int)$customer_id .
                 "' AND entry_firstname = '" .
-                hvi_real_escape_string($order->delivery['firstname']) .
+                mysql_real_escape_string($order->delivery['firstname']) .
                 "' AND entry_lastname = '" .
-                hvi_real_escape_string($order->delivery['lastname']) .
+                mysql_real_escape_string($order->delivery['lastname']) .
                 "' AND entry_street_address = '" .
-                hvi_real_escape_string($order->delivery['street_address']) .
+                mysql_real_escape_string($order->delivery['street_address']) .
                 "' AND entry_postcode = '" .
-                hvi_real_escape_string($order->delivery['postcode']) .
+                mysql_real_escape_string($order->delivery['postcode']) .
                 "' AND entry_city = '" .
-                hvi_real_escape_string($order->delivery['city']) .
+                mysql_real_escape_string($order->delivery['city']) .
                 "' AND entry_company = '" .
-                hvi_real_escape_string($order->delivery['company']) . "'";
+                mysql_real_escape_string($order->delivery['company']) . "'";
             $check_address_query = tep_db_query($q);
             $check_address = tep_db_fetch_array($check_address_query);
             if (is_array($check_address) && count($check_address) > 0) {
@@ -654,7 +654,7 @@ class KlarnaUtils
 
             tep_redirect(
                 $this->errorLink(
-                    FILENAME_CHECKOUT_PAYMENT, '', 'SSL', true, false
+                    'checkout_payment.php', '', 'SSL', true, false
                 )
             );
         }
@@ -695,7 +695,7 @@ class KlarnaUtils
                 );
                 tep_redirect(
                     $this->errorLink(
-                        FILENAME_CHECKOUT_PAYMENT, '', 'SSL', true, false
+                        'checkout_payment.php', '', 'SSL', true, false
                     )
                 );
             }
@@ -713,7 +713,7 @@ class KlarnaUtils
                 );
                 tep_redirect(
                     $this->errorLink(
-                        FILENAME_CHECKOUT_PAYMENT, '', 'SSL', true, false
+                        'checkout_payment.php', '', 'SSL', true, false
                     )
                 );
             }
@@ -749,7 +749,7 @@ class KlarnaUtils
                 $option
             );
             tep_redirect(
-                $this->errorLink(FILENAME_CHECKOUT_PAYMENT, "", "SSL")
+                $this->errorLink('checkout_payment.php', "", "SSL")
             );
         }
 
@@ -1434,10 +1434,10 @@ class KlarnaUtils
      */
     public function updateOrderDatabase($customer, $admin)
     {
-        global $insert_id, $$link;
+        global $insert_id;
 
-        $orderid = hvi_real_escape_string($insert_id);
-        $refno = hvi_real_escape_string($_SESSION['klarna_refno']);
+        $orderid = mysql_real_escape_string($insert_id);
+        $refno = mysql_real_escape_string($_SESSION['klarna_refno']);
 
         $sql_data_arr = array(
             'orders_id' => $orderid,
@@ -1512,16 +1512,31 @@ class KlarnaUtils
 
         foreach ($configuration as $config) {
             $merged = array_merge($default, $config);
+\log::w("Klarna Utils install: merged\n" . print_r($merged,true));
+$arrayvalmerged = array_values($merged);
+\log::w("Klarna Utils install: merged\n" . print_r($arrayvalmerged,true));
+
             $query_string = implode(', ', array_keys($merged));
             $query_values = implode(
                 '", "', array_map(
                     "mysql_real_escape_string", array_values($merged)
                 )
             );
+            $query_values = "\"" . $arrayvalmerged[0] . "\",";
+            $query_values .= "\"" . $arrayvalmerged[1] . "\",";
+            $query_values .= "\"" . $arrayvalmerged[2] . "\",";
+            $query_values .= "\"" . $arrayvalmerged[3] . "\",";
+            $query_values .= "\"" . $arrayvalmerged[4] . "\",";
+            $query_values .= "\"" . $arrayvalmerged[5] . "\",";
+            $query_values .= "\"" . $arrayvalmerged[6] . "\",";
+            $query_values .= "\"" . $arrayvalmerged[7] . "\",";
+            $query_values .= "\"" . $arrayvalmerged[8] . "\"";
 
+\log::w("Klarna Utils install:\n" . "INSERT INTO ". TABLE_CONFIGURATION .
+                "({$query_string}) VALUES ({$query_values})");
             tep_db_query(
                 "INSERT INTO ". TABLE_CONFIGURATION .
-                "({$query_string}) VALUES (\"{$query_values}\")"
+                "({$query_string}) VALUES ({$query_values})"
             );
         }
     }
