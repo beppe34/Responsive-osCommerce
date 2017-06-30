@@ -16,6 +16,7 @@
 
   Released under the GNU General Public License
 */
+include_once(DIR_FS_CATALOG . "includes/classes/log.php");
 
   class payment {
     var $modules, $selected_module;
@@ -207,6 +208,7 @@
     function before_process() {
       if (is_array($this->modules)) {
         if (is_object($GLOBALS[$this->selected_module]) && ($GLOBALS[$this->selected_module]->enabled) ) {
+\log::w("payment.php before_prodess - module: " . $this->selected_module);
           return $GLOBALS[$this->selected_module]->before_process();
         }
       }

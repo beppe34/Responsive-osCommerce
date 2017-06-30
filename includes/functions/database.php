@@ -157,7 +157,13 @@
 
     return mysqli_get_server_info($$link);
   }
-
+  
+  function hvi_real_escape_string($unsafestring, $link = 'db_link'){
+      global $$link;
+      
+      return mysqli_real_escape_string($$link, $unsafestring);
+  }
+  
   if ( !function_exists('mysqli_connect') ) {
     define('MYSQLI_ASSOC', MYSQL_ASSOC);
 

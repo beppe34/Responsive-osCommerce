@@ -13,7 +13,7 @@
 
 require_once "class.KlarnaCore.php";
 require_once "class.KlarnaAddressOsc.php";
-
+include_once(DIR_FS_CATALOG . 'includes/classes/log.php');
 /**
  * Klarna Utils Class, containing shared functions.
  *
@@ -42,6 +42,7 @@ class KlarnaUtils
      */
     public function __construct($country = null)
     {
+\log::w("KlarnaUtils.php __construct Session: " . $_SESSION['klarna_data']['serial_addr']);
         if ($country === null) {
             $country = self::getCountryByID(STORE_COUNTRY);
         } else if (is_numeric($country)) {
@@ -61,6 +62,7 @@ class KlarnaUtils
      */
     public static function configureKiTT($option = null)
     {
+\log::w("KlarnaUtils.php configureKiTT Session: " . $_SESSION['klarna_data']['serial_addr']);
         // KiTT Configuration
         $mode = KlarnaConstant::mode($option);
         $configuration = array(
@@ -112,6 +114,7 @@ class KlarnaUtils
     */
     public function checkForLatestVersion()
     {
+\log::w("KlarnaUtils.php checkForLatestVersion Session: " . $_SESSION['klarna_data']['serial_addr']);                        
         $sURL = 'http://static.klarna.com:80/external/msbo/' .
             'osc231.latestversion.txt';
         $version = KlarnaCore::getCurrentVersion();
@@ -134,6 +137,8 @@ class KlarnaUtils
     public static function getLanguageCode()
     {
         global $languages_id, $lng;
+\log::w("KlarnaUtils.php getLanguageCode Session: " . $_SESSION['klarna_data']['serial_addr']);                
+
         if (is_array($lng)) {
             foreach ($lng->catalog_languages as $code => $language) {
                 if ($language['id'] === $languages_id) {
@@ -154,7 +159,7 @@ class KlarnaUtils
     public static function deduceCountry($option)
     {
         global $currency, $customer_country_id;
-
+\log::w("KlarnaUtils.php deduceCountry Session: " . $_SESSION['klarna_data']['serial_addr']);        
         $addr = null;
         if ($customer_country_id !== null) {
             $addr = new KlarnaAddr();
@@ -175,6 +180,7 @@ class KlarnaUtils
     */
     public static function getWebRoot()
     {
+\log::w("KlarnaUtils.php getWebRoot Session: " . $_SESSION['klarna_data']['serial_addr']);        
         global $request_type;
         return (($request_type == 'SSL') ? HTTPS_SERVER : HTTP_SERVER) .
             DIR_WS_CATALOG;
@@ -202,6 +208,7 @@ class KlarnaUtils
     public function klarnaOutputString(
         $string, $translate = false, $protected = false
     ) {
+\log::w("KlarnaUtils.php klarnaOutputString Session: " . $_SESSION['klarna_data']['serial_addr']);                
         if ($protected == true) {
             return htmlspecialchars($string);
         }
@@ -222,6 +229,7 @@ class KlarnaUtils
      */
     public static function getLanguageByID($id)
     {
+\log::w("KlarnaUtils.php getLanguageByID Session: " . $_SESSION['klarna_data']['serial_addr']);        
         if (isset(self::$_languageMap[$id])) {
             return self::$_languageMap[$id];
         }
@@ -243,6 +251,7 @@ class KlarnaUtils
      */
     public static function getCountryByID($id)
     {
+\log::w("KlarnaUtils.php getCountryByID Session: " . $_SESSION['klarna_data']['serial_addr']);        
         if (isset(self::$_countryMap[$id])) {
             return self::$_countryMap[$id];
         }
@@ -265,6 +274,7 @@ class KlarnaUtils
     */
     public static function getCountry($arg)
     {
+\log::w("KlarnaUtils.php getCountry Session: " . $_SESSION['klarna_data']['serial_addr']);
         if (is_object($arg) && is_array($arg->delivery)) {
             $arg = $arg->delivery;
         }
@@ -300,6 +310,7 @@ class KlarnaUtils
      */
     public function getInvoiceFee()
     {
+\log::w("KlarnaUtils.php getInvoiceFee Session: " . $_SESSION['klarna_data']['serial_addr']);                
         $country = strtoupper($this->_country);
         if (MODULE_KLARNA_FEE_MODE == 'fixed') {
             if (defined("MODULE_KLARNA_FEE_FIXED_{$country}")) {
@@ -379,6 +390,8 @@ class KlarnaUtils
     public function collectKlarnaData($order)
     {
         global $customer_id;
+\log::w("KlarnaUtils.php collectKlarnaData Session: " . $_SESSION['klarna_data']['serial_addr']);        
+
         $klarna_data = array();
 
         $klarna_data['phone_number'] = $order->customer['telephone'];
@@ -431,6 +444,7 @@ class KlarnaUtils
     */
     public function getValuesFromSession()
     {
+\log::w("KlarnaUtils.php getValuesFromSession Session: " . $_SESSION['klarna_data']['serial_addr']);        
         if (isset($_SESSION['klarna_data'])) {
             self::$prefillData = $_SESSION['klarna_data'];
             unset($_SESSION['klarna_data']);
@@ -493,7 +507,7 @@ class KlarnaUtils
     */
     public function addTransaction($paymentPlan, $addrs, $option)
     {
-        global $order, $currencies, $currency;
+        global $order, $currencies, $currency, $$link;
 
         $addrHandler = new KlarnaAddressOsc;
         // Fixes potential security problem.
@@ -604,17 +618,17 @@ class KlarnaUtils
             $q = "SELECT address_book_id FROM " . TABLE_ADDRESS_BOOK .
                 " WHERE customers_id = '" . (int)$customer_id .
                 "' AND entry_firstname = '" .
-                mysql_real_escape_string($order->delivery['firstname']) .
+                hvi_real_escape_string($order->delivery['firstname']) .
                 "' AND entry_lastname = '" .
-                mysql_real_escape_string($order->delivery['lastname']) .
+                hvi_real_escape_string($order->delivery['lastname']) .
                 "' AND entry_street_address = '" .
-                mysql_real_escape_string($order->delivery['street_address']) .
+                hvi_real_escape_string($order->delivery['street_address']) .
                 "' AND entry_postcode = '" .
-                mysql_real_escape_string($order->delivery['postcode']) .
+                hvi_real_escape_string($order->delivery['postcode']) .
                 "' AND entry_city = '" .
-                mysql_real_escape_string($order->delivery['city']) .
+                hvi_real_escape_string($order->delivery['city']) .
                 "' AND entry_company = '" .
-                mysql_real_escape_string($order->delivery['company']) . "'";
+                hvi_real_escape_string($order->delivery['company']) . "'";
             $check_address_query = tep_db_query($q);
             $check_address = tep_db_fetch_array($check_address_query);
             if (is_array($check_address) && count($check_address) > 0) {
@@ -670,6 +684,7 @@ class KlarnaUtils
     */
     public function handlePost($option)
     {
+\log::w("KlarnaUtils.php handlePost Session: " . $_SESSION['klarna_data']['serial_addr']);        
         $addrHandler = new KlarnaAddressOsc;
         $errors = array();
         $lang = self::getLanguageCode();
@@ -1003,6 +1018,8 @@ class KlarnaUtils
      */
     public function cleanPost()
     {
+\log::w("KlarnaUtils.php cleanPost Session: " . $_SESSION['klarna_data']['serial_addr']);        
+\log::w("KlarnaUtils.php cleanPost backtrace:\n " . $this->debug_string_backtrace());
         unset($_SESSION['klarna_data']);
         if ($_POST['payment'] != 'klarna_invoice') {
             $this->_cleanSpecificPost('invoice');
@@ -1015,6 +1032,21 @@ class KlarnaUtils
         }
     }
 
+    function debug_string_backtrace() { 
+        ob_start(); 
+        debug_print_backtrace(); 
+        $trace = ob_get_contents(); 
+        ob_end_clean(); 
+
+        // Remove first item from backtrace as it's this function which 
+        // is redundant. 
+        $trace = preg_replace ('/^#0\s+' . __FUNCTION__ . "[^\n]*\n/", '', $trace, 1); 
+
+        // Renumber backtrace items. 
+        $trace = preg_replace ('/^#(\d+)/me', '\'#\' . ($1 - 1)', $trace); 
+
+        return $trace; 
+    }     
     /**
      * Translate a string from the languagepack.
      *
@@ -1434,10 +1466,10 @@ class KlarnaUtils
      */
     public function updateOrderDatabase($customer, $admin)
     {
-        global $insert_id;
+        global $insert_id, $$link;
 
-        $orderid = mysql_real_escape_string($insert_id);
-        $refno = mysql_real_escape_string($_SESSION['klarna_refno']);
+        $orderid = hvi_real_escape_string($insert_id);
+        $refno = hvi_real_escape_string($_SESSION['klarna_refno']);
 
         $sql_data_arr = array(
             'orders_id' => $orderid,
@@ -1512,9 +1544,9 @@ class KlarnaUtils
 
         foreach ($configuration as $config) {
             $merged = array_merge($default, $config);
-\log::w("Klarna Utils install: merged\n" . print_r($merged,true));
+// \log::w("Klarna Utils install: merged\n" . print_r($merged,true));
 $arrayvalmerged = array_values($merged);
-\log::w("Klarna Utils install: merged\n" . print_r($arrayvalmerged,true));
+// \log::w("Klarna Utils install: merged\n" . print_r($arrayvalmerged,true));
 
             $query_string = implode(', ', array_keys($merged));
             $query_values = implode(
@@ -1532,8 +1564,8 @@ $arrayvalmerged = array_values($merged);
             $query_values .= "\"" . $arrayvalmerged[7] . "\",";
             $query_values .= "\"" . $arrayvalmerged[8] . "\"";
 
-\log::w("Klarna Utils install:\n" . "INSERT INTO ". TABLE_CONFIGURATION .
-                "({$query_string}) VALUES ({$query_values})");
+// \log::w("Klarna Utils install:\n" . "INSERT INTO ". TABLE_CONFIGURATION .
+ //               "({$query_string}) VALUES ({$query_values})");
             tep_db_query(
                 "INSERT INTO ". TABLE_CONFIGURATION .
                 "({$query_string}) VALUES ({$query_values})"

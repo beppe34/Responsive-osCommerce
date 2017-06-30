@@ -11,7 +11,7 @@
 */
 
   require('includes/application_top.php');
-
+  \log::w("checkout_payment.php START");  
 // if the customer is not logged on, redirect them to the login page
   if (!tep_session_is_registered('customer_id')) {
     $navigation->set_snapshot();
@@ -320,4 +320,5 @@
 <?php
   require('includes/template_bottom.php');
   require('includes/application_bottom.php');
+  \log::w("checkout_payment.php END");    
 ?>

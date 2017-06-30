@@ -12,7 +12,7 @@
  */
 
 require_once 'class.KlarnaCore.php';
-
+require_once(DIR_FS_CATALOG . 'includes/classes/log.php');
 /**
  * Klarna Base Module
  *
@@ -102,7 +102,7 @@ class KlarnaBase
     public function __construct($option)
     {
         global $order, $currency, $customer_country_id;
-
+\log::w("KlarnaBase.php construct");
         $this->api_version = KlarnaCore::getCurrentVersion();
         $this->jQuery = false;
         $this->enabled = true;
@@ -444,9 +444,9 @@ LOGO;
     {
         global $order, $customer_id, $currency, $currencies, $sendto, $billto,
             $klarna_ot;
-
+\log::w("KlarnaBase.php beforeProcess " . $_SESSION['klarna_data']['serial_addr']);
         $this->_paymentPlan = $_POST['klarna_paymentPlan'];
-
+\log::w("KlarnaBase.php 1");
         $this->_utils->buildCart(
             $customer_id,
             $order,
@@ -454,14 +454,15 @@ LOGO;
             $this->code,
             $this->_paymentPlan
         );
-
+\log::w("KlarnaBase.php 2");
         $this->_addrs = unserialize($_SESSION['klarna_data']['serial_addr']);
-
+\log::w("KlarnaBase.php 3");
         $this->_utils->addTransaction(
             $this->_paymentPlan,
             $this->_addrs,
             $this->_option
         );
+\log::w("KlarnaBase.php 4");        
     }
 
     /**

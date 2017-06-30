@@ -19,7 +19,7 @@
 */
 
   include('includes/application_top.php');
-
+  \log::w("checkout_process.php START " . $_SESSION['klarna_data']['serial_addr']);  
 // if the customer is not logged on, redirect them to the login page
   if (!tep_session_is_registered('customer_id')) {
     $navigation->set_snapshot(array('mode' => 'SSL', 'page' => 'checkout_payment.php'));
@@ -74,20 +74,22 @@
     }
   }
 
+  \log::w("checkout_process: payment update status : " . $_SESSION['klarna_data']['serial_addr']);
   $payment_modules->update_status();
+\log::w("checkout_process: payment update status KLART: " . $_SESSION['klarna_data']['serial_addr']);
 
   if ( ($payment_modules->selected_module != $payment) || ( is_array($payment_modules->modules) && (sizeof($payment_modules->modules) > 1) && !is_object($$payment) ) || (is_object($$payment) && ($$payment->enabled == false)) ) {
     tep_redirect(tep_href_link('checkout_payment.php', 'error_message=' . urlencode(ERROR_NO_PAYMENT_MODULE_SELECTED), 'SSL'));
   }
-
+\log::w("checkout_process: 1");
   require('includes/classes/order_total.php');
   $order_total_modules = new order_total;
-
+\log::w("checkout_process: 2");
   $order_totals = $order_total_modules->process();
-
+\log::w("checkout_process: 3" . $_SESSION['klarna_data']['serial_addr']);
 // load the before_process function from the payment modules
   $payment_modules->before_process();
-
+\log::w("checkout_process: 4");
   $sql_data_array = array('customers_id' => $customer_id,
                           'customers_name' => $order->customer['firstname'] . ' ' . $order->customer['lastname'],
                           'customers_company' => $order->customer['company'],
@@ -129,6 +131,7 @@
                           'currency_value' => $order->info['currency_value']);
   tep_db_perform(TABLE_ORDERS, $sql_data_array);
   $insert_id = tep_db_insert_id();
+\log::w("checkout_process: 5");  
   for ($i=0, $n=sizeof($order_totals); $i<$n; $i++) {
     $sql_data_array = array('orders_id' => $insert_id,
                             'title' => $order_totals[$i]['title'],
@@ -138,7 +141,7 @@
                             'sort_order' => $order_totals[$i]['sort_order']);
     tep_db_perform(TABLE_ORDERS_TOTAL, $sql_data_array);
   }
-
+\log::w("checkout_process: 6");
   $customer_notification = (SEND_EMAILS == 'true') ? '1' : '0';
   $sql_data_array = array('orders_id' => $insert_id, 
                           'orders_status_id' => $order->info['order_status'], 
@@ -146,10 +149,10 @@
                           'customer_notified' => $customer_notification,
                           'comments' => $order->info['comments']);
   tep_db_perform(TABLE_ORDERS_STATUS_HISTORY, $sql_data_array);
-
+\log::w("checkout_process: 7");
 // initialized for the email confirmation
   $products_ordered = '';
-
+\log::w("checkout_process: processar produkter : ");
   for ($i=0, $n=sizeof($order->products); $i<$n; $i++) {
 //++++ QT Pro: Begin Changed code
     $products_stock_attributes=null;
@@ -252,7 +255,7 @@
 //++++ QT Pro: End Changed Code    
     tep_db_perform(TABLE_ORDERS_PRODUCTS, $sql_data_array);
     $order_products_id = tep_db_insert_id();
-
+\log::w("checkout_process: insertat product i orderproducts : ");
 //------insert customer choosen option to order--------
     $attributes_exist = '0';
     $products_ordered_attributes = '';
@@ -299,7 +302,7 @@
 //------insert customer choosen option eof ----
     $products_ordered .= $order->products[$i]['qty'] . ' x ' . $order->products[$i]['name'] . ' (' . $order->products[$i]['model'] . ') = ' . $currencies->display_price($order->products[$i]['final_price'], $order->products[$i]['tax'], $order->products[$i]['qty']) . $products_ordered_attributes . "\n";
   }
-
+\log::w("checkout_process: ska bearbeta discount: ");
   // Discount Codes 4.1 BS - start
   if (MODULE_ORDER_TOTAL_DISCOUNT_STATUS == 'true' && !empty($discount)) {
     $discount_codes_query = tep_db_query("select discount_codes_id from discount_codes where discount_codes = '" . tep_db_input($sess_discount_code) . "'");
@@ -341,7 +344,7 @@
                   EMAIL_SEPARATOR . "\n" . 
                   $products_ordered . 
                   EMAIL_SEPARATOR . "\n";
-
+\log::w("checkout_process: looping ordertotals: ");
   for ($i=0, $n=sizeof($order_totals); $i<$n; $i++) {
     $email_order .= strip_tags($order_totals[$i]['title']) . ' ' . strip_tags($order_totals[$i]['text']) . "\n";
   }
@@ -365,15 +368,17 @@
     }
   }
   tep_mail($order->customer['firstname'] . ' ' . $order->customer['lastname'], $order->customer['email_address'], EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
-\log::w("checkout_process: skapat order: " . $insert_id . "\n    payment: " . $order->info['payment_method'] . "\n    shipment: " . $order->info['shipment_method']);
+\log::w("checkout_process: skickat mejl: ");
 // send emails to other people
   if (SEND_EXTRA_ORDER_EMAILS_TO != '') {
     tep_mail('', SEND_EXTRA_ORDER_EMAILS_TO, EMAIL_TEXT_SUBJECT, $email_order, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
   }
 
 // load the after_process function from the payment modules
+  \log::w("checkout_process.php calling after_process()");  
   $payment_modules->after_process();
-
+  
+  \log::w("checkout_process.php calling cart->reset(true)");    
   $cart->reset(true);
 
 // unregister session variables used during checkout
@@ -386,4 +391,5 @@
   tep_redirect(tep_href_link('checkout_success.php', '', 'SSL'));
 
   require('includes/application_bottom.php');
+  \log::w("checkout_process.php END");    
 ?>

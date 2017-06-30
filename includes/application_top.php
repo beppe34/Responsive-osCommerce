@@ -40,7 +40,9 @@
 
 // Log klassen
   require('includes/classes/log.php');
-  
+$actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";  
+\log::w("application_top.php request: " . $actual_link . "\n -- "  . print_r( $_REQUEST,true));
+
 // some code to solve compatibility issues
   require('includes/functions/compatibility.php');
 
@@ -257,10 +259,12 @@
 
 // create the shopping cart
   if (!tep_session_is_registered('cart') || !is_object($cart)) {
+\log::w("Register cart in session");      
     tep_session_register('cart');
     $cart = new shoppingCart;
+\log::w("New cart object");    
   }
-
+\log::w("cart object: " . print_r($cart,true));
 // include currencies class and create an instance
   require('includes/classes/currencies.php');
   $currencies = new currencies();
@@ -339,7 +343,7 @@
     }
     switch ($_GET['action']) {
       // customer wants to update the product quantity in their shopping cart
-      case 'update_product' : \log::w("Update cart product: " . print_r($_POST,true));
+      case 'update_product' : 
                               $n=sizeof($_POST['products_id']);
                               for ($i=0; $i<$n; $i++) {
                                 if (in_array($_POST['products_id'][$i], (is_array($_POST['cart_delete']) ? $_POST['cart_delete'] : array()))) {
@@ -353,7 +357,7 @@
                               tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
                               break;
       // customer adds a product from the products page
-      case 'add_product' :    \log::w("Add cart product: " . print_r($_POST,true));
+      case 'add_product' :    
                               if (isset($HTTP_POST_VARS['products_id']) && is_numeric($HTTP_POST_VARS['products_id'])) {
 
 //++++ QT Pro: Begin Changed code
@@ -379,7 +383,7 @@
                               tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
                               break;
       // customer removes a product from their shopping cart
-      case 'remove_product' : \log::w("Remove cart product: " . print_r($_GET,true));
+      case 'remove_product' : 
                               if (isset($_GET['products_id'])) {
                                 $cart->remove($_GET['products_id']);
                                 $messageStack->add_session('product_action', sprintf(PRODUCT_REMOVED, tep_get_products_name($_GET['products_id'])), 'warning');
@@ -387,7 +391,7 @@
                               tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
                               break;
       // performed by the 'buy now' button in product listings and review page
-      case 'buy_now' :        \log::w("Buy now cart product: " . print_r($_GET,true));
+      case 'buy_now' :        
                               if (isset($_GET['products_id'])) {
                                 if (tep_has_product_attributes($_GET['products_id'])) {
                                   tep_redirect(tep_href_link('product_info.php', 'products_id=' . $_GET['products_id']));
@@ -398,7 +402,7 @@
                               }
                               tep_redirect(tep_href_link($goto, tep_get_all_get_params($parameters)));
                               break;
-      case 'notify' :         \log::w("Notify: " . print_r($_GET,true));
+      case 'notify' :        
                               if (tep_session_is_registered('customer_id')) {
                                 if (isset($_GET['products_id'])) {
                                   $notify = $_GET['products_id'];
@@ -425,7 +429,7 @@
                                 tep_redirect(tep_href_link('login.php', '', 'SSL'));
                               }
                               break;
-      case 'notify_remove' :  \log::w("Notify remove: " . print_r($_GET,true));
+      case 'notify_remove' :  
                               if (tep_session_is_registered('customer_id') && isset($_GET['products_id'])) {
                                 $check_query = tep_db_query("select count(*) as count from " . TABLE_PRODUCTS_NOTIFICATIONS . " where products_id = '" . (int)$_GET['products_id'] . "' and customers_id = '" . (int)$customer_id . "'");
                                 $check = tep_db_fetch_array($check_query);
@@ -439,7 +443,7 @@
                                 tep_redirect(tep_href_link('login.php', '', 'SSL'));
                               }
                               break;
-      case 'cust_order' :     \log::w("Customer order: " . print_r($_GET,true));
+      case 'cust_order' :     
                               if (tep_session_is_registered('customer_id') && isset($_GET['pid'])) {
                                 if (tep_has_product_attributes($_GET['pid'])) {
                                   tep_redirect(tep_href_link('product_info.php', 'products_id=' . $_GET['pid']));

@@ -11,7 +11,7 @@
 */
 
   require('includes/application_top.php');
-
+\log::w("checkout_confirmation.php START");
 // if the customer is not logged on, redirect them to the login page
   if (!tep_session_is_registered('customer_id')) {
     $navigation->set_snapshot(array('mode' => 'SSL', 'page' => 'checkout_payment.php'));
@@ -93,7 +93,7 @@
       tep_redirect(tep_href_link('shopping_cart.php'));
     }
   }
-\log::w("checkout_confirmation");
+
   require(DIR_FS_CATALOG . 'includes/languages/' . $language . '/checkout_confirmation.php');
   
   $breadcrumb->add(NAVBAR_TITLE_1, tep_href_link('checkout_shipping.php', '', 'SSL'));
@@ -317,4 +317,5 @@
 <?php
   require('includes/template_bottom.php');
   require('includes/application_bottom.php');
+  \log::w("checkout_confirmation.php END");
 ?>
