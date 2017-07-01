@@ -15,6 +15,7 @@ define('NAVBAR_TITLE', 'Recensioner');
 define('SUB_TITLE_FROM', 'Från:');
 define('SUB_TITLE_REVIEW', 'Din recension:');
 define('SUB_TITLE_RATING', 'Betyg:');
+define('SUB_TITLE_REVIEW_TEXT', 'Din recension...');
 
 define('TEXT_NO_HTML', '<small><font color="#ff0000"><strong>OBS:</strong></font></small>&nbsp;HTML översätts inte!');
 define('TEXT_BAD', '<small><font color="#ff0000"><b>DÅLIG</b></font></small>');

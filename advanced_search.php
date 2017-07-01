@@ -177,7 +177,7 @@ function check_form() {
       </div>
     </div>
     <div class="form-group">
-      <label for="PriceFrom" class="control-label col-sm-3"><?php echo ENTRY_PRICE_FROM; ?></label>
+      <label for="PriceFrom" class="control-label col-sm-3"><?php echo ENTRY_PRICE_FROM ?></label>
       <div class="col-sm-9">
         <?php
         echo tep_draw_input_field('pfrom', '', 'id="PriceFrom" placeholder="' . ENTRY_PRICE_FROM_TEXT . '"');

@@ -22,5 +22,5 @@ define('ADDRESS_BOOK_TITLE', 'Inlägg i adressboken');
 
 define('PRIMARY_ADDRESS', '(Huvudadress)');
 
-define('TEXT_MAXIMUM_ENTRIES', '<font color="#ff0000"><strong>NOTE:</strong></font> Max %s inlägg i adressboken tillåts.');
+define('TEXT_MAXIMUM_ENTRIES', '<font color="#ff0000"><strong>OBS:</strong></font> Max %s adresser tillåts.');
 ?>

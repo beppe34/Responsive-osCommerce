@@ -27,6 +27,11 @@ define('ENTRY_PRICE_TO', 'Pris till:');
 define('ENTRY_DATE_FROM', 'Datum från:');
 define('ENTRY_DATE_TO', 'Datum till:');
 
+define('ENTRY_PRICE_FROM_TEXT', '');
+define('ENTRY_PRICE_TO_TEXT', '');
+define('ENTRY_DATE_FROM_TEXT', '');
+define('ENTRY_DATE_TO_TEXT', '');
+
 define('TEXT_SEARCH_HELP_LINK', '<u>Sökhjälp</u> [?]');
 
 define('TEXT_ALL_CATEGORIES', 'Alla kategorier');

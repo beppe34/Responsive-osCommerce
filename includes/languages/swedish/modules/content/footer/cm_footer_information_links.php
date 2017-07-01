@@ -10,13 +10,13 @@
   Released under the GNU General Public License
 */
 
-  define('MODULE_CONTENT_FOOTER_INFORMATION_TITLE', 'Information Links Block');
-  define('MODULE_CONTENT_FOOTER_INFORMATION_DESCRIPTION', 'Adds Information Links Block to the Footer Area of your site');
+  define('MODULE_CONTENT_FOOTER_INFORMATION_TITLE', 'Informations Länkar');
+  define('MODULE_CONTENT_FOOTER_INFORMATION_DESCRIPTION', 'Lägger till informationslänkar nederst på sidan');
 
   define('MODULE_CONTENT_FOOTER_INFORMATION_HEADING_TITLE', 'Information');
 
-  define('MODULE_CONTENT_FOOTER_INFORMATION_SHIPPING', 'Shipping & Returns');
-  define('MODULE_CONTENT_FOOTER_INFORMATION_PRIVACY', 'Privacy & Cookie Policy');
-  define('MODULE_CONTENT_FOOTER_INFORMATION_CONDITIONS', 'Terms & Conditions');
-  define('MODULE_CONTENT_FOOTER_INFORMATION_CONTACT', 'Contact Us');
+  define('MODULE_CONTENT_FOOTER_INFORMATION_SHIPPING', 'Leverans & returer');
+  define('MODULE_CONTENT_FOOTER_INFORMATION_PRIVACY', 'Användarvillkor & Cookies');
+  define('MODULE_CONTENT_FOOTER_INFORMATION_CONDITIONS', 'Villkor');
+  define('MODULE_CONTENT_FOOTER_INFORMATION_CONTACT', 'Kontakta oss');
 

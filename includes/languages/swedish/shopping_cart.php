@@ -21,6 +21,8 @@ define('OUT_OF_STOCK_CANT_CHECKOUT', 'Produkter markerade med ' . STOCK_MARK_PRO
 define('OUT_OF_STOCK_CAN_CHECKOUT', 'Produkter markerade med ' . STOCK_MARK_PRODUCT_OUT_OF_STOCK . ' finns det inte tillräckligt många av på lagret just nu.<br />Du kan köpa dom som vi har på lagret just nu för leverans direkt.');
 
 define('TEXT_ALTERNATIVE_CHECKOUT_METHODS', '- OR -');
+define('CART_BUTTON_UPDATE', '');
+define('CART_BUTTON_REMOVE', '');
 define('TEXT_OR', 'eller ');
 define('TEXT_REMOVE', 'Ta bort');
 ?>
