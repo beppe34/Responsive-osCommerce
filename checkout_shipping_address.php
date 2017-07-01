@@ -230,9 +230,6 @@
   <h2><?php echo TABLE_HEADING_SHIPPING_ADDRESS; ?></h2>
 
   <div class="contentText row">
-    <div class="col-sm-8">
-      <div class="alert alert-warning"><?php echo TEXT_SELECTED_SHIPPING_DESTINATION; ?></div>
-    </div>
     <div class="col-sm-4">
       <div class="panel panel-primary">
         <div class="panel-heading"><?php echo TITLE_SHIPPING_ADDRESS; ?></div>
@@ -242,6 +239,10 @@
         </div>
       </div>
     </div>
+    <div class="col-sm-8">
+      <div class="alert alert-warning"><?php echo TEXT_SELECTED_SHIPPING_DESTINATION; ?></div>
+    </div>
+      
   </div>
 
   <div class="clearfix"></div>

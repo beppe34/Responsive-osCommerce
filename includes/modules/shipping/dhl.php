@@ -261,12 +261,12 @@ Modified  by I. Arman www.glokalit.com
 		
 			$this->quotes = array(
 				'id' => $this->code,
-				'module' => 'Fraktas:',
+				'module' => 'DHL:',
 				'methods' => $shipping_methods,
 				'tax' => ($tax/$gross)*100
 			);
-			
-			if (tep_not_null($this->icon)) $this->quotes['icon'] = tep_image($this->icon, $this->title);
+			$this->icon = 'images/icons/dhl-servicepoint.jpg';
+			if (tep_not_null($this->icon)) $this->quotes['icon'] = tep_image($this->icon, $this->title, 65);
 			
 			return $this->quotes;
 		}

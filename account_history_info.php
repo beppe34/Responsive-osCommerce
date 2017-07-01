@@ -110,7 +110,22 @@
         <span class="pull-right hidden-xs"><?php echo HEADING_ORDER_TOTAL . ' ' . $order->info['total']; ?></span><?php echo HEADING_ORDER_DATE . ' ' . tep_date_long($order->info['date_purchased']); ?>
       </div>
     </div>
+<?php if($order->info['comments']!=""){ ?>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <?php echo '<strong>' . HEADING_ORDER_COMMENTS . '</strong>'; ?>            
+        </div>
+        <div class="panel-body">
+            <blockquote>
+              <?php echo nl2br(tep_output_string_protected($order->info['comments'])); ?>
+            </blockquote>            
+        </div>        
+    </div>      
+<?php } 
+?>      
   </div>
+    
+
 
   <div class="clearfix"></div>
 
@@ -129,14 +144,14 @@
       <?php
     }
     ?>
-    <div class="col-sm-4">
+    <!-- div class="col-sm-4">
       <div class="panel panel-warning">
-        <div class="panel-heading"><?php echo '<strong>' . HEADING_BILLING_ADDRESS . '</strong>'; ?></div>
+        <div class="panel-heading"><?php // echo '<strong>' . HEADING_BILLING_ADDRESS . '</strong>'; ?></div>
         <div class="panel-body">
-          <?php echo tep_address_format($order->billing['format_id'], $order->billing, 1, ' ', '<br />'); ?>
+          <?php // echo tep_address_format($order->billing['format_id'], $order->billing, 1, ' ', '<br />'); ?>
         </div>
       </div>
-    </div>
+    </div -->
     <div class="col-sm-4">
       <?php
       if ($order->info['shipping_method']) {
@@ -150,14 +165,16 @@
         <?php
       }
       ?>
-      <div class="panel panel-warning">
+    </div>
+    <div class="col-sm-4">
+      <div class="panel panel-info">
         <div class="panel-heading"><?php echo '<strong>' . HEADING_PAYMENT_METHOD . '</strong>'; ?></div>
         <div class="panel-body">
           <?php echo $order->info['payment_method']; ?>
         </div>
       </div>
+        
     </div>
-
 
   </div>
 

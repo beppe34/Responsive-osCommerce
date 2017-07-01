@@ -189,16 +189,6 @@
   <h2><?php echo TABLE_HEADING_SHIPPING_ADDRESS; ?></h2>
 
   <div class="contentText row">
-    <div class="col-sm-8">
-      <div class="alert alert-warning">
-        <?php echo TEXT_CHOOSE_SHIPPING_DESTINATION; ?>
-        <div class="clearfix"></div>
-        <div class="pull-right">
-          <?php echo tep_draw_button(IMAGE_BUTTON_CHANGE_ADDRESS, 'fa fa-home', tep_href_link('checkout_shipping_address.php', '', 'SSL')); ?>
-        </div>
-        <div class="clearfix"></div>
-      </div>
-    </div>
     <div class="col-sm-4">
       <div class="panel panel-primary">
         <div class="panel-heading"><?php echo TITLE_SHIPPING_ADDRESS; ?></div>
@@ -207,6 +197,18 @@
         </div>
       </div>
     </div>
+      
+    <div class="col-sm-8">
+      <div class="">
+        <?php // echo TEXT_CHOOSE_SHIPPING_DESTINATION; ?>
+
+        <div class="pull-left">
+          <?php echo tep_draw_button(IMAGE_BUTTON_CHANGE_ADDRESS, 'fa fa-home', tep_href_link('checkout_shipping_address.php', '', 'SSL')); ?>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+
   </div>
 
   <div class="clearfix"></div>
@@ -222,16 +224,16 @@
 ?>
 
   <div class="contentText">
-    <div class="alert alert-warning">
+    <!-- div class="alert alert-warning">
       <div class="row">
         <div class="col-xs-8">
-          <?php echo TEXT_CHOOSE_SHIPPING_METHOD; ?>
+          <?php // echo TEXT_CHOOSE_SHIPPING_METHOD; ?>
         </div>
         <div class="col-xs-4 text-right">
-          <?php echo '<strong>' . TITLE_PLEASE_SELECT . '</strong>'; ?>
+          <?php // echo '<strong>' . TITLE_PLEASE_SELECT . '</strong>'; ?>
         </div>
       </div>
-    </div>
+    </div -->
   </div>
 
 <?php
@@ -351,8 +353,8 @@
 
   <div class="contentText">
     <div class="form-group">
-      <label for="inputComments" class="control-label col-sm-4"><?php echo TABLE_HEADING_COMMENTS; ?></label>
-      <div class="col-sm-8">
+      <!-- label for="inputComments" class="control-label col-sm-4"><?php // echo TABLE_HEADING_COMMENTS; ?></label -->
+      <div class="col-sm-12">
         <?php
         echo tep_draw_textarea_field('comments', 'soft', 60, 5, $comments, 'id="inputComments" placeholder="' . TABLE_HEADING_COMMENTS . '"');
         ?>
@@ -361,7 +363,7 @@
   </div>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success'); ?></div>
+    <div class="text-center"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success'); ?></div>
   </div>
   
   <div class="clearfix"></div>

@@ -193,14 +193,14 @@
       <?php
     }
     ?>
-    <div class="col-sm-4">
+    <!-- div class="col-sm-4">
       <div class="panel panel-warning">
-        <div class="panel-heading"><?php echo '<strong>' . HEADING_BILLING_ADDRESS . '</strong>' . tep_draw_button(TEXT_EDIT, 'fa fa-edit', tep_href_link('checkout_payment_address.php', '', 'SSL'), NULL, NULL, 'pull-right btn-info btn-xs' ); ?></div>
+        <div class="panel-heading"><?php // echo '<strong>' . HEADING_BILLING_ADDRESS . '</strong>' . tep_draw_button(TEXT_EDIT, 'fa fa-edit', tep_href_link('checkout_payment_address.php', '', 'SSL'), NULL, NULL, 'pull-right btn-info btn-xs' ); ?></div>
         <div class="panel-body">
-          <?php echo tep_address_format($order->billing['format_id'], $order->billing, 1, ' ', '<br />'); ?>
+          <?php // echo tep_address_format($order->billing['format_id'], $order->billing, 1, ' ', '<br />'); ?>
         </div>
       </div>
-    </div>
+    </div -->
     <div class="col-sm-4">
       <?php
       if ($order->info['shipping_method']) {
@@ -214,13 +214,16 @@
         <?php
       }
       ?>
-      <div class="panel panel-warning">
+    </div>
+    <div class="col-sm-4">
+      <div class="panel panel-info">
         <div class="panel-heading"><?php echo '<strong>' . HEADING_PAYMENT_METHOD . '</strong>' . tep_draw_button(TEXT_EDIT, 'fa fa-edit', tep_href_link('checkout_payment.php', '', 'SSL'), NULL, NULL, 'pull-right btn-info btn-xs' ); ?></div>
         <div class="panel-body">
           <?php echo $order->info['payment_method']; ?>
         </div>
       </div>
-    </div>
+        
+    </div>    
 
 
   </div>
@@ -279,7 +282,7 @@
 ?>
 
   <div class="buttonSet">
-    <div class="text-right">
+    <div class="text-center">
       <?php
       if (is_array($payment_modules->modules)) {
         echo $payment_modules->process_button();

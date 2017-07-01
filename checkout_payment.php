@@ -101,7 +101,7 @@
 <?php echo $payment_modules->javascript_validation(); ?>
 
 <div class="page-header">
-  <h1><?php echo HEADING_TITLE; ?></h1>
+  <h1><?php echo TABLE_HEADING_PAYMENT_METHOD; ?></h1>
 </div>
 
 <?php echo tep_draw_form('checkout_payment', tep_href_link('checkout_confirmation.php', '', 'SSL'), 'post', 'class="form-horizontal" onsubmit="return check_form();"', true); ?>
@@ -122,32 +122,32 @@
   }
 ?>
 
-  <h2><?php echo TABLE_HEADING_BILLING_ADDRESS; ?></h2>
+  <!-- h2><?php echo TABLE_HEADING_PAYMENT_METHOD; ?></h2 -->
 
-  <div class="contentText row">
+  <!-- div class="contentText row">
     <div class="col-sm-8">
       <div class="alert alert-warning">
-        <?php echo TEXT_SELECTED_BILLING_DESTINATION; ?>
+        <?php // echo TEXT_SELECTED_BILLING_DESTINATION; ?>
         <div class="clearfix"></div>
         <div class="pull-right">
-          <?php echo tep_draw_button(IMAGE_BUTTON_CHANGE_ADDRESS, 'fa fa-home', tep_href_link('checkout_payment_address.php', '', 'SSL')); ?>
+          <?php // echo tep_draw_button(IMAGE_BUTTON_CHANGE_ADDRESS, 'fa fa-home', tep_href_link('checkout_payment_address.php', '', 'SSL')); ?>
         </div>
         <div class="clearfix"></div>
       </div>
     </div>
     <div class="col-sm-4">
       <div class="panel panel-primary">
-        <div class="panel-heading"><?php echo TITLE_BILLING_ADDRESS; ?></div>
+        <div class="panel-heading"><?php // echo TITLE_BILLING_ADDRESS; ?></div>
         <div class="panel-body">
-          <?php echo tep_address_label($customer_id, $billto, true, ' ', '<br />'); ?>
+          <?php // echo tep_address_label($customer_id, $billto, true, ' ', '<br />'); ?>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="clearfix"></div>
+  <div class="clearfix"></div -->
 
-  <h2><?php echo TABLE_HEADING_PAYMENT_METHOD; ?></h2>
+  <!-- h2><?php // echo TABLE_HEADING_PAYMENT_METHOD; ?></h2 -->
 
 <?php
   $selection = $payment_modules->selection();
@@ -155,18 +155,18 @@
   if (sizeof($selection) > 1) {
 ?>
 
-  <div class="contentText">
+  <!-- div class="contentText">
     <div class="alert alert-warning">
       <div class="row">
         <div class="col-xs-8">
-          <?php echo TEXT_SELECT_PAYMENT_METHOD; ?>
+          <?php // echo TEXT_SELECT_PAYMENT_METHOD; ?>
         </div>
         <div class="col-xs-4 text-right">
-          <?php echo '<strong>' . TITLE_PLEASE_SELECT . '</strong>'; ?>
+          <?php // echo '<strong>' . TITLE_PLEASE_SELECT . '</strong>'; ?>
         </div>
       </div>
     </div>
-  </div>
+  </div -->
 
 
 <?php
@@ -257,8 +257,8 @@
 
   <div class="contentText">
     <div class="form-group">
-      <label for="inputComments" class="control-label col-sm-4"><?php echo TABLE_HEADING_COMMENTS; ?></label>
-      <div class="col-sm-8">
+      <!-- label for="inputComments" class="control-label col-sm-4"><?php echo TABLE_HEADING_COMMENTS; ?></label -->
+      <div class="col-sm-12">
         <?php
         echo tep_draw_textarea_field('comments', 'soft', 60, 5, $comments, 'id="inputComments" placeholder="' . TABLE_HEADING_COMMENTS . '"');
         ?>
@@ -267,7 +267,7 @@
   </div>
 
   <div class="buttonSet">
-    <div class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success'); ?></div>
+    <div class="text-center"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-angle-right', null, 'primary', null, 'btn-success'); ?></div>
   </div>
 
   <div class="clearfix"></div>
