@@ -3,7 +3,7 @@
     <div class="panel-body">
       <h2><?php echo MODULE_CONTENT_PWA_LOGIN_HEADING; ?></h2>
 
-      <p class="alert alert-info"><?php echo MODULE_CONTENT_PWA_LOGIN_TEXT; ?></p>
+      <!-- p class="alert alert-info"><?php // echo MODULE_CONTENT_PWA_LOGIN_TEXT; ?></p -->
       <p><?php echo MODULE_CONTENT_PWA_TEXT_INTRODUCTION; ?></p>
       <p class="text-right"><?php echo tep_draw_button(IMAGE_BUTTON_CONTINUE, 'fa fa-chevron-right', tep_href_link('account_pwa.php', '', 'SSL'), null, null, 'btn-primary btn-block'); ?></p>  
     </div>
