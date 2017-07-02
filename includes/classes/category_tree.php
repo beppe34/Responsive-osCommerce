@@ -29,7 +29,7 @@
         $cpath_start_string = '',
         $cpath_end_string = '';
 
-    public function __construct($HideNegativeSortOrder=false) {
+    public function __construct($HideNegativeSortOrder=true) {
       global $languages_id;
 
       static $_category_tree_data;
