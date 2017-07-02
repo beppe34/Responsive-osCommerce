@@ -334,4 +334,5 @@ define('BOX_CUSTOMERS_CREATE_ORDER', 'Create Order');
 define('BOX_CUSTOMERS_CREATE_ACCOUNT', 'Create Customer');
 // EOF Create Account
 
+define('BOX_HEADING_AAS', 'Alternativ Admin');
 ?>

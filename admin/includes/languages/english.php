@@ -316,3 +316,5 @@ define('MODULE_CONTENT_BOOTSTRAP_ROW_DESCRIPTION', '<p>Content Width can be 12 o
 
 // seo helper
 define('PLACEHOLDER_COMMA_SEPARATION', 'Must, Be, Comma, Separated');
+
+define('BOX_HEADING_AAS', 'Alternativ Admin');

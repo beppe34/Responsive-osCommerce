@@ -170,7 +170,13 @@
     }
 
     if ($redirect == true) {
-      tep_redirect(tep_href_link('login.php', (isset($redirect_origin['auth_user']) ? 'action=process' : '')));
+
+        if(basename($current_page)==FILENAME_AAS) 
+            $sessionTimeout=true;   
+        else 
+            tep_redirect(tep_href_link(FILENAME_LOGIN, (isset($redirect_origin['auth_user']) ? 'action=process' : '')));
+        
+//      tep_redirect(tep_href_link('login.php', (isset($redirect_origin['auth_user']) ? 'action=process' : '')));
     }
 
     unset($redirect);
