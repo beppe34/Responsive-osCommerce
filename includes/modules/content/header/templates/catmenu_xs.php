@@ -16,7 +16,7 @@
 <script src="ext/menu_xs/js/modernizr.custom.js"></script>
 <script src="ext/menu_xs/js/jquery.dlmenu.js"></script>
 <?php include('includes/classes/catmenu_xs.php'); ?>
-<div id="catMenu" class="col-sm-12 tsimi-color">
+<div id="catMenu" class="col-sm-12 tsimi-color hidden-md">
 	<div id="dl-menu" class="dl-menuwrapper visible-sm visible-xs" style="z-index:10000;">
 		<button class="dl-trigger btn tsimi-color-button"><i class="fa fa-chevron-down"></i> <?php echo TEXT_COLLAPSE_MENU_XS; ?></button>
 		<ul class="dl-menu">
