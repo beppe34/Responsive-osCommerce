@@ -105,6 +105,15 @@
 <?php
   }
 ?>
+      <div class="form-group has-feedback">
+        <label for="inputZip" class="control-label col-sm-3"><?php echo ENTRY_POST_CODE; ?></label>
+        <div class="col-sm-9">
+          <?php
+          echo tep_draw_input_field('postcode', (isset($entry['entry_postcode']) ? $entry['entry_postcode'] : ''), 'id="inputZip" placeholder="' . ENTRY_POST_CODE_TEXT . '"');
+          echo FORM_REQUIRED_INPUT;
+          ?>
+       </div>
+      </div>
 
       <div class="form-group has-feedback">
         <label for="inputCity" class="control-label col-sm-3"><?php echo ENTRY_CITY; ?></label>
@@ -114,15 +123,6 @@
           echo FORM_REQUIRED_INPUT;
           ?>
         </div>
-      </div>
-      <div class="form-group has-feedback">
-        <label for="inputZip" class="control-label col-sm-3"><?php echo ENTRY_POST_CODE; ?></label>
-        <div class="col-sm-9">
-          <?php
-          echo tep_draw_input_field('postcode', (isset($entry['entry_postcode']) ? $entry['entry_postcode'] : ''), 'id="inputZip" placeholder="' . ENTRY_POST_CODE_TEXT . '"');
-          echo FORM_REQUIRED_INPUT;
-          ?>
-       </div>
       </div>
 
 <?php
