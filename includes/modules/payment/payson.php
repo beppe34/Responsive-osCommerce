@@ -15,6 +15,7 @@ define('PAYSON_ALREADY_LOADED_MODULE', 1);
  *  ensure dependencies are loaded
  */ 
 include_once( DIR_FS_CATALOG . 'includes/modules/payment/payson/def.payson.php');
+include_once( DIR_FS_CATALOG . 'includes/classes/log.php');
 /**
  * payson.php payment module class for new Payson API
  *
@@ -49,7 +50,7 @@ class payson{
 
     function payson(){
     	global $order, $currency;
-     	    
+\log::w("payson payson constructor");     	    
         $this->code             = 'payson';
 		$this->module_version   = '1.8.6';
 		$this->module_name      = 'payson_oscommerce';
@@ -176,7 +177,7 @@ class payson{
     function before_process() 
     {
     	global $order, $order_total_modules,$currencies;
-    	
+\log::w("payson before_process");
 \log::w("payson.php: before_process: ");
 		// Are we called from checkout_process? Update shipping address in that case
     	if(!empty($_GET['token']))
@@ -430,6 +431,7 @@ class payson{
 	{
 		$post_data = "";
 		$res = false;
+\log::w(' call_payson_api ');                
     	if(is_array($data))
 		{
 			foreach($data as $key => $value)
@@ -457,6 +459,7 @@ class payson{
 \log::w("payson.php: fsocket: " . $fsocket . " curl: " . $curl . " api_endpoint: " . $api_endpoint . " api_function: " . $api_function);
 
 		if ($fsocket == true) {
+\log::w(' payson fsocket is true ');
 			$header = 'POST /' . $api_function . '/' . "\r\n" .
             'Host: ' . $server . "\r\n" .
             'Content-Type: application/x-www-form-urlencoded' . "\r\n" .
@@ -476,7 +479,7 @@ class payson{
 			@fclose($fp);			
 			
 		} elseif ($curl == true) {
-		
+\log::w(' payson curl is true ');
 			if(MODULE_PAYMENT_PAYSON_MODE == 'SANDBOX')
                             $header	= $this->getHeaderData($this->test_agent_id, $this->test_md5_key, $this->module_version);
                         else
@@ -502,7 +505,7 @@ class payson{
 		if($res === false)
 		{
 			// Redirecting with error message
-			tep_redirect(tep_href_link(FILENAME_CHECKOUT_PAYMENT,
+			tep_redirect(tep_href_link('checkout_payment.php',
 									'payment_error=payson_payments&error='.
 									urlencode("Connection error!"),
 									'SSL', true, false));
