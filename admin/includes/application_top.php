@@ -60,7 +60,7 @@
 // Possible values are 'oanda' 'xe' 'fixer' or ''
 // fixer is the lastest added, more details at http://fixer.io
   define('CURRENCY_SERVER_PRIMARY', 'fixer');
-  define('CURRENCY_SERVER_BACKUP', '');
+  define('CURRENCY_SERVER_BACKUP', 'xe');
 
 // include the database functions
   require('includes/functions/database.php');
