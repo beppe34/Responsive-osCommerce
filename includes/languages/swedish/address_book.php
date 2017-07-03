@@ -16,7 +16,7 @@ define('NAVBAR_TITLE_2', 'Adressbok');
 define('HEADING_TITLE', 'Min personliga adressbok');
 
 define('PRIMARY_ADDRESS_TITLE', 'Huvudadress');
-define('PRIMARY_ADDRESS_DESCRIPTION', 'Den här adressen väljs som standardadress på alla order och fakturautskick som görs i den här e-butiken.<br><br>Den här adressen används också för service och momsuträkningar.');
+define('PRIMARY_ADDRESS_DESCRIPTION', 'Den här adressen väljs som standardadress på alla order och fakturautskick som görs hos ' . STORE_NAME . '.<br><br>Med Klarna som betalningsalternativ är det ej möjligt att få leverans till annan adress än den folkbokföringsadress som Klarna har registrerad.');
 
 define('ADDRESS_BOOK_TITLE', 'Inlägg i adressboken');
 
