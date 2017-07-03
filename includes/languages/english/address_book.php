@@ -16,7 +16,7 @@ define('NAVBAR_TITLE_2', 'Address Book');
 define('HEADING_TITLE', 'My Personal Address Book');
 
 define('PRIMARY_ADDRESS_TITLE', 'Primary Address');
-define('PRIMARY_ADDRESS_DESCRIPTION', 'This address is used as the pre-selected shipping and billing address for orders placed on this store.<br /><br />This address is also used as the base for product and service tax calculations.');
+define('PRIMARY_ADDRESS_DESCRIPTION', 'This address is used as the pre-selected shipping and billing address for orders placed on this store.<br /><br />If Klarna is choose as payment it\'s not possible to have delivery to another address than the official registered address with Klarna.');
 
 define('ADDRESS_BOOK_TITLE', 'Address Book Entries');
 
