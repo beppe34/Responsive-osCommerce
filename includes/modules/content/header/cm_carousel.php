@@ -94,7 +94,7 @@ class cm_carousel {
             if ($banner['banners_image'] !== '') {
               //$wrapper_slides .= tep_image(DIR_WS_IMAGES . $banner['banners_image'], $banner['banners_html_text']);
 //              $wrapper_slides .= tep_image(DIR_WS_IMAGES . $banner['banners_image'], '', 544, 172);
-              $wrapper_slides .= tep_image(DIR_WS_IMAGES . $banner['banners_image']);
+              $wrapper_slides .= tep_image(DIR_WS_IMAGES . $banner['banners_image'],null,null,null,null,null,'center-block');
               $wrapper_slides .= '<div class="carousel-caption">&nbsp;</div>';
             } else {
               //$wrapper_slides .= tep_image(DIR_WS_IMAGES . 'pixel_silver.gif', 'alt', 544, 172 );
