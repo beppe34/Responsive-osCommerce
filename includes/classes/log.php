@@ -31,6 +31,12 @@ class log {
           $this->write("-END EXCEPTION-");          
       }
       
+      public function callstack(){
+          $e = new Exception;
+          
+          $this->write("--Callstack--:\n" . var_export($e->getTraceAsString(), true));
+      }
+      
       public static function w($text){
           $log = new log('');
           return $log->write($text);
@@ -38,6 +44,10 @@ class log {
       public static function e($exeption){
           $log = new log('');
           return $log->writeexeption($exeption);
+      }
+      public static function cs(){
+          $log = new log('');
+          $log->callstack();
       }
 }
 
