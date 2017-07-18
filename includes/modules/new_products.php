@@ -23,26 +23,20 @@
     $new_prods_content = NULL;
 
     while ($new_products = tep_db_fetch_array($new_products_query)) {
-      $new_prods_content .= '<div class="col-sm-6 col-md-4" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">';
+      $new_prods_content .= '<div class="col-sm-3 col-md-3 col-ld-3" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">';
       $new_prods_content .= '  <div class="thumbnail equal-height">';
-      $new_prods_content .= '    <a href="' . tep_href_link('product_info.php', 'products_id=' . $new_products['products_id']) . '">' . tep_image('images/' . $new_products['products_image'], $new_products['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT, 'itemprop="image"') . '</a>';
+      $new_prods_content .= '    <a style="text-decoration:none;" itemprop="url" href="' . tep_href_link('product_info.php', 'products_id=' . $new_products['products_id']) . '">' . tep_image('images/' . $new_products['products_image'], $new_products['products_name'], 400, 600, 'itemprop="image"') . '';
       $new_prods_content .= '    <div class="caption">';
-      $new_prods_content .= '      <p class="text-center"><a itemprop="url" href="' . tep_href_link('product_info.php', 'products_id=' . $new_products['products_id']) . '"><span itemprop="name">' . $new_products['products_name'] . '</span></a></p>';
-      $new_prods_content .= '      <hr>';
+      $new_prods_content .= '      <p class="text-center"><span itemprop="name">' . substr($new_products['products_name'],0,22) . '</span></p>';
+      $new_prods_content .= '      <!-- hr -->';
       $new_prods_content .= '      <p class="text-center" itemprop="offers" itemscope itemtype="http://schema.org/Offer"><span itemprop="price" content="' . $currencies->display_raw($new_products['products_price'], tep_get_tax_rate($new_products['products_tax_class_id'])) . '">' . $currencies->display_price($new_products['products_price'], tep_get_tax_rate($new_products['products_tax_class_id'])) . '</span></p>';
-      $new_prods_content .= '      <div class="text-center">';
-      $new_prods_content .= '        <div class="btn-group">';
-      $new_prods_content .= '          <a href="' . tep_href_link('product_info.php', tep_get_all_get_params(array('action')) . 'products_id=' . $new_products['products_id']) . '" class="btn btn-default" role="button">' . SMALL_IMAGE_BUTTON_VIEW . '</a>';
-      $new_prods_content .= '          <a href="' . tep_href_link($PHP_SELF, tep_get_all_get_params(array('action')) . 'action=buy_now&products_id=' . $new_products['products_id']) . '" class="btn btn-success" role="button">' . SMALL_IMAGE_BUTTON_BUY . '</a>';
-      $new_prods_content .= '        </div>';
-      $new_prods_content .= '      </div>';
-      $new_prods_content .= '    </div>';
+      $new_prods_content .= '    </div></a>';
       $new_prods_content .= '  </div>';
       $new_prods_content .= '</div>';
     }
 ?>
 
-  <h3><?php echo sprintf(TABLE_HEADING_NEW_PRODUCTS, strftime('%B')); ?></h3>
+  <!-- h3><?php // echo sprintf(TABLE_HEADING_NEW_PRODUCTS, strftime('%B')); ?></h3 -->
 
   <div class="row" itemtype="http://schema.org/ItemList">
     <meta itemprop="numberOfItems" content="<?php echo (int)$num_new_products; ?>" />

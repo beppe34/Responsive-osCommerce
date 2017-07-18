@@ -8,5 +8,17 @@
   color: #D8000C;
   /* #ff0000; */
 }
-
-
+.productHolder{
+    border:none;
+    margin:0,0,0,0;
+    padding:0,0,0,0;
+}
+.productHolder h2{
+    font-size: 1em;
+}
+.grid-group-item {
+    margin-bottom: 10px;
+}
+#bodyContent{
+    background-color: white;
+}

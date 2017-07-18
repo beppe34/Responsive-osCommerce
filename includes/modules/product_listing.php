@@ -106,7 +106,7 @@
   $prod_list_contents = NULL;
 
   while ($listing = tep_db_fetch_array($listing_query)) {
-    $prod_list_contents .= '<div class="item list-group-item col-sm-4" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">';
+    $prod_list_contents .= '<div class="item list-group-item col-sm-2 col-md-3 col-lg-3 " itemprop="itemListElement" itemscope="" itemtype="http://schema.org/Product">';
 	  $prod_list_contents .= '  <div class="productHolder equal-height">';
     
     if (PRODUCT_LIST_IMAGE > 0) {
@@ -122,9 +122,9 @@
     if (PRODUCT_LIST_NAME > 0) {
       $prod_list_contents .= '      <h2 class="group inner list-group-item-heading">';
       if (isset($_GET['manufacturers_id']) && tep_not_null($_GET['manufacturers_id'])) {
-        $prod_list_contents .= '    <a itemprop="url" href="' . tep_href_link('product_info.php', 'manufacturers_id=' . $_GET['manufacturers_id'] . '&products_id=' . $listing['products_id']) . '"><span itemprop="name">' . $listing['products_name'] . '</span></a>';
+        $prod_list_contents .= '    <a itemprop="url" href="' . tep_href_link('product_info.php', 'manufacturers_id=' . $_GET['manufacturers_id'] . '&products_id=' . $listing['products_id']) . '"><span itemprop="name">' . substr($listing['products_name'],0,33) . '</span></a>';
       } else {
-        $prod_list_contents .= '    <a itemprop="url" href="' . tep_href_link('product_info.php', ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $listing['products_id']) . '"><span itemprop="name">' . $listing['products_name'] . '</span></a>';
+        $prod_list_contents .= '    <a itemprop="url" href="' . tep_href_link('product_info.php', ($cPath ? 'cPath=' . $cPath . '&' : '') . 'products_id=' . $listing['products_id']) . '"><span itemprop="name">' . substr($listing['products_name'],0,33) . '</span>&nbsp</a>';
       }
       $prod_list_contents .= '      </h2>';
     }    
@@ -155,14 +155,14 @@
        $prod_list_contents .= '    </dl>';
     }
 
-	  if ( (PRODUCT_LIST_PRICE > 0) || (PRODUCT_LIST_BUY_NOW > 0) ) {
+    if ( (PRODUCT_LIST_PRICE > 0) || (PRODUCT_LIST_BUY_NOW > 0) ) {
       $prod_list_contents .= '      <div class="row">';
     
       if (PRODUCT_LIST_PRICE > 0) {
         if (tep_not_null($listing['specials_new_products_price'])) {
-          $prod_list_contents .= '      <div class="col-xs-6" itemprop="offers" itemscope itemtype="http://schema.org/Offer"><meta itemprop="priceCurrency" content="' . tep_output_string($currency) . '" /><div class="btn-group" role="group"><button type="button" class="btn btn-default"><del>' .  $currencies->display_price($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</del></span>&nbsp;&nbsp;<span class="productSpecialPrice" itemprop="price" content="' . $currencies->display_raw($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '">' . $currencies->display_price($listing['specials_new_products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</span></button></div></div>';
+          $prod_list_contents .= '      <div class="col-xs-6" itemprop="offers" itemscope itemtype="http://schema.org/Offer"><meta itemprop="priceCurrency" content="' . tep_output_string($currency) . '" /><div class="btn-group" role="group"><del>' .  $currencies->display_price($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</del></span>&nbsp;&nbsp;<span class="productSpecialPrice" itemprop="price" content="' . $currencies->display_raw($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '">' . $currencies->display_price($listing['specials_new_products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</span></div></div>';
         } else {
-          $prod_list_contents .= '      <div class="col-xs-6" itemprop="offers" itemscope itemtype="http://schema.org/Offer"><meta itemprop="priceCurrency" content="' . tep_output_string($currency) . '" /><div class="btn-group" role="group"><a href="' . tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action')) . 'action=buy_now&products_id=' . $listing['products_id']) . '"><button type="button" class="btn btn-info"><span itemprop="price" content="' . $currencies->display_raw($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '">' . $currencies->display_price($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</span></button></a></div></div>';
+          $prod_list_contents .= '      <div class="col-xs-6" itemprop="offers" itemscope itemtype="http://schema.org/Offer"><meta itemprop="priceCurrency" content="' . tep_output_string($currency) . '" /><div class="btn-group" role="group"><a href="' . tep_href_link(basename($PHP_SELF), tep_get_all_get_params(array('action')) . 'action=buy_now&products_id=' . $listing['products_id']) . '"><span itemprop="price" content="' . $currencies->display_raw($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '">' . $currencies->display_price($listing['products_price'], tep_get_tax_rate($listing['products_tax_class_id'])) . '</span></a></div></div>';
         }
       }
     
