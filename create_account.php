@@ -283,7 +283,7 @@
 ?>
     <div class="form-group has-feedback">
       <label class="control-label col-sm-3"><?php echo ENTRY_GENDER; ?></label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <label class="radio-inline">
           <?php echo tep_draw_radio_field('gender', 'm', NULL, 'required aria-required="true" aria-describedby="atGender"') . ' ' . MALE; ?>
         </label>
@@ -299,7 +299,7 @@
 ?>
     <div class="form-group has-feedback">
       <label for="inputFirstName" class="control-label col-sm-3"><?php echo ENTRY_FIRST_NAME; ?></label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <?php
         echo tep_draw_input_field('firstname', NULL, 'required aria-required="true" id="inputFirstName" placeholder="' . ENTRY_FIRST_NAME_TEXT . '"');
         echo FORM_REQUIRED_INPUT;
@@ -308,7 +308,7 @@
     </div>
     <div class="form-group has-feedback">
       <label for="inputLastName" class="control-label col-sm-3"><?php echo ENTRY_LAST_NAME; ?></label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <?php
         echo tep_draw_input_field('lastname', NULL, 'required aria-required="true" id="inputLastName" placeholder="' . ENTRY_LAST_NAME_TEXT . '"');
         echo FORM_REQUIRED_INPUT;
@@ -320,7 +320,7 @@
 ?>
     <div class="form-group has-feedback">
       <label for="dob" class="control-label col-sm-3"><?php echo ENTRY_DATE_OF_BIRTH; ?></label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <?php
         echo tep_draw_input_field('dob', '', 'required aria-required="true" id="dob" placeholder="' . ENTRY_DATE_OF_BIRTH_TEXT . '"');
         echo FORM_REQUIRED_INPUT;
@@ -332,7 +332,7 @@
 ?>
     <div class="form-group has-feedback">
       <label for="inputEmail" class="control-label col-sm-3"><?php echo ENTRY_EMAIL_ADDRESS; ?></label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <?php
         echo tep_draw_input_field('email_address', NULL, 'required aria-required="true" id="inputEmail" placeholder="' . ENTRY_EMAIL_ADDRESS_TEXT . '"', 'email');
         echo FORM_REQUIRED_INPUT;
@@ -349,7 +349,7 @@
   <div class="contentText">
     <div class="form-group">
       <label for="inputCompany" class="control-label col-sm-3"><?php echo ENTRY_COMPANY; ?></label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <?php
         echo tep_draw_input_field('company', NULL, 'id="inputCompany" placeholder="' . ENTRY_COMPANY_TEXT . '"');
         ?>
@@ -365,7 +365,7 @@
   <div class="contentText">
     <div class="form-group has-feedback">
       <label for="inputStreet" class="control-label col-sm-3"><?php echo ENTRY_STREET_ADDRESS; ?></label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <?php
         echo tep_draw_input_field('street_address', NULL, 'required aria-required="true" id="inputStreet" placeholder="' . ENTRY_STREET_ADDRESS_TEXT . '"');
         echo FORM_REQUIRED_INPUT;
@@ -378,7 +378,7 @@
 ?>
     <div class="form-group">
     <label for="inputSuburb" class="control-label col-sm-3"><?php echo ENTRY_SUBURB; ?></label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <?php
         echo tep_draw_input_field('suburb', NULL, 'id="inputSuburb" placeholder="' . ENTRY_SUBURB_TEXT . '"');
         ?>
@@ -388,29 +388,29 @@
   }
 ?>
     <div class="form-group has-feedback">
+      <label for="inputZip" class="control-label col-sm-3"><?php echo ENTRY_POST_CODE; ?></label>
+      <div class="col-sm-8">
+        <?php
+        echo tep_draw_input_field('postcode', NULL, 'required aria-required="true" id="inputZip" placeholder="' . ENTRY_POST_CODE_TEXT . '"');
+        echo FORM_REQUIRED_INPUT;
+        ?>
+     </div>
+    </div>      
+    <div class="form-group has-feedback">
       <label for="inputCity" class="control-label col-sm-3"><?php echo ENTRY_CITY; ?></label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <?php
         echo tep_draw_input_field('city', NULL, 'required aria-required="true" id="inputCity" placeholder="' . ENTRY_CITY_TEXT. '"');
         echo FORM_REQUIRED_INPUT;
         ?>
       </div>
     </div>
-    <div class="form-group has-feedback">
-      <label for="inputZip" class="control-label col-sm-3"><?php echo ENTRY_POST_CODE; ?></label>
-      <div class="col-sm-9">
-        <?php
-        echo tep_draw_input_field('postcode', NULL, 'required aria-required="true" id="inputZip" placeholder="' . ENTRY_POST_CODE_TEXT . '"');
-        echo FORM_REQUIRED_INPUT;
-        ?>
-     </div>
-    </div>
 <?php
   if (ACCOUNT_STATE == 'true') {
 ?>
     <div class="form-group has-feedback">
       <label for="inputState" class="control-label col-sm-3"><?php echo ENTRY_STATE; ?></label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <?php
         if ($process == true) {
           if ($entry_state_has_zones == true) {
@@ -438,9 +438,9 @@
 ?>
     <div class="form-group has-feedback">
       <label for="inputCountry" class="control-label col-sm-3"><?php echo ENTRY_COUNTRY; ?></label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <?php
-        echo tep_get_country_list('country', NULL, 'required aria-required="true" aria-describedby="atCountry" id="inputCountry"');
+        echo tep_get_country_list('country', '203', 'required aria-required="true" aria-describedby="atCountry" id="inputCountry"');
         echo FORM_REQUIRED_INPUT;
         if (tep_not_null(ENTRY_COUNTRY_TEXT)) echo '<span id="atCountry" class="help-block">' . ENTRY_COUNTRY_TEXT . '</span>';
         ?>
@@ -453,24 +453,24 @@
   <div class="contentText">
     <div class="form-group has-feedback">
       <label for="inputTelephone" class="control-label col-sm-3"><?php echo ENTRY_TELEPHONE_NUMBER; ?></label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <?php
         echo tep_draw_input_field('telephone', NULL, 'required aria-required="true" id="inputTelephone" placeholder="' . ENTRY_TELEPHONE_NUMBER_TEXT . '"', 'tel');
         echo FORM_REQUIRED_INPUT;
         ?>
       </div>
     </div>
-    <div class="form-group">
-      <label for="inputFax" class="control-label col-sm-3"><?php echo ENTRY_FAX_NUMBER; ?></label>
-      <div class="col-sm-9">
+    <!-- div class="form-group">
+      <label for="inputFax" class="control-label col-sm-3"><?php // echo ENTRY_FAX_NUMBER; ?></label>
+      <div class="col-sm-8">
         <?php
-        echo tep_draw_input_field('fax', '', 'id="inputFax" placeholder="' . ENTRY_FAX_NUMBER_TEXT . '"', 'tel');
+       // echo tep_draw_input_field('fax', '', 'id="inputFax" placeholder="' . ENTRY_FAX_NUMBER_TEXT . '"', 'tel');
         ?>
       </div>
-    </div>
+    </div -->
     <div class="form-group">
       <label for="inputNewsletter" class="control-label col-sm-3"><?php echo ENTRY_NEWSLETTER; ?></label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <div class="checkbox">
           <label>
             <?php echo tep_draw_checkbox_field('newsletter', '1', NULL, 'id="inputNewsletter"'); ?>
@@ -487,7 +487,7 @@
   <div class="contentText">
     <div class="form-group has-feedback">
       <label for="inputPassword" class="control-label col-sm-3"><?php echo ENTRY_PASSWORD; ?></label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <?php
         echo tep_draw_input_field('password', NULL, 'required aria-required="true" id="inputPassword" autocomplete="new-password" placeholder="' . ENTRY_PASSWORD_TEXT . '"', 'password');
         echo FORM_REQUIRED_INPUT;
@@ -496,7 +496,7 @@
     </div>
     <div class="form-group has-feedback">
       <label for="inputConfirmation" class="control-label col-sm-3"><?php echo ENTRY_PASSWORD_CONFIRMATION; ?></label>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <?php
         echo tep_draw_input_field('confirmation', NULL, 'required aria-required="true" id="inputConfirmation" autocomplete="new-password" placeholder="' . ENTRY_PASSWORD_CONFIRMATION_TEXT . '"', 'password');
         echo FORM_REQUIRED_INPUT;
