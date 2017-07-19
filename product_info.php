@@ -133,11 +133,11 @@
         }
 // KISS Image begin        
       } else {
-      	list($width, $height) = file_exists(DIR_WS_IMAGES . $product_info['products_image'])? getimagesize(DIR_WS_IMAGES . $product_info['products_image']) : array(150,150); 
+      	list($width, $height) = file_exists('images/' . $product_info['products_image'])? getimagesize('images/' . $product_info['products_image']) : array(150,150); 
 ?>
 
     <div class="piGal pull-right">
-      <?php echo tep_image(DIR_WS_IMAGES . $product_info['products_image'], addslashes($product_info['products_name']), KISSIT_MAIN_PRODUCT_IMAGE_WIDTH, KISSIT_MAIN_PRODUCT_IMAGE_HEIGHT, ((KISSIT_MAIN_PRODUCT_WATERMARK_SIZE > 0)? preg_replace('%<img width="[0-9 ]+" height="[0-9 ]+" src="(.*)title=.+%', 'data-highres="$1', tep_image(DIR_WS_IMAGES . $product_info['products_image'], null, $width, $height)) : 'data-highres="'. DIR_WS_IMAGES . $product_info['products_image'] . '"')); ?>
+      <?php echo tep_image('images/' . $product_info['products_image'], addslashes($product_info['products_name']), KISSIT_MAIN_PRODUCT_IMAGE_WIDTH, KISSIT_MAIN_PRODUCT_IMAGE_HEIGHT, ((KISSIT_MAIN_PRODUCT_WATERMARK_SIZE > 0)? preg_replace('%<img width="[0-9 ]+" height="[0-9 ]+" src="(.*)title=.+%', 'data-highres="$1', tep_image('images/' . $product_info['products_image'], null, $width, $height)) : 'data-highres="'. 'images/' . $product_info['products_image'] . '"')); ?>
     </div>
       
 <!-- // KISS Image end -->
