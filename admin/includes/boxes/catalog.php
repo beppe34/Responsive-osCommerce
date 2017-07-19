@@ -42,6 +42,16 @@
         'code' => 'products_expected.php',
         'title' => BOX_CATALOG_PRODUCTS_EXPECTED,
         'link' => tep_href_link('products_expected.php')
+      ),
+      array(
+        'code' => 'produktlista_pierres.php',
+        'title' => 'Pegas Lista',
+        'link' => tep_href_link('produktlista_pierres.php')
+      ),
+      array(
+        'code' => 'archive_products.php',
+        'title' => 'Arkivera produkter',
+        'link' => tep_href_link('archive_products.php')
       )
     )
   );

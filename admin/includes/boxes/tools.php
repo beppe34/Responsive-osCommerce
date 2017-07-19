@@ -72,6 +72,11 @@
         'code' => 'qtprodoctor.php',
         'title' => BOX_TOOLS_QTPRODOCTOR,
         'link' => tep_href_link('qtprodoctor.php')
+      ),
+      array(
+        'code' => 'kassa.php',
+        'title' => 'Kassa',
+        'link' => tep_href_link('kassa.php')
       )          
     )
   );
