@@ -60,7 +60,7 @@
            '<div><ul>';
 
       foreach ($groups['apps'] as $app) {
-        echo '<li><a href="' . $app['link'] . '">' . $app['title'] . '</a></li>';
+        echo '<li><a href="' . $app['link'] . '" ' . $app['linkparam'] .  '>' . $app['title'] . '</a></li>';
       }
 
       echo '</ul></div>';
